@@ -14,4 +14,6 @@
     <string name="type_side_dish">Beilagen</string>
     <string name="type_soup">Suppen</string>
     <string name="main_name">Mensaplan</string>
+    <string name="allergens">Allergene</string>
+    <string name="ingredients">Inhaltsstoffe</string>
 </resources>

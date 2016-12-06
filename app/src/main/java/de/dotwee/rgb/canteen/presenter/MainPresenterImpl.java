@@ -16,6 +16,7 @@ import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.model.threads.DefaultExecutorSupplier;
 import de.dotwee.rgb.canteen.view.MainActivity;
 import de.dotwee.rgb.canteen.view.SettingsActivity;
+import de.dotwee.rgb.canteen.view.dialogs.IngredientsDialog;
 import timber.log.Timber;
 
 /**
@@ -26,6 +27,7 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
     private final MainActivity mainActivity;
     private Location location;
     private Weekday weekday = Weekday.MONDAY;
+    private IngredientsDialog ingredientsDialog = null;
     private WeekMenu weekMenu;
 
     private boolean isMealRunnableRunning = false;
@@ -40,6 +42,17 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
     public void onSettingsOptionClick(@NonNull MenuItem menuItem) {
         Intent intent = new Intent(mainActivity, SettingsActivity.class);
         mainActivity.startActivity(intent);
+    }
+
+    @Override
+    public void onIngredientsOptionClick(@NonNull MenuItem menuItem) {
+        if (ingredientsDialog == null) {
+            ingredientsDialog = new IngredientsDialog(mainActivity);
+        }
+
+        if (!ingredientsDialog.isShowing()) {
+            ingredientsDialog.show();
+        }
     }
 
     @Override

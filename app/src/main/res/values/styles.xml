@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/md_lime_300</item>
     </style>
 
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/md_blue_grey_800</item>
+        <item name="colorPrimaryDark">@color/md_blue_grey_900</item>
+        <item name="colorAccent">@color/md_lime_300</item>
+    </style>
+
 </resources>

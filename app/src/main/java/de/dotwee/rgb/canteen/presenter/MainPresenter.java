@@ -15,6 +15,8 @@ public interface MainPresenter {
 
     void onSettingsOptionClick(@NonNull MenuItem menuItem);
 
+    void onIngredientsOptionClick(@NonNull MenuItem menuItem);
+
     void onLocationSelected(@NonNull Location location);
 
     void onDateSelected(@NonNull Weekday weekday);

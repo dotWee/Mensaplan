@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
 
         switch (item.getItemId()) {
 
+            case R.id.actionIngredients:
+                mainPresenter.onIngredientsOptionClick(item);
+                return true;
+
             case R.id.actionSettings:
                 mainPresenter.onSettingsOptionClick(item);
                 return true;
