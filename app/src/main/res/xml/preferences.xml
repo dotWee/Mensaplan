@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Appearance">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/preference_appearance_switch_colorseparation"
+            android:summary="Divide types with their own color scheme"
+
+            android:title="Color separation" />
+
+        <ListPreference
+            android:defaultValue="@string/price_student"
+            android:entries="@array/price_values"
+
+            android:entryValues="@array/price_values"
+            android:key="@string/preference_appearance_list_price"
+            android:summary="Select which price should be displayed"
+
+            android:title="Price" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Cache">
+
+        <Preference
+            android:key="@string/preference_reset_settings"
+            android:summary="Delete all preferences and reset to default"
+            android:title="Reset settings" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="preference_copyright"
+        android:title="Licenses">
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

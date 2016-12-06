@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="preference_reset_settings">preference_reset_settings</string>
+    <string name="preference_appearance_switch_colorseparation">preference_appearance_switch_colorseparation</string>
+    <string name="preference_appearance_list_price">preference_appearance_list_price</string>
+
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mensaplan Uni/Oth</string>
+    <string name="caption_date">Datum:</string>
+    <string name="caption_location">Standort:</string>
+    <string name="price_all">Alle</string>
+    <string name="price_employee">Mitarbeiter</string>
+    <string name="price_guest">Gast</string>
+    <string name="price_student">Student</string>
+    <string name="settings_name">Einstellungen</string>
+    <string name="type_dessert">Nachspeisen</string>
+    <string name="type_main_dish">Hauptspeisen</string>
+    <string name="type_none">Unbezeichnetes</string>
+    <string name="type_side_dish">Beilagen</string>
+    <string name="type_soup">Suppen</string>
+    <string name="main_name">Mensaplan</string>
+</resources>

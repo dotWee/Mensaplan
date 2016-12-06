@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.dotwee.rgb.canteen">
+
+    <application
+        android:name=".CanteenApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".view.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".view.SettingsActivity"
+            android:exported="true"
+            android:label="@string/settings_name"
+            android:parentActivityName=".view.MainActivity">
+
+
+        </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="eca0aa86e6fcb5241c3b810e61a9de95c24cd2d1" />
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

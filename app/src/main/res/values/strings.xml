@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Meal Plan Uni/Oth</string>
+    <string name="main_name">Meal Plan</string>
+    <string name="settings_name">Settings</string>
+
+    <string name="type_main_dish">Main dish</string>
+    <string name="type_side_dish">Side dish</string>
+    <string name="type_dessert">Dessert</string>
+    <string name="type_soup">Soup</string>
+    <string name="type_none">None</string>
+
+    <string name="price_student">Student</string>
+    <string name="price_employee">Employee</string>
+    <string name="price_guest">Guest</string>
+    <string name="price_all">All</string>
+
+    <string-array name="price_values">
+        <item>@string/price_student</item>
+        <item>@string/price_employee</item>
+        <item>@string/price_guest</item>
+        <item>@string/price_all</item>
+    </string-array>
+
+    <string name="location_oth" translatable="false">OTH Seybothstraße</string>
+    <string name="location_oth_tag" translatable="false">HS-R-tag</string>
+
+    <string name="location_oth_evening" translatable="false">OTH Seybothstraße (Abends)</string>
+    <string name="location_oth_evening_tag" translatable="false">HS-R-abend</string>
+
+    <string name="location_pruefening" translatable="false">OTH Prüfening</string>
+    <string name="location_pruefening_tag" translatable="false">Cafeteria-Pruefening</string>
+
+    <string name="location_university" translatable="false">Universität</string>
+    <string name="location_university_tag" translatable="false">UNI-R</string>
+
+    <string name="caption_location">Location:</string>
+    <string name="caption_date">Date:</string>
+
+    <string name="price_format" translatable="false">%s €</string>
+</resources>
