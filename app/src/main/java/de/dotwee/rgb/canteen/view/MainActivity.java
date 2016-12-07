@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
     @BindView(R.id.spinnerDate)
     Spinner spinnerDate;
     private MainPresenter mainPresenter;
-    private ArrayAdapter<String> locationAdapter;
-    private ArrayAdapter<String> dateAdapter;
 
     @Override
     protected void onStart() {
@@ -132,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
             values.add(getString(location.getName()));
         }
 
-        locationAdapter = SpinnerHelper.load(values, this);
+        ArrayAdapter<String> locationAdapter = SpinnerHelper.load(values, this);
         setupSpinner(spinnerLocation, locationAdapter);
     }
 
@@ -146,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
             values.add(value);
         }
 
-        dateAdapter = SpinnerHelper.load(values, this);
+        ArrayAdapter<String> dateAdapter = SpinnerHelper.load(values, this);
         setupSpinner(spinnerDate, dateAdapter);
     }
 

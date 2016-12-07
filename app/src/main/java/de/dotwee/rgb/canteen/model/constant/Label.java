@@ -15,5 +15,5 @@ public enum Label {
     MV,
     L,
     W,
-    NONE;
+    NONE
 }
