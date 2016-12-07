@@ -13,34 +13,33 @@ import android.view.View;
 /**
  * Created by lukas on 23.11.2016.
  */
-public class DividerItemDecoration extends RecyclerView.ItemDecoration {
+class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private static final String TAG = DividerItemDecoration.class.getSimpleName();
 
     private Drawable mDivider;
     private boolean mShowFirstDivider = false;
     private boolean mShowLastDivider = false;
 
-
-    public DividerItemDecoration(Context context, AttributeSet attrs) {
+    private DividerItemDecoration(Context context, AttributeSet attrs) {
         final TypedArray a = context
                 .obtainStyledAttributes(attrs, new int[]{android.R.attr.listDivider});
         mDivider = a.getDrawable(0);
         a.recycle();
     }
 
-    public DividerItemDecoration(Context context, AttributeSet attrs, boolean showFirstDivider,
-                                 boolean showLastDivider) {
+    private DividerItemDecoration(Context context, AttributeSet attrs, boolean showFirstDivider,
+                                  boolean showLastDivider) {
         this(context, attrs);
         mShowFirstDivider = showFirstDivider;
         mShowLastDivider = showLastDivider;
     }
 
-    public DividerItemDecoration(Drawable divider) {
+    private DividerItemDecoration(Drawable divider) {
         mDivider = divider;
     }
 
-    public DividerItemDecoration(Drawable divider, boolean showFirstDivider,
-                                 boolean showLastDivider) {
+    private DividerItemDecoration(Drawable divider, boolean showFirstDivider,
+                                  boolean showLastDivider) {
         this(divider);
         mShowFirstDivider = showFirstDivider;
         mShowLastDivider = showLastDivider;
