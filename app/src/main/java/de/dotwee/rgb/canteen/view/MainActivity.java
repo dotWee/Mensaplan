@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,6 +60,12 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
     private MainPresenter mainPresenter;
     private ArrayAdapter<String> locationAdapter;
     private ArrayAdapter<String> dateAdapter;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,5 +200,11 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
     @Override
     public void onRefresh() {
         mainPresenter.onSwipeRefresh(swipeRefreshLayout);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }
