@@ -2,6 +2,7 @@ package de.dotwee.rgb.canteen.view;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.adapter.DayMenuAdapter;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
+import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.model.helper.SpinnerHelper;
 import de.dotwee.rgb.canteen.presenter.MainPresenter;
@@ -189,6 +193,13 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
                 e.printStackTrace();
                 Timber.e(e);
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onItemClickEvent(@NonNull OnItemClickEvent onItemClickEvent) {
+        if (mainPresenter != null) {
+            mainPresenter.onItemClickEvent(onItemClickEvent);
         }
     }
 

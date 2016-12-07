@@ -6,6 +6,7 @@ import android.view.MenuItem;
 
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
+import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
 
 /**
  * Created by lukas on 12.11.2016.
@@ -16,6 +17,8 @@ public interface MainPresenter {
     void onSettingsOptionClick(@NonNull MenuItem menuItem);
 
     void onIngredientsOptionClick(@NonNull MenuItem menuItem);
+
+    void onItemClickEvent(@NonNull OnItemClickEvent onItemClickEvent);
 
     void onLocationSelected(@NonNull Location location);
 
