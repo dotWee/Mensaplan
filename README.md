@@ -1,5 +1,5 @@
 # <img src="app\src\main\res\mipmap-xxxhdpi\ic_launcher.png" width="50px" height="50pc" /> Mensaplan
-Eine kleine native Applikation, welche den wöchentlichen Speiseplan von verschiedenen Mensas in Regensburg anzeigt.
+Eine kleine native Android Applikation, welche den wöchentlichen Speiseplan von verschiedenen Mensas in Regensburg anzeigt.
 
 ## Unterstütze Standorte
 + OTH Seybothstraße (auch Abends)
@@ -35,4 +35,5 @@ Eine kleine native Applikation, welche den wöchentlichen Speiseplan von verschi
 
 ## Lizenz
 Copyright (c) 2015 Lukas 'dotwee' Wolfsteiner
+
 Binaries und Quellcode können nach den Regeln der [Apache License, Version 2.0](LICENSE) benutzt werden.
