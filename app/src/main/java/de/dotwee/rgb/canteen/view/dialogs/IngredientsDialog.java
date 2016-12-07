@@ -24,13 +24,16 @@ public class IngredientsDialog extends AppCompatDialog {
     @BindView(R.id.textViewIngredients)
     TextView textViewIngredients;
 
+    private String itemInfo = null;
+
     public IngredientsDialog(@NonNull Context context) {
         super(context, R.style.AppTheme_Dialog);
 
         setContentView(R.layout.dialog_ingredients);
         ButterKnife.bind(this, getWindow().getDecorView());
+        setItemInfo(null);
 
-        setIngredientsContent(null);
+        setIngredientsContent();
     }
 
     public IngredientsDialog(@NonNull Context context, @NonNull String itemInfo) {
@@ -38,16 +41,22 @@ public class IngredientsDialog extends AppCompatDialog {
 
         setContentView(R.layout.dialog_ingredients);
         ButterKnife.bind(this, getWindow().getDecorView());
-        setIngredientsContent(itemInfo);
+        setItemInfo(itemInfo);
+
+        setIngredientsContent();
     }
 
+    public void setItemInfo(@Nullable String itemInfo) {
+        this.itemInfo = itemInfo;
+        setIngredientsContent();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    private void setIngredientsContent(@Nullable String itemInfo) {
+    private void setIngredientsContent() {
         Resources resources = getContext().getResources();
         String contentString = IngredientsHelper.getIngredientsContent(resources, itemInfo);
 
