@@ -22,7 +22,6 @@ import android.widget.Spinner;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe
     public void onItemClickEvent(@NonNull OnItemClickEvent onItemClickEvent) {
         if (mainPresenter != null) {
             mainPresenter.onItemClickEvent(onItemClickEvent);

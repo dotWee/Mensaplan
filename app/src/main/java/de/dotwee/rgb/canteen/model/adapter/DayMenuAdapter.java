@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,8 +21,8 @@ import de.dotwee.rgb.canteen.model.DayMenu;
 import de.dotwee.rgb.canteen.model.Item;
 import de.dotwee.rgb.canteen.model.constant.Price;
 import de.dotwee.rgb.canteen.model.constant.Type;
+import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
 import de.dotwee.rgb.canteen.model.helper.PreferencesHelper;
-import de.dotwee.rgb.canteen.view.dialogs.IngredientsDialog;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
@@ -174,7 +176,6 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        IngredientsDialog ingredientsDialog;
 
         @BindView(R.id.linearLayoutWrapper)
         LinearLayout linearLayoutWrapper;
@@ -198,19 +199,15 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
 
             cardView = (CardView) itemView;
             ButterKnife.bind(this, itemView);
-
-            ingredientsDialog = new IngredientsDialog(cardView.getContext());
         }
 
         @OnClick(R.id.linearLayoutWrapper)
         @Override
         public void onClick(View v) {
             String itemInfo = textViewInfo.getText().toString();
-            ingredientsDialog.setItemInfo(itemInfo);
 
-            if (!ingredientsDialog.isShowing()) {
-                ingredientsDialog.show();
-            }
+            OnItemClickEvent onItemClickEvent = new OnItemClickEvent(itemInfo);
+            EventBus.getDefault().post(onItemClickEvent);
         }
     }
 }

@@ -12,6 +12,7 @@ import de.dotwee.rgb.canteen.model.adapter.DayMenuAdapter;
 import de.dotwee.rgb.canteen.model.api.MealRunnable;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
+import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.model.threads.DefaultExecutorSupplier;
 import de.dotwee.rgb.canteen.view.MainActivity;
@@ -36,6 +37,8 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
     public MainPresenterImpl(@NonNull final MainActivity mainActivity) {
         this.mainActivity = mainActivity;
         this.swipeRefreshLayout = mainActivity.swipeRefreshLayout;
+
+        ingredientsDialog = new IngredientsDialog(mainActivity);
     }
 
     @Override
@@ -46,9 +49,18 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
 
     @Override
     public void onIngredientsOptionClick(@NonNull MenuItem menuItem) {
-        if (ingredientsDialog == null) {
-            ingredientsDialog = new IngredientsDialog(mainActivity);
+
+        // Reset ingredients dialog to show all details
+        ingredientsDialog.setItemInfo(null);
+
+        if (!ingredientsDialog.isShowing()) {
+            ingredientsDialog.show();
         }
+    }
+
+    @Override
+    public void onItemClickEvent(@NonNull OnItemClickEvent onItemClickEvent) {
+        ingredientsDialog.setItemInfo(onItemClickEvent.getItemInfo());
 
         if (!ingredientsDialog.isShowing()) {
             ingredientsDialog.show();
