@@ -70,8 +70,8 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
 
         @Override
         public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ItemViewHolder viewHolder = (ItemViewHolder) holder;
-            Item item = items.get(position);
+            final ItemViewHolder viewHolder = (ItemViewHolder) holder;
+            final Item item = items.get(position);
 
             viewHolder.textViewName.setText(item.getName());
             viewHolder.textViewInfo.setText(item.getInfo());
@@ -186,7 +186,7 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
 
         CardView cardView;
 
-        public ItemViewHolder(View itemView) {
+        public ItemViewHolder(final View itemView) {
             super(itemView);
 
             cardView = (CardView) itemView;
