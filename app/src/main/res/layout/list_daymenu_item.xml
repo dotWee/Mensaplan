@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:clickable="true"
     android:minHeight="72dp">
 
     <LinearLayout
@@ -12,12 +12,14 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/linearLayoutWrapper"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
-
             android:foreground="?android:attr/selectableItemBackground"
+
             android:orientation="horizontal"
             android:padding="@dimen/grid_margin">
 

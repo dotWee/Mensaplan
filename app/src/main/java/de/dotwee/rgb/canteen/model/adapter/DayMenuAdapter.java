@@ -6,12 +6,14 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.DayMenu;
 import de.dotwee.rgb.canteen.model.Item;
@@ -20,6 +22,7 @@ import de.dotwee.rgb.canteen.model.constant.Type;
 import de.dotwee.rgb.canteen.model.helper.PreferencesHelper;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
+import timber.log.Timber;
 
 import static de.dotwee.rgb.canteen.model.helper.PreferencesHelper.isColorSeparationEnabled;
 
@@ -170,7 +173,10 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
         }
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
+    static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.linearLayoutWrapper)
+        LinearLayout linearLayoutWrapper;
 
         @BindView(R.id.textViewName)
         TextView textViewName;
@@ -186,11 +192,17 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
 
         CardView cardView;
 
-        public ItemViewHolder(final View itemView) {
+        ItemViewHolder(final View itemView) {
             super(itemView);
 
             cardView = (CardView) itemView;
             ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick(R.id.linearLayoutWrapper)
+        @Override
+        public void onClick(View v) {
+            Timber.i("OnClick item on position=%d", getAdapterPosition());
         }
     }
 }
