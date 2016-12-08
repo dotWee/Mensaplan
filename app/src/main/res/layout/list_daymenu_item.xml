@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,62 +9,58 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/linearLayoutWrapper"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayoutWrapper"
             android:layout_width="match_parent"
-
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
 
-            android:orientation="horizontal"
-            android:padding="@dimen/grid_margin">
+            android:orientation="horizontal">
 
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/textViewName"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_height="19dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/textViewPrice"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Test 42345" />
 
-                <TextView
-                    android:id="@+id/textViewName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textSize="16sp"
-                    tools:text="Test 42345" />
-
-                <TextView
-                    android:id="@+id/textViewInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textSize="14sp"
-                    android:textStyle="italic"
-                    tools:text="Info" />
-            </LinearLayout>
-
-            <Space
-                android:layout_width="@dimen/grid_margin"
-                android:layout_height="match_parent" />
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/textViewInfo"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintLeft_toLeftOf="@+id/textViewName"
+                app:layout_constraintTop_toBottomOf="@+id/textViewName"
+                tools:text="Info" />
 
-                <TextView
-                    android:id="@+id/textViewPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    tools:text="Price" />
 
-            </LinearLayout>
-        </LinearLayout>
+            <TextView
+                android:id="@+id/textViewPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Price" />
+
+
+        </android.support.constraint.ConstraintLayout>
 
         <View
             android:id="@+id/viewDivider"
@@ -71,8 +68,9 @@
             android:layout_height="1dp"
             android:layout_gravity="bottom"
             android:layout_marginLeft="@dimen/grid_margin"
+            android:layout_marginRight="@dimen/grid_margin"
 
-            android:layout_marginRight="@dimen/grid_margin" />
+            android:layout_marginTop="16dp" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

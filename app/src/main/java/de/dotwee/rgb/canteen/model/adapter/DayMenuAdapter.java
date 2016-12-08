@@ -2,11 +2,11 @@ package de.dotwee.rgb.canteen.model.adapter;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -177,8 +177,8 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
 
     static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.linearLayoutWrapper)
-        LinearLayout linearLayoutWrapper;
+        @BindView(R.id.constraintLayoutWrapper)
+        ConstraintLayout constraintLayoutWrapper;
 
         @BindView(R.id.textViewName)
         TextView textViewName;
@@ -201,7 +201,7 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
             ButterKnife.bind(this, itemView);
         }
 
-        @OnClick(R.id.linearLayoutWrapper)
+        @OnClick(R.id.constraintLayoutWrapper)
         @Override
         public void onClick(View v) {
             String itemInfo = textViewInfo.getText().toString();
