@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Appearance">
+    <PreferenceCategory android:title="@string/preference_appearance_title">
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/preference_appearance_switch_colorseparation"
-            android:summary="Divide types with their own color scheme"
+            android:summary="@string/preference_appearance_switch_colorseparation_summary"
 
-            android:title="Color separation" />
+            android:title="@string/preference_appearance_switch_colorseparation_title" />
 
         <ListPreference
             android:defaultValue="@string/price_student"
@@ -16,25 +16,23 @@
 
             android:entryValues="@array/price_values"
             android:key="@string/preference_appearance_list_price"
-            android:summary="Select which price should be displayed"
+            android:summary="@string/preference_appearance_list_price_summary"
 
-            android:title="Price" />
+            android:title="@string/preference_appearance_list_price_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Cache">
+    <PreferenceCategory android:title="@string/preference_cache_title">
 
         <Preference
-            android:key="@string/preference_reset_settings"
-            android:summary="Delete all preferences and reset to default"
-            android:title="Reset settings" />
+            android:key="@string/preference_cache_reset_settings"
+            android:summary="@string/preference_cache_reset_settings_summary"
+            android:title="@string/preference_cache_reset_settings_title" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="preference_copyright"
-        android:title="Licenses">
-
-    </PreferenceCategory>
+        android:title="Licenses" />
 
 </PreferenceScreen>

@@ -40,4 +40,13 @@
     <string name="allergens">Allergens</string>
 
     <string name="price_format" translatable="false">%s €</string>
+
+    <string name="preference_appearance_switch_colorseparation_summary">Divide types with their own color scheme</string>
+    <string name="preference_appearance_switch_colorseparation_title">Color separation</string>
+    <string name="preference_appearance_list_price_summary">Select which price should be displayed</string>
+    <string name="preference_appearance_list_price_title">Price</string>
+    <string name="preference_cache_title">Cache</string>
+    <string name="preference_cache_reset_settings_summary">Delete all settings and reset everything to default</string>
+    <string name="preference_cache_reset_settings_title">Reset settings</string>
+    <string name="preference_appearance_title">Appearance</string>
 </resources>
