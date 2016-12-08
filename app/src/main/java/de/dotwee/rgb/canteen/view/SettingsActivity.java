@@ -7,9 +7,12 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.dotwee.rgb.canteen.CanteenApplication;
 import de.dotwee.rgb.canteen.R;
+import de.dotwee.rgb.canteen.model.helper.CacheHelper;
 import de.dotwee.rgb.canteen.model.helper.LicensesHelper;
 import timber.log.Timber;
 
@@ -45,23 +49,40 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
+        private static final int[] KEYS = new int[]{
+                R.string.preference_cache_reset_settings,
+                R.string.preference_cache_clear,
+
+                R.string.preference_appearance_switch_colorseparation,
+                R.string.preference_appearance_list_price
+        };
+
+        @Override
+        public Preference findPreference(CharSequence key) {
+            return super.findPreference(key);
+        }
+
+        @Nullable
+        public Preference findPreference(@StringRes int keyId) {
+            String key = getString(keyId);
+            return super.findPreference(key);
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.preferences);
-            setOnPreferenceClickListener();
+            setPreferenceClickListener();
 
             PreferenceCategory preferenceCategoryCopyright = (PreferenceCategory)
                     getPreferenceScreen().findPreference("preference_copyright");
             setCopyrightCategory(preferenceCategoryCopyright);
         }
 
-        void setOnPreferenceClickListener() {
-            Map<String, ?> keyMap = CanteenApplication.getStaticPreferences().getAll();
-            for (Map.Entry<String, ?> entry : keyMap.entrySet()) {
-                Preference preference = findPreference(entry.getKey());
-
+        void setPreferenceClickListener() {
+            for (int keyId : KEYS) {
+                Preference preference = findPreference(keyId);
                 if (preference != null) {
                     preference.setOnPreferenceClickListener(this);
                 }
@@ -109,7 +130,38 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceClick(Preference preference) {
+            int keyId = getStringIdFromPreference(preference);
+
+            switch (keyId) {
+
+                case R.string.preference_cache_clear:
+                    File cacheDir = getActivity().getCacheDir();
+                    CacheHelper.clear(cacheDir);
+                    return true;
+
+                case R.string.preference_cache_reset_settings:
+                    // Delete all preferences
+                    CanteenApplication.getStaticPreferences().edit().clear().commit();
+
+                    getActivity().finish();
+                    return true;
+            }
+
             return false;
+        }
+
+        @StringRes
+        int getStringIdFromPreference(@NonNull Preference preference) {
+            for (int keyId : KEYS) {
+                String key = getString(keyId);
+                String prefKey = preference.getKey();
+
+                if (key.equalsIgnoreCase(prefKey)) {
+                    return keyId;
+                }
+            }
+
+            return 0;
         }
     }
 }

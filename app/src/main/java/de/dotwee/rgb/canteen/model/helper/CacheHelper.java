@@ -18,6 +18,16 @@ import timber.log.Timber;
 public class CacheHelper {
     private static final String TAG = CacheHelper.class.getSimpleName();
 
+    public static void clear(@NonNull File cacheDir) {
+        for (File file : cacheDir.listFiles()) {
+            boolean deletion = file.delete();
+
+            if (!deletion) {
+                Timber.e("File with path=%s couldn't be deleted", file.getAbsolutePath());
+            }
+        }
+    }
+
     public static void persist(@NonNull File cacheDir, @NonNull InputStream inputStream, @NonNull String filename) {
         OutputStream fileOutputStream = null;
         File file = new File(cacheDir, filename);

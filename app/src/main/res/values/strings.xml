@@ -49,4 +49,6 @@
     <string name="preference_cache_reset_settings_summary">Delete all settings and reset everything to default</string>
     <string name="preference_cache_reset_settings_title">Reset settings</string>
     <string name="preference_appearance_title">Appearance</string>
+    <string name="preference_cache_clear_summary">Remove cached files from internal storage</string>
+    <string name="preference_cache_clear_title">Clear cache</string>
 </resources>
