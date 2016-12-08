@@ -29,6 +29,8 @@ public class MealRunnable implements Runnable {
 
     @Override
     public void run() {
+        long startMillis = System.currentTimeMillis();
+        Timber.i("%s execution started", TAG);
 
         try {
 
@@ -44,6 +46,9 @@ public class MealRunnable implements Runnable {
             e.printStackTrace();
             Timber.e(e);
         }
+
+        long endMillis = System.currentTimeMillis();
+        Timber.i("%s execution ended | execution_time=%s milliseconds", TAG, endMillis - startMillis);
     }
 
     public interface Receiver {
