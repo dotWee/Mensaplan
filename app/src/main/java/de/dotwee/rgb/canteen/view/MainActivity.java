@@ -161,8 +161,8 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
 
     }
 
-    public void showSnackbar(View.OnClickListener actionListener) {
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, "There appeared an error while refreshing", Snackbar.LENGTH_SHORT);
+    public void showSnackbar(@NonNull String snackbarString, @NonNull View.OnClickListener actionListener) {
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, snackbarString, Snackbar.LENGTH_SHORT);
         if (actionListener != null) {
             snackbar.setAction("Retry", actionListener);
         }

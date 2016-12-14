@@ -1,6 +1,7 @@
 package de.dotwee.rgb.canteen.model.api;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,42 +36,64 @@ class MealProvider {
     private static final String INDICATOR_SIDE_DISH = "B";
     private static final String INDICATOR_SOUP = "Suppe";
 
-    @NonNull
-    public static InputStream getInputStream(File cacheDir, String locationTag, int weeknumber) {
+    @Nullable
+    public static InputStream getInputStream(File cacheDir, String locationTag, int weeknumber) throws Exception {
         String filename = locationTag + "-" + weeknumber + ".csv";
-        InputStream inputStream = null;
 
-        boolean existsInCache = CacheHelper.exists(cacheDir, filename);
-        if (existsInCache) {
-            try {
-                inputStream = CacheHelper.read(cacheDir, filename);
+        // Try to use cache as source; return if not null
+        if (CacheHelper.exists(cacheDir, filename)) {
+            // Exists in cache...
+            Timber.i("Found file in cache");
+
+            InputStream inputStream = getCacheStream(cacheDir, filename);
+
+            Timber.i("Success=%b", inputStream != null);
+            if (inputStream != null) {
                 return inputStream;
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Timber.e(e);
-            }
-        } else {
-            String rawUrl = "http://www.stwno.de/infomax/daten-extern/csv/" + locationTag + "/" + weeknumber + ".csv";
-            try {
-                URL url = new URL(rawUrl);
-
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.connect();
-
-                inputStream = httpURLConnection.getInputStream();
-
-                // Cache inputstream
-                CacheHelper.persist(cacheDir, inputStream, filename);
-                httpURLConnection.disconnect();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                Timber.e(e);
             }
         }
 
-        if (inputStream == null) {
-            return getInputStream(cacheDir, locationTag, weeknumber);
+        // Try to use web as source; return if not null
+        HttpURLConnection httpURLConnection = getWebStream(locationTag, weeknumber);
+        if (httpURLConnection != null && httpURLConnection.getResponseCode() == 200) {
+
+            // Get stream from url connection
+            InputStream inputStream = httpURLConnection.getInputStream();
+
+            // Save to cache
+            CacheHelper.persist(cacheDir, inputStream, filename);
+
+            // Close http connection
+            httpURLConnection.disconnect();
+
+            // Since we closed the url connection, we can't return the direct input stream
+            // So get stream from cache
+            return CacheHelper.read(cacheDir, filename);
+        }
+
+        return null;
+    }
+
+    @Nullable
+    private static HttpURLConnection getWebStream(@NonNull String locationTag, int weeknumber) throws IOException {
+        String rawUrl = "http://www.stwno.de/infomax/daten-extern/csv/" + locationTag + "/" + weeknumber + ".csv";
+        URL url = new URL(rawUrl);
+
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.connect();
+
+        return httpURLConnection;
+    }
+
+    @Nullable
+    private static InputStream getCacheStream(@NonNull File cacheDir, @NonNull String filename) {
+        InputStream inputStream = null;
+
+        try {
+            inputStream = CacheHelper.read(cacheDir, filename);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Timber.e(e);
         }
 
         return inputStream;

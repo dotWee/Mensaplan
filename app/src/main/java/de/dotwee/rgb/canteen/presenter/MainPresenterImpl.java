@@ -6,6 +6,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.net.UnknownHostException;
+
 import de.dotwee.rgb.canteen.model.DayMenu;
 import de.dotwee.rgb.canteen.model.WeekMenu;
 import de.dotwee.rgb.canteen.model.adapter.DayMenuAdapter;
@@ -152,14 +154,21 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
     }
 
     @Override
-    public void onDataError(@NonNull Throwable throwable) {
+    public void onDataError(@NonNull Exception exception) {
         Timber.i("onDataError");
 
         isMealRunnableRunning = false;
-        Timber.e(throwable);
+        Timber.e(exception);
+
+        String snackbarString;
+        if (exception instanceof UnknownHostException) {
+            snackbarString = "Please make sure you're connected to a working network.";
+        } else {
+            snackbarString = "There appeared an unknown error while refreshing";
+        }
 
         updateSwipeRefreshState();
-        mainActivity.showSnackbar(new View.OnClickListener() {
+        mainActivity.showSnackbar(snackbarString, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 performDataRefresh();

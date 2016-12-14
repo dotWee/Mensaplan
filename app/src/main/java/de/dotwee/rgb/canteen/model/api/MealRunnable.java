@@ -3,9 +3,7 @@ package de.dotwee.rgb.canteen.model.api;
 import android.support.annotation.NonNull;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
 
 import de.dotwee.rgb.canteen.model.WeekMenu;
 import timber.log.Timber;
@@ -33,17 +31,16 @@ public class MealRunnable implements Runnable {
         Timber.i("%s execution started", TAG);
 
         try {
-
             InputStream inputStream = MealProvider.getInputStream(cacheDir, locationTag, weekOfYear);
-
             if (inputStream != null) {
                 WeekMenu weekMenu = MealProvider.readWeekMenu(inputStream);
-
                 receiver.onDataLoaded(weekMenu);
-            } else receiver.onDataError(new IllegalStateException("InputStream equals null"));
+            } else receiver.onDataError(new IllegalStateException("InputStream is null"));
 
-        } catch (IOException | ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+
+            receiver.onDataError(e);
             Timber.e(e);
         }
 
@@ -55,6 +52,6 @@ public class MealRunnable implements Runnable {
 
         void onDataLoaded(@NonNull WeekMenu weekMenu);
 
-        void onDataError(@NonNull Throwable throwable);
+        void onDataError(@NonNull Exception exception);
     }
 }
