@@ -16,4 +16,14 @@
     <string name="main_name">Mensaplan</string>
     <string name="allergens">Allergene</string>
     <string name="ingredients">Inhaltsstoffe</string>
+    <string name="preference_appearance_list_price_title">Preis Anzeige</string>
+    <string name="preference_appearance_list_price_summary">Wähle aus, welcher Preistyp angezeigt werden soll</string>
+    <string name="preference_appearance_switch_colorseparation_title">Farbliche Trettung</string>
+    <string name="preference_appearance_switch_colorseparation_summary">Unterteile das Menu mit unterschiedlichen Farben</string>
+    <string name="preference_cache_title">Zwischenspeicher</string>
+    <string name="preference_cache_reset_settings_title">Einstellungen zurücksetzen</string>
+    <string name="preference_cache_reset_settings_summary">Setze alle Einstellungen auf den Standard zurück</string>
+    <string name="preference_cache_clear_title">Zwischenspeicher leeren</string>
+    <string name="preference_cache_clear_summary">Lösche alle Daten aus dem Zwischenspeicher</string>
+    <string name="preference_appearance_title">Erscheinung</string>
 </resources>
