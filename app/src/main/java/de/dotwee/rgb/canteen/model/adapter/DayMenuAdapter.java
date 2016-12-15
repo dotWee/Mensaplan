@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -148,21 +150,19 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
 
         private void setItemLabels(@NonNull ItemViewHolder itemViewHolder, @NonNull Label[] labels) {
 
-            // Reset all images
-            itemViewHolder.imageViewLabel.setImageBitmap(null);
-            itemViewHolder.imageViewLabel2.setImageBitmap(null);
-            itemViewHolder.imageViewLabel3.setImageBitmap(null);
-
             // For each label
             ImageView imageView;
             Iterator<ImageView> viewIterator = itemViewHolder.imageViews.iterator();
             for (Label label : labels) {
                 imageView = viewIterator.next();
                 if (label.getDrawableId() != 0) {
-                    imageView.setImageResource(label.getDrawableId());
+                    Picasso.with(imageView.getContext())
+                            .load(label.getDrawableId())
+                            .into(imageView);
                 }
             }
 
+            // If there are unused imageviews, set their bitmap to null
             while (viewIterator.hasNext()) {
                 imageView = viewIterator.next();
                 imageView.setImageBitmap(null);
