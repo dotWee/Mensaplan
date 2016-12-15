@@ -22,8 +22,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.dotwee.rgb.canteen.R;
-import de.dotwee.rgb.canteen.model.DayMenu;
-import de.dotwee.rgb.canteen.model.Item;
+import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
+import de.dotwee.rgb.canteen.model.api.specs.Item;
 import de.dotwee.rgb.canteen.model.constant.Label;
 import de.dotwee.rgb.canteen.model.constant.Price;
 import de.dotwee.rgb.canteen.model.constant.Type;
@@ -37,24 +37,24 @@ import static de.dotwee.rgb.canteen.model.helper.PreferencesHelper.isColorSepara
 /**
  * Created by lukas on 19.11.2016.
  */
-public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
-    private static final String TAG = DayMenuAdapter.class.getSimpleName();
-    private DayMenu dayMenu;
+public class DayMealAdapter extends SectionedRecyclerViewAdapter {
+    private static final String TAG = DayMealAdapter.class.getSimpleName();
+    private DayMeal dayMeal;
 
-    public DayMenuAdapter() {
+    public DayMealAdapter() {
 
     }
 
-    public void setDayMenu(@NonNull DayMenu dayMenu) {
-        this.dayMenu = dayMenu;
+    public void setDayMeal(@NonNull DayMeal dayMeal) {
+        this.dayMeal = dayMeal;
         setSections();
     }
 
     private void setSections() {
         removeAllSections();
 
-        for (Type type : dayMenu.getContainedTypes()) {
-            TypeSection typeSection = new TypeSection(type, dayMenu.get(type));
+        for (Type type : dayMeal.getContainedTypes()) {
+            TypeSection typeSection = new TypeSection(type, dayMeal.get(type));
             addSection(typeSection);
         }
     }

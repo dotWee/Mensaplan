@@ -1,4 +1,4 @@
-package de.dotwee.rgb.canteen.model;
+package de.dotwee.rgb.canteen.model.api.specs;
 
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
@@ -11,16 +11,16 @@ import de.dotwee.rgb.canteen.model.constant.Weekday;
 /**
  * Created by lukas on 19.11.2016.
  */
-public class WeekMenu extends ArrayMap<Weekday, DayMenu> {
-    private static final String TAG = WeekMenu.class.getSimpleName();
+public class WeekMeal extends ArrayMap<Weekday, DayMeal> {
+    private static final String TAG = WeekMeal.class.getSimpleName();
 
-    public WeekMenu(@NonNull List<Item> items) {
+    public WeekMeal(@NonNull List<Item> items) {
 
         // Init map
         for (Weekday weekday : Weekday.values()) {
             List<Item> itemsPerDay = getItemsByDay(items, weekday);
-            DayMenu dayMenu = new DayMenu(weekday, itemsPerDay);
-            put(weekday, dayMenu);
+            DayMeal dayMeal = new DayMeal(weekday, itemsPerDay);
+            put(weekday, dayMeal);
         }
     }
 

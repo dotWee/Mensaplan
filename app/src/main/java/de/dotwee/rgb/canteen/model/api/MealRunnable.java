@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import java.io.File;
 import java.io.InputStream;
 
-import de.dotwee.rgb.canteen.model.WeekMenu;
+import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import timber.log.Timber;
 
 /**
@@ -33,8 +33,8 @@ public class MealRunnable implements Runnable {
         try {
             InputStream inputStream = MealProvider.getInputStream(cacheDir, locationTag, weekOfYear);
             if (inputStream != null) {
-                WeekMenu weekMenu = MealProvider.readWeekMenu(inputStream);
-                receiver.onDataLoaded(weekMenu);
+                WeekMeal weekMeal = MealProvider.readWeekMenu(inputStream);
+                receiver.onDataLoaded(weekMeal);
             } else receiver.onDataError(new IllegalStateException("InputStream is null"));
 
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class MealRunnable implements Runnable {
 
     public interface Receiver {
 
-        void onDataLoaded(@NonNull WeekMenu weekMenu);
+        void onDataLoaded(@NonNull WeekMeal weekMeal);
 
         void onDataError(@NonNull Exception exception);
     }

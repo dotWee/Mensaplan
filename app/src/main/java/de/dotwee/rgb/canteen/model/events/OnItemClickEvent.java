@@ -2,7 +2,7 @@ package de.dotwee.rgb.canteen.model.events;
 
 import android.support.annotation.NonNull;
 
-import de.dotwee.rgb.canteen.model.Item;
+import de.dotwee.rgb.canteen.model.api.specs.Item;
 
 /**
  * Created by lukas on 07.12.2016.

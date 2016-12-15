@@ -51,8 +51,6 @@ class InputStreamDownloader implements Runnable {
             if (httpURLConnection != null && httpURLConnection.getResponseCode() == 200) {
                 receiver.onStreamConnected(httpURLConnection);
             } else throw new IllegalStateException("Issue with HttpUrlConnection");
-
-
         } catch (IOException e) {
             e.printStackTrace();
             Timber.e(e);

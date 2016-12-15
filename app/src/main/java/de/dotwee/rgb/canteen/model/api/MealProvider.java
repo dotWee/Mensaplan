@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
-import de.dotwee.rgb.canteen.model.Item;
-import de.dotwee.rgb.canteen.model.WeekMenu;
 import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
+import de.dotwee.rgb.canteen.model.api.specs.Item;
+import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import de.dotwee.rgb.canteen.model.constant.Label;
 import de.dotwee.rgb.canteen.model.constant.Type;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
@@ -67,7 +67,7 @@ class MealProvider {
     }
 
     @NonNull
-    static WeekMenu readWeekMenu(@NonNull InputStream inputStream) throws ParseException, IOException {
+    static WeekMeal readWeekMenu(@NonNull InputStream inputStream) throws ParseException, IOException {
         ArrayList<Item> items = new ArrayList<>();
         Scanner scanner = new Scanner(inputStream, "windows-1252");
 
@@ -95,7 +95,7 @@ class MealProvider {
         }
         inputStream.close();
 
-        return new WeekMenu(items);
+        return new WeekMeal(items);
     }
 
     @NonNull

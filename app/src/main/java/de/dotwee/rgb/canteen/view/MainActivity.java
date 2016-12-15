@@ -32,7 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.dotwee.rgb.canteen.R;
-import de.dotwee.rgb.canteen.model.adapter.DayMenuAdapter;
+import de.dotwee.rgb.canteen.model.adapter.DayMealAdapter;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
 import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
     public SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.activity_main)
     CoordinatorLayout coordinatorLayout;
-    DayMenuAdapter dayMenuAdapter;
+    DayMealAdapter dayMealAdapter;
 
     @BindView(R.id.appBar)
     AppBarLayout appBarLayout;
@@ -155,8 +155,8 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
     }
 
     private void setupRecyclerView() {
-        dayMenuAdapter = new DayMenuAdapter();
-        recyclerView.setAdapter(dayMenuAdapter);
+        dayMealAdapter = new DayMealAdapter();
+        recyclerView.setAdapter(dayMealAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }

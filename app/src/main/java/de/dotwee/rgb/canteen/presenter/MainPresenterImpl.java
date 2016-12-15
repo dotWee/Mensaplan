@@ -8,10 +8,10 @@ import android.view.View;
 
 import java.net.UnknownHostException;
 
-import de.dotwee.rgb.canteen.model.DayMenu;
-import de.dotwee.rgb.canteen.model.WeekMenu;
-import de.dotwee.rgb.canteen.model.adapter.DayMenuAdapter;
+import de.dotwee.rgb.canteen.model.adapter.DayMealAdapter;
 import de.dotwee.rgb.canteen.model.api.MealRunnable;
+import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
+import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
 import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
@@ -31,7 +31,7 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
     private Location location;
     private Weekday weekday = Weekday.MONDAY;
     private IngredientsDialog ingredientsDialog = null;
-    private WeekMenu weekMenu;
+    private WeekMeal weekMeal;
 
     private boolean isMealRunnableRunning = false;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -90,37 +90,37 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
     }
 
     @Override
-    public void onDataLoaded(@NonNull WeekMenu weekMenu) {
+    public void onDataLoaded(@NonNull WeekMeal weekMeal) {
         Timber.i("onDataLoaded");
 
         isMealRunnableRunning = false;
-        this.weekMenu = weekMenu;
+        this.weekMeal = weekMeal;
         handleDataRefresh();
     }
 
     private void handleDataRefresh() {
-        if (weekMenu == null) {
-            Timber.e("WeekMenu is null!");
+        if (weekMeal == null) {
+            Timber.e("WeekMeal is null!");
             return;
         }
 
         if (weekday == null) {
-            Timber.e("Weekday is null! WeekMenuSize=%s", weekMenu.size());
+            Timber.e("Weekday is null! WeekMenuSize=%s", weekMeal.size());
             return;
         }
 
-        final DayMenu dayMenu = weekMenu.get(weekday);
-        if (dayMenu == null) {
-            Timber.e("DayMenu is null! WeekMenuSize=%s WeekDay=%s", weekMenu.size(), weekday.getDayOfWeek());
+        final DayMeal dayMeal = weekMeal.get(weekday);
+        if (dayMeal == null) {
+            Timber.e("DayMeal is null! WeekMenuSize=%s WeekDay=%s", weekMeal.size(), weekday.getDayOfWeek());
             return;
         }
 
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                DayMenuAdapter dayMenuAdapter = (DayMenuAdapter) mainActivity.recyclerView.getAdapter();
-                dayMenuAdapter.setDayMenu(dayMenu);
-                dayMenuAdapter.notifyDataSetChanged();
+                DayMealAdapter dayMealAdapter = (DayMealAdapter) mainActivity.recyclerView.getAdapter();
+                dayMealAdapter.setDayMeal(dayMeal);
+                dayMealAdapter.notifyDataSetChanged();
 
                 mainActivity.recyclerView.invalidate();
                 updateSwipeRefreshState();
