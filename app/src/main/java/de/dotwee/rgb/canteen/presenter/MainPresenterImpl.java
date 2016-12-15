@@ -138,7 +138,7 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
             isMealRunnableRunning = true;
             swipeRefreshLayout.setRefreshing(true);
 
-            String locationTag = mainActivity.getString(location.getNameTag());
+            String locationTag = location.getNameTag();
             MealRunnable mealRunnable = new MealRunnable(this, locationTag, DateHelper.getCurrentWeeknumber(), mainActivity.getCacheDir());
             DefaultExecutorSupplier.getInstance().executeBackgroundTask(mealRunnable);
         }

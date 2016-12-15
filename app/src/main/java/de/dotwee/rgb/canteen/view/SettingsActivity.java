@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.dotwee.rgb.canteen.CanteenApplication;
 import de.dotwee.rgb.canteen.R;
-import de.dotwee.rgb.canteen.model.helper.CacheHelper;
+import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
 import de.dotwee.rgb.canteen.model.helper.LicensesHelper;
 import timber.log.Timber;
 

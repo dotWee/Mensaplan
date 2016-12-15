@@ -22,16 +22,9 @@
     </string-array>
 
     <string name="location_oth" translatable="false">OTH Seybothstraße</string>
-    <string name="location_oth_tag" translatable="false">HS-R-tag</string>
-
     <string name="location_oth_evening" translatable="false">OTH Seybothstraße (Abends)</string>
-    <string name="location_oth_evening_tag" translatable="false">HS-R-abend</string>
-
     <string name="location_pruefening" translatable="false">OTH Prüfening</string>
-    <string name="location_pruefening_tag" translatable="false">Cafeteria-Pruefening</string>
-
     <string name="location_university" translatable="false">Universität</string>
-    <string name="location_university_tag" translatable="false">UNI-R</string>
 
     <string name="caption_label_1" translatable="false">Label 1</string>
     <string name="caption_label_2" translatable="false">Label 2</string>

@@ -8,6 +8,8 @@
         <item name="colorAccent">@color/md_lime_300</item>
     </style>
 
+    <style name="AppTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar" />
+
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

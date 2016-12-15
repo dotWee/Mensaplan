@@ -8,8 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,10 +16,10 @@ import java.util.Scanner;
 
 import de.dotwee.rgb.canteen.model.Item;
 import de.dotwee.rgb.canteen.model.WeekMenu;
+import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
 import de.dotwee.rgb.canteen.model.constant.Label;
 import de.dotwee.rgb.canteen.model.constant.Type;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
-import de.dotwee.rgb.canteen.model.helper.CacheHelper;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import timber.log.Timber;
 
@@ -38,51 +36,20 @@ class MealProvider {
 
     @Nullable
     public static InputStream getInputStream(File cacheDir, String locationTag, int weeknumber) throws Exception {
-        String filename = locationTag + "-" + weeknumber + ".csv";
+        String filename = String.format(Locale.getDefault(), CacheHelper.FILENAME_FORMAT, locationTag, weeknumber);
+        InputStream inputStream = null;
 
         // Try to use cache as source; return if not null
         if (CacheHelper.exists(cacheDir, filename)) {
+
             // Exists in cache...
             Timber.i("Found file in cache");
 
-            InputStream inputStream = getCacheStream(cacheDir, filename);
-
+            inputStream = getCacheStream(cacheDir, filename);
             Timber.i("Success=%b", inputStream != null);
-            if (inputStream != null) {
-                return inputStream;
-            }
         }
 
-        // Try to use web as source; return if not null
-        HttpURLConnection httpURLConnection = getWebStream(locationTag, weeknumber);
-        if (httpURLConnection != null && httpURLConnection.getResponseCode() == 200) {
-
-            // Get stream from url connection
-            InputStream inputStream = httpURLConnection.getInputStream();
-
-            // Save to cache
-            CacheHelper.persist(cacheDir, inputStream, filename);
-
-            // Close http connection
-            httpURLConnection.disconnect();
-
-            // Since we closed the url connection, we can't return the direct input stream
-            // So get stream from cache
-            return CacheHelper.read(cacheDir, filename);
-        }
-
-        return null;
-    }
-
-    @Nullable
-    private static HttpURLConnection getWebStream(@NonNull String locationTag, int weeknumber) throws IOException {
-        String rawUrl = "http://www.stwno.de/infomax/daten-extern/csv/" + locationTag + "/" + weeknumber + ".csv";
-        URL url = new URL(rawUrl);
-
-        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-        httpURLConnection.connect();
-
-        return httpURLConnection;
+        return inputStream;
     }
 
     @Nullable
@@ -100,7 +67,7 @@ class MealProvider {
     }
 
     @NonNull
-    public static WeekMenu readWeekMenu(@NonNull InputStream inputStream) throws ParseException, IOException {
+    static WeekMenu readWeekMenu(@NonNull InputStream inputStream) throws ParseException, IOException {
         ArrayList<Item> items = new ArrayList<>();
         Scanner scanner = new Scanner(inputStream, "windows-1252");
 
