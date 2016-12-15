@@ -7,10 +7,13 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,6 +22,7 @@ import butterknife.OnClick;
 import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.DayMenu;
 import de.dotwee.rgb.canteen.model.Item;
+import de.dotwee.rgb.canteen.model.constant.Label;
 import de.dotwee.rgb.canteen.model.constant.Price;
 import de.dotwee.rgb.canteen.model.constant.Type;
 import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
@@ -82,8 +86,9 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
             viewHolder.textViewInfo.setText(item.getInfo());
 
             viewHolder.cardView.setRadius(0);
-            viewHolder.viewDivider.setVisibility(position == getSectionItemsTotal() - 2 ? View.GONE : View.VISIBLE);
+            viewHolder.viewDivider.setVisibility(position == getSectionItemsTotal() - 2 ? View.INVISIBLE : View.VISIBLE);
 
+            setItemLabels(viewHolder, item.getLabels());
             setItemPrice(viewHolder, item);
             setColorState(viewHolder);
         }
@@ -141,6 +146,29 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
             typeViewHolder.itemView.setBackgroundColor(backgroundColor);
         }
 
+        private void setItemLabels(@NonNull ItemViewHolder itemViewHolder, @NonNull Label[] labels) {
+
+            // Reset all images
+            itemViewHolder.imageViewLabel.setImageBitmap(null);
+            itemViewHolder.imageViewLabel2.setImageBitmap(null);
+            itemViewHolder.imageViewLabel3.setImageBitmap(null);
+
+            // For each label
+            ImageView imageView;
+            Iterator<ImageView> viewIterator = itemViewHolder.imageViews.iterator();
+            for (Label label : labels) {
+                imageView = viewIterator.next();
+                if (label.getDrawableId() != 0) {
+                    imageView.setImageResource(label.getDrawableId());
+                }
+            }
+
+            while (viewIterator.hasNext()) {
+                imageView = viewIterator.next();
+                imageView.setImageBitmap(null);
+            }
+        }
+
         private void setColorState(@NonNull ItemViewHolder itemViewHolder) {
             int cardBackgroundColor, dividerColor;
 
@@ -189,9 +217,19 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
         @BindView(R.id.textViewPrice)
         TextView textViewPrice;
 
+        @BindView(R.id.imageViewLabel)
+        ImageView imageViewLabel;
+
+        @BindView(R.id.imageViewLabel2)
+        ImageView imageViewLabel2;
+
+        @BindView(R.id.imageViewLabel3)
+        ImageView imageViewLabel3;
+
         @BindView(R.id.viewDivider)
         View viewDivider;
 
+        List<ImageView> imageViews;
         CardView cardView;
 
         ItemViewHolder(final View itemView) {
@@ -199,6 +237,11 @@ public class DayMenuAdapter extends SectionedRecyclerViewAdapter {
 
             cardView = (CardView) itemView;
             ButterKnife.bind(this, itemView);
+
+            imageViews = new ArrayList<>();
+            imageViews.add(imageViewLabel);
+            imageViews.add(imageViewLabel2);
+            imageViews.add(imageViewLabel3);
         }
 
         @OnClick(R.id.constraintLayoutWrapper)
