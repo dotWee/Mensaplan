@@ -53,7 +53,7 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
     public void onIngredientsOptionClick(@NonNull MenuItem menuItem) {
 
         // Reset ingredients dialog to show all details
-        ingredientsDialog.setItemInfo(null);
+        ingredientsDialog.setItem(null);
 
         if (!ingredientsDialog.isShowing()) {
             ingredientsDialog.show();
@@ -62,7 +62,7 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
 
     @Override
     public void onItemClickEvent(@NonNull OnItemClickEvent onItemClickEvent) {
-        ingredientsDialog.setItemInfo(onItemClickEvent.getItemInfo());
+        ingredientsDialog.setItem(onItemClickEvent.getItem());
 
         if (!ingredientsDialog.isShowing()) {
             ingredientsDialog.show();

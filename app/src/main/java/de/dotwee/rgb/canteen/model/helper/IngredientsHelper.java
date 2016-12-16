@@ -50,15 +50,18 @@ public class IngredientsHelper {
             String ingredientsTitle = titleIterator.next();
             JSONObject ingredientsObject = rawObject.getJSONObject(ingredientsTitle);
             Map<String, String> ingredientsMap = getKeyValueMap(ingredientsObject, itemInfoKeys);
-            stringBuilder.append(getContentString(ingredientsTitle, ingredientsMap));
-
-            stringBuilder.append(KEY_BREAK).append(KEY_BREAK).append(KEY_NEWLINE);
+            if (ingredientsMap.size() != 0) {
+                stringBuilder.append(getContentString(ingredientsTitle, ingredientsMap));
+                stringBuilder.append(KEY_BREAK).append(KEY_BREAK).append(KEY_NEWLINE);
+            }
 
             String allergensTitle = titleIterator.next();
             JSONObject allergensObject = rawObject.getJSONObject(allergensTitle);
             Map<String, String> allergensMap = getKeyValueMap(allergensObject, itemInfoKeys);
-            stringBuilder.append(getContentString(allergensTitle, allergensMap));
-
+            if (allergensMap.size() != 0) {
+                stringBuilder.append(getContentString(allergensTitle, allergensMap));
+                stringBuilder.append(KEY_BREAK).append(KEY_NEWLINE);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             Timber.e(e);

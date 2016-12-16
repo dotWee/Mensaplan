@@ -14,6 +14,19 @@
     <string name="price_guest">Guest</string>
     <string name="price_all">All</string>
 
+    <string name="ingredient_alcohol">Alcohol</string>
+    <string name="ingredient_cattle">Cattle</string>
+    <string name="ingredient_deal">Deal</string>
+    <string name="ingredient_fish">Fish</string>
+    <string name="ingredient_lamb">Lamb</string>
+    <string name="ingredient_oeko">Oeko</string>
+    <string name="ingredient_pork">Pork</string>
+    <string name="ingredient_poultry">Poultry</string>
+    <string name="ingredient_vegan">Vegan</string>
+    <string name="ingredient_vegetarian">Vegetarian</string>
+    <string name="ingredient_vital">Vital</string>
+    <string name="ingredient_wild">Wild</string>
+
     <string-array name="price_values">
         <item>@string/price_student</item>
         <item>@string/price_employee</item>
