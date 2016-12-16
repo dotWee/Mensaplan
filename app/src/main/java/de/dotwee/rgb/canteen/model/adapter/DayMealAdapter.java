@@ -84,6 +84,9 @@ public class DayMealAdapter extends SectionedRecyclerViewAdapter {
             final ItemViewHolder viewHolder = (ItemViewHolder) holder;
             final Item item = items.get(position);
 
+            // set item object as tag
+            viewHolder.cardView.setTag(item);
+
             viewHolder.textViewName.setText(item.getName());
             viewHolder.textViewInfo.setText(item.getInfo());
 
@@ -247,9 +250,9 @@ public class DayMealAdapter extends SectionedRecyclerViewAdapter {
         @OnClick(R.id.constraintLayoutWrapper)
         @Override
         public void onClick(View v) {
-            String itemInfo = textViewInfo.getText().toString();
+            Item item = (Item) cardView.getTag();
 
-            OnItemClickEvent onItemClickEvent = new OnItemClickEvent(itemInfo);
+            OnItemClickEvent onItemClickEvent = new OnItemClickEvent(item);
             EventBus.getDefault().post(onItemClickEvent);
         }
     }
