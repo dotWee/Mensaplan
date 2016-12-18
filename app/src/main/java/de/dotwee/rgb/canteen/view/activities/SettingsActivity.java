@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.FrameLayout;
 
 import java.io.File;
 import java.util.List;
@@ -33,6 +34,9 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.frameLayout)
+    FrameLayout frameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,17 @@ public class SettingsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setSettingsFragment();
+    }
+
+    private void setSettingsFragment() {
+        SettingsFragment settingsFragment = new SettingsFragment();
+
+        getFragmentManager()
+                .beginTransaction()
+                .add(R.id.frameLayout, settingsFragment)
+                .commit();
     }
 
     public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
