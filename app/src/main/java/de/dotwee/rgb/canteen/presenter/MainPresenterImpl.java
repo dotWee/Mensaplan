@@ -19,6 +19,7 @@ import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.model.threads.DefaultExecutorSupplier;
 import de.dotwee.rgb.canteen.view.activities.MainActivity;
 import de.dotwee.rgb.canteen.view.activities.SettingsActivity;
+import de.dotwee.rgb.canteen.view.activities.SplashActivity;
 import de.dotwee.rgb.canteen.view.dialogs.IngredientsDialog;
 import timber.log.Timber;
 
@@ -159,20 +160,22 @@ public class MainPresenterImpl implements MainPresenter, MealRunnable.Receiver {
 
         isMealRunnableRunning = false;
         Timber.e(exception);
+        updateSwipeRefreshState();
 
         String snackbarString;
         if (exception instanceof UnknownHostException) {
             snackbarString = "Please make sure you're connected to a working network.";
+            mainActivity.showSnackbar(snackbarString, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    performDataRefresh();
+                }
+            });
         } else {
-            snackbarString = "There appeared an unknown error while refreshing";
+            //snackbarString = "There appeared an unknown error while refreshing";
+            Intent intent = new Intent(mainActivity.getApplicationContext(), SplashActivity.class);
+            intent.putExtra(SplashActivity.class.getSimpleName(), SplashActivity.INTENT_FORCE_REFRESH);
+            mainActivity.startActivity(intent);
         }
-
-        updateSwipeRefreshState();
-        mainActivity.showSnackbar(snackbarString, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                performDataRefresh();
-            }
-        });
     }
 }

@@ -12,6 +12,7 @@ import timber.log.Timber;
 
 public class SplashActivity extends AppCompatActivity implements CacheRunnable.Receiver {
     private static final String TAG = SplashActivity.class.getSimpleName();
+    public static int INTENT_FORCE_REFRESH = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,12 +21,12 @@ public class SplashActivity extends AppCompatActivity implements CacheRunnable.R
         setContentView(R.layout.activity_splash);
         Timber.i("Creating new CacheRunnable");
 
-        if (CacheHelper.exists(getCacheDir(), DateHelper.getCurrentWeeknumber())) {
+        if (getIntent().getIntExtra(TAG, -1) == INTENT_FORCE_REFRESH) {
+            new CacheRunnable(DateHelper.getCurrentWeeknumber(), getCacheDir(), this);
+        } else if (CacheHelper.exists(getCacheDir(), DateHelper.getCurrentWeeknumber())) {
+
             // All week menus are already cached
             this.onFinished();
-
-        } else {
-            new CacheRunnable(DateHelper.getCurrentWeeknumber(), getCacheDir(), this);
         }
     }
 
