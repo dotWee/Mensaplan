@@ -5,7 +5,7 @@
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="de.dotwee.rgb.canteen.view.SplashActivity">
+    tools:context="de.dotwee.rgb.canteen.view.activities.SplashActivity">
 
     <ImageView
         android:id="@+id/imageView"

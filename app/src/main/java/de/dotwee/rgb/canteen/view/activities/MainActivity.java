@@ -1,4 +1,4 @@
-package de.dotwee.rgb.canteen.view;
+package de.dotwee.rgb.canteen.view.activities;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;

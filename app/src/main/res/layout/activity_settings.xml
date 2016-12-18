@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="de.dotwee.rgb.canteen.view.SettingsActivity">
+    tools:context="de.dotwee.rgb.canteen.view.activities.SettingsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/fragmentSettings"
-        class="de.dotwee.rgb.canteen.view.SettingsActivity$SettingsFragment"
+        class="de.dotwee.rgb.canteen.view.activities.SettingsActivity$SettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

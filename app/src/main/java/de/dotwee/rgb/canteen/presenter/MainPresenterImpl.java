@@ -17,8 +17,8 @@ import de.dotwee.rgb.canteen.model.constant.Weekday;
 import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.model.threads.DefaultExecutorSupplier;
-import de.dotwee.rgb.canteen.view.MainActivity;
-import de.dotwee.rgb.canteen.view.SettingsActivity;
+import de.dotwee.rgb.canteen.view.activities.MainActivity;
+import de.dotwee.rgb.canteen.view.activities.SettingsActivity;
 import de.dotwee.rgb.canteen.view.dialogs.IngredientsDialog;
 import timber.log.Timber;
 
