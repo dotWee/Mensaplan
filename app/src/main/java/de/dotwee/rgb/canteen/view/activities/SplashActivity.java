@@ -34,5 +34,6 @@ public class SplashActivity extends AppCompatActivity implements CacheRunnable.R
     public void onFinished() {
         Timber.i("onFinished CacheRunnable");
         startActivity(new Intent(this, MainActivity.class));
+        this.finish();
     }
 }
