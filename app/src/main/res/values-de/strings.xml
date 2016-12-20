@@ -26,4 +26,17 @@
     <string name="preference_cache_clear_title">Zwischenspeicher leeren</string>
     <string name="preference_cache_clear_summary">Lösche alle Daten aus dem Zwischenspeicher</string>
     <string name="preference_appearance_title">Erscheinung</string>
+    <string name="ingredient_alcohol">Alkohol</string>
+    <string name="ingredient_cattle">Rind</string>
+    <string name="ingredient_fish">Fisch</string>
+    <string name="ingredient_oeko">Öko</string>
+    <string name="ingredient_poultry">Geflügel</string>
+    <string name="ingredient_vegan">Vegan</string>
+    <string name="ingredient_vegetarian">Vegetarisch</string>
+    <string name="ingredient_vital">Vital</string>
+    <string name="ingredient_wild">Wild</string>
+    <string name="labels">Erläuterungen</string>
+    <string name="ingredient_deal">Deal</string>
+    <string name="ingredient_lamb">Lamm</string>
+    <string name="ingredient_pork">Schwein</string>
 </resources>
