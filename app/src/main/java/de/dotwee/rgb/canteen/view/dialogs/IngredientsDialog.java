@@ -1,18 +1,14 @@
 package de.dotwee.rgb.canteen.view.dialogs;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatDialog;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -25,10 +21,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.api.specs.Item;
-import de.dotwee.rgb.canteen.model.constant.Label;
-import de.dotwee.rgb.canteen.model.helper.IngredientsHelper;
-
-import static de.dotwee.rgb.canteen.model.helper.IngredientsHelper.KEYS_ALL;
+import de.dotwee.rgb.canteen.presenter.IngredientsPresenter;
+import de.dotwee.rgb.canteen.presenter.IngredientsPresenterImpl;
 
 /**
  * Created by lukas on 06.12.2016.
@@ -37,98 +31,35 @@ public class IngredientsDialog extends AppCompatDialog {
     private static final String TAG = IngredientsDialog.class.getSimpleName();
 
     @BindView(R.id.linearLayoutIngredients)
-    LinearLayout linearLayoutIngredients;
+    public LinearLayout linearLayoutIngredients;
 
     @BindView(R.id.textViewIngredients)
-    TextView textViewIngredients;
+    public TextView textViewIngredients;
 
     @BindView(R.id.linearLayoutAllergens)
-    LinearLayout linearLayoutAllergens;
+    public LinearLayout linearLayoutAllergens;
 
     @BindView(R.id.textViewAllergens)
-    TextView textViewAllergens;
+    public TextView textViewAllergens;
 
     @BindView(R.id.linearLayoutLabels)
-    LinearLayout linearLayoutLabels;
+    public LinearLayout linearLayoutLabels;
 
     @BindView(R.id.tableLayoutLabels)
-    TableLayout tableLayoutLabels;
+    public TableLayout tableLayoutLabels;
 
-    private Resources resources;
+    private IngredientsPresenter ingredientsPresenter;
 
     public IngredientsDialog(@NonNull Context context) {
         super(context, R.style.AppTheme_Dialog);
 
         setContentView(R.layout.dialog_ingredients);
         ButterKnife.bind(this, getWindow().getDecorView());
-        resources = context.getResources();
-        setItem(null);
+        ingredientsPresenter = new IngredientsPresenterImpl(this);
     }
 
     public void setItem(@Nullable Item item) {
-        setItemInfo(item == null ? KEYS_ALL : item.getInfo());
-        setItemLabels(item == null ? Label.values() : item.getLabels());
-    }
-
-    private void setItemLabels(@NonNull Label[] labels) {
-        setLabels(labels);
-    }
-
-    private void setItemInfo(@Nullable String itemInfo) {
-        setIngredients(itemInfo);
-        setAllergens(itemInfo);
-    }
-
-    private void setIngredients(@Nullable String itemInfo) {
-        if (itemInfo == null || itemInfo.isEmpty()) {
-            linearLayoutIngredients.setVisibility(View.GONE);
-        } else {
-            linearLayoutIngredients.setVisibility(View.VISIBLE);
-            String contentString = IngredientsHelper.getIngredientsContent(resources, itemInfo);
-
-            if (contentString.isEmpty()) {
-                linearLayoutIngredients.setVisibility(View.GONE);
-            } else {
-                Spanned spanned = Html.fromHtml(contentString);
-                textViewIngredients.setText(spanned);
-            }
-        }
-    }
-
-    private void setAllergens(@Nullable String itemInfo) {
-        if (itemInfo == null || itemInfo.isEmpty()) {
-            linearLayoutAllergens.setVisibility(View.GONE);
-        } else {
-            linearLayoutAllergens.setVisibility(View.VISIBLE);
-            String contentString = IngredientsHelper.getAllergensContent(resources, itemInfo);
-
-            if (contentString.isEmpty()) {
-                linearLayoutAllergens.setVisibility(View.GONE);
-            } else {
-                Spanned spanned = Html.fromHtml(contentString);
-                textViewAllergens.setText(spanned);
-            }
-        }
-    }
-
-    private void setLabels(@NonNull Label[] labels) {
-        if (labels.length == -1) {
-            linearLayoutLabels.setVisibility(View.GONE);
-        } else {
-            linearLayoutLabels.setVisibility(View.VISIBLE);
-
-            tableLayoutLabels.removeAllViews();
-            for (Label label : labels) {
-
-                if (label != Label.NONE) {
-                    TableRow tableRow = newTableRow();
-                    tableRow.addView(getNewImageView(label.getDrawableId()));
-                    tableRow.addView(getNewTextView(label.getStringId()));
-
-                    tableLayoutLabels.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-                }
-            }
-        }
+        ingredientsPresenter.onItemChange(item);
     }
 
     @Override
@@ -137,7 +68,7 @@ public class IngredientsDialog extends AppCompatDialog {
     }
 
     @NonNull
-    private TableRow newTableRow() {
+    public TableRow newTableRow() {
         TableRow tableRow = new TableRow(getContext());
         tableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
@@ -145,7 +76,7 @@ public class IngredientsDialog extends AppCompatDialog {
     }
 
     @NonNull
-    private TextView getNewTextView(@StringRes int stringId) {
+    public TextView getNewTextView(@StringRes int stringId) {
         TextView textView = new TextView(getContext());
         textView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
@@ -156,7 +87,7 @@ public class IngredientsDialog extends AppCompatDialog {
     }
 
     @NonNull
-    private ImageView getNewImageView(@DrawableRes int drawableId) {
+    public ImageView getNewImageView(@DrawableRes int drawableId) {
         ImageView imageView = new ImageView(getContext());
         imageView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
