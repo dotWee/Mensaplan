@@ -27,40 +27,23 @@ import timber.log.Timber;
  */
 public class IngredientsHelper {
     private static final String TAG = IngredientsHelper.class.getSimpleName();
-
-    @RawRes
-    private static final int RESOURCE_ID = R.raw.ingredients;
-
-    private static final String KEY_BREAK = "<br>", KEY_WHITESPACE = " ", KEY_NEWLINE = "\n";
+    private static final String KEY_BREAK = "<br>", KEY_WHITESPACE = " ";
+    public static String KEYS_ALL = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,g,x,y,z,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17";
 
     @NonNull
     public static String getIngredientsContent(@NonNull Resources resources, @Nullable String itemInfo) {
         StringBuilder stringBuilder = new StringBuilder();
-
-        List<String> itemInfoKeys = null;
-        if (itemInfo != null) {
-            itemInfoKeys = getIngredientsKeys(itemInfo);
-        }
-
         try {
-            JSONObject rawObject = getIngredientsJson(resources);
-
+            JSONObject rawObject = getJson(resources, R.raw.ingredients);
             Iterator<String> titleIterator = rawObject.keys();
 
             String ingredientsTitle = titleIterator.next();
             JSONObject ingredientsObject = rawObject.getJSONObject(ingredientsTitle);
+
+            List<String> itemInfoKeys = itemInfo == null ? null : getKeys(itemInfo);
             Map<String, String> ingredientsMap = getKeyValueMap(ingredientsObject, itemInfoKeys);
             if (ingredientsMap.size() != 0) {
-                stringBuilder.append(getContentString(ingredientsTitle, ingredientsMap));
-                stringBuilder.append(KEY_BREAK).append(KEY_BREAK).append(KEY_NEWLINE);
-            }
-
-            String allergensTitle = titleIterator.next();
-            JSONObject allergensObject = rawObject.getJSONObject(allergensTitle);
-            Map<String, String> allergensMap = getKeyValueMap(allergensObject, itemInfoKeys);
-            if (allergensMap.size() != 0) {
-                stringBuilder.append(getContentString(allergensTitle, allergensMap));
-                stringBuilder.append(KEY_BREAK).append(KEY_NEWLINE);
+                stringBuilder.append(getContentString(ingredientsMap));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -71,7 +54,32 @@ public class IngredientsHelper {
     }
 
     @NonNull
-    private static List<String> getIngredientsKeys(@NonNull String itemInfo) {
+    public static String getAllergensContent(@NonNull Resources resources, @Nullable String itemInfo) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        try {
+            JSONObject rawObject = getJson(resources, R.raw.allergens);
+            Iterator<String> titleIterator = rawObject.keys();
+
+            String allergensTitle = titleIterator.next();
+            JSONObject allergensObject = rawObject.getJSONObject(allergensTitle);
+
+            List<String> itemInfoKeys = itemInfo == null ? null : getKeys(itemInfo);
+            Map<String, String> allergensMap = getKeyValueMap(allergensObject, itemInfoKeys);
+
+            if (allergensMap.size() != 0) {
+                stringBuilder.append(getContentString(allergensMap));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Timber.e(e);
+        }
+
+        return stringBuilder.toString();
+    }
+
+    @NonNull
+    private static List<String> getKeys(@NonNull String itemInfo) {
 
         // Remove brackets
         String cleanedString = itemInfo.replaceAll("[\\p{Ps}\\p{Pe}]", "");
@@ -84,19 +92,16 @@ public class IngredientsHelper {
     }
 
     @NonNull
-    private static String getContentString(@NonNull String title, @NonNull Map<String, String> contentMap) {
+    private static String getContentString(@NonNull Map<String, String> contentMap) {
         StringBuilder stringBuilder = new StringBuilder();
-
-        // Create title
-        stringBuilder.append("<strong>").append(title).append("</strong>").append(KEY_NEWLINE);
 
         // Add content
         for (Map.Entry<String, String> entry : contentMap.entrySet()) {
-            stringBuilder.append(KEY_BREAK)
+            stringBuilder
                     .append(entry.getKey())
                     .append(KEY_WHITESPACE)
                     .append(entry.getValue())
-                    .append(KEY_NEWLINE);
+                    .append(KEY_BREAK);
         }
 
         return stringBuilder.toString();
@@ -109,16 +114,15 @@ public class IngredientsHelper {
 
         while (keyIterator.hasNext()) {
             String key = keyIterator.next();
+            String value = jsonObject.optString(key);
 
             if (only != null) {
                 for (String string : only) {
                     if (string.equalsIgnoreCase(key)) {
-                        String value = jsonObject.optString(key);
                         keyValueMap.put(key, value);
                     }
                 }
             } else {
-                String value = jsonObject.optString(key);
                 keyValueMap.put(key, value);
             }
         }
@@ -127,8 +131,8 @@ public class IngredientsHelper {
     }
 
     @NonNull
-    private static JSONObject getIngredientsJson(@NonNull Resources resources) throws JSONException {
-        InputStream inputStream = resources.openRawResource(RESOURCE_ID);
+    private static JSONObject getJson(@NonNull Resources resources, @RawRes int resId) throws JSONException {
+        InputStream inputStream = resources.openRawResource(resId);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();

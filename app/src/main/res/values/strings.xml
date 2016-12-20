@@ -47,6 +47,7 @@
 
     <string name="ingredients">Ingredients</string>
     <string name="allergens">Allergens</string>
+    <string name="labels">Labels</string>
 
     <string name="price_format" translatable="false">%s €</string>
 

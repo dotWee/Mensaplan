@@ -12,7 +12,9 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -26,72 +28,112 @@ import de.dotwee.rgb.canteen.model.api.specs.Item;
 import de.dotwee.rgb.canteen.model.constant.Label;
 import de.dotwee.rgb.canteen.model.helper.IngredientsHelper;
 
+import static de.dotwee.rgb.canteen.model.helper.IngredientsHelper.KEYS_ALL;
+
 /**
  * Created by lukas on 06.12.2016.
  */
 public class IngredientsDialog extends AppCompatDialog {
     private static final String TAG = IngredientsDialog.class.getSimpleName();
 
-    @BindView(R.id.tableLayout)
-    TableLayout tableLayout;
+    @BindView(R.id.linearLayoutIngredients)
+    LinearLayout linearLayoutIngredients;
 
     @BindView(R.id.textViewIngredients)
     TextView textViewIngredients;
 
-    @BindView(R.id.textViewExplanations)
-    TextView textViewExplanations;
+    @BindView(R.id.linearLayoutAllergens)
+    LinearLayout linearLayoutAllergens;
+
+    @BindView(R.id.textViewAllergens)
+    TextView textViewAllergens;
+
+    @BindView(R.id.linearLayoutLabels)
+    LinearLayout linearLayoutLabels;
+
+    @BindView(R.id.tableLayoutLabels)
+    TableLayout tableLayoutLabels;
+
+    private Resources resources;
 
     public IngredientsDialog(@NonNull Context context) {
         super(context, R.style.AppTheme_Dialog);
 
         setContentView(R.layout.dialog_ingredients);
         ButterKnife.bind(this, getWindow().getDecorView());
+        resources = context.getResources();
         setItem(null);
     }
 
     public void setItem(@Nullable Item item) {
-        if (item != null) {
-            setItemInfo(item.getInfo());
-            setItemLabels(item.getLabels());
-            return;
-        }
-
-        setItemInfo(null);
-        setItemLabels(Label.values());
+        setItemInfo(item == null ? KEYS_ALL : item.getInfo());
+        setItemLabels(item == null ? Label.values() : item.getLabels());
     }
 
-    private void setItemLabels(Label[] labels) {
-        labels = (labels == null) ? Label.values() : labels;
-
-        tableLayout.removeAllViews();
-        for (Label label : labels) {
-            addLabel(label);
-        }
+    private void setItemLabels(@NonNull Label[] labels) {
+        setLabels(labels);
     }
 
     private void setItemInfo(@Nullable String itemInfo) {
-        Resources resources = getContext().getResources();
-        String contentString = IngredientsHelper.getIngredientsContent(resources, itemInfo);
+        setIngredients(itemInfo);
+        setAllergens(itemInfo);
+    }
 
-        Spanned spanned = Html.fromHtml(contentString);
-        textViewIngredients.setText(spanned);
+    private void setIngredients(@Nullable String itemInfo) {
+        if (itemInfo == null || itemInfo.isEmpty()) {
+            linearLayoutIngredients.setVisibility(View.GONE);
+        } else {
+            linearLayoutIngredients.setVisibility(View.VISIBLE);
+            String contentString = IngredientsHelper.getIngredientsContent(resources, itemInfo);
+
+            if (contentString.isEmpty()) {
+                linearLayoutIngredients.setVisibility(View.GONE);
+            } else {
+                Spanned spanned = Html.fromHtml(contentString);
+                textViewIngredients.setText(spanned);
+            }
+        }
+    }
+
+    private void setAllergens(@Nullable String itemInfo) {
+        if (itemInfo == null || itemInfo.isEmpty()) {
+            linearLayoutAllergens.setVisibility(View.GONE);
+        } else {
+            linearLayoutAllergens.setVisibility(View.VISIBLE);
+            String contentString = IngredientsHelper.getAllergensContent(resources, itemInfo);
+
+            if (contentString.isEmpty()) {
+                linearLayoutAllergens.setVisibility(View.GONE);
+            } else {
+                Spanned spanned = Html.fromHtml(contentString);
+                textViewAllergens.setText(spanned);
+            }
+        }
+    }
+
+    private void setLabels(@NonNull Label[] labels) {
+        if (labels.length == -1) {
+            linearLayoutLabels.setVisibility(View.GONE);
+        } else {
+            linearLayoutLabels.setVisibility(View.VISIBLE);
+
+            tableLayoutLabels.removeAllViews();
+            for (Label label : labels) {
+
+                if (label != Label.NONE) {
+                    TableRow tableRow = newTableRow();
+                    tableRow.addView(getNewImageView(label.getDrawableId()));
+                    tableRow.addView(getNewTextView(label.getStringId()));
+
+                    tableLayoutLabels.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                }
+            }
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    private void addLabel(Label label) {
-        if (label == Label.NONE) {
-            return;
-        }
-
-        TableRow tableRow = newTableRow();
-        tableRow.addView(getNewImageView(label.getDrawableId()));
-        tableRow.addView(getNewTextView(label.getStringId()));
-
-        tableLayout.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
     }
 
     @NonNull
