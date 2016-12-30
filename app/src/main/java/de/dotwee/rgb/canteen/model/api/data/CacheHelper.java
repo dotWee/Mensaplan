@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import de.dotwee.rgb.canteen.model.constant.Location;
@@ -21,6 +23,23 @@ import timber.log.Timber;
 public class CacheHelper {
     public static final String FILENAME_FORMAT = "%s-%d.csv";
     private static final String TAG = CacheHelper.class.getSimpleName();
+
+    public static Location[] getCached(@NonNull File cacheDir, int weeknumber) {
+        List<Location> locationList = new ArrayList<>();
+
+        for (File file : cacheDir.listFiles()) {
+            for (Location location : Location.values()) {
+                String filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
+                if (file.getName().equalsIgnoreCase(filename)) {
+                    locationList.add(location);
+                }
+            }
+        }
+
+        Location[] locations = new Location[locationList.size()];
+        locations = locationList.toArray(locations);
+        return locations;
+    }
 
     public static void clear(@NonNull File cacheDir) {
         for (File file : cacheDir.listFiles()) {

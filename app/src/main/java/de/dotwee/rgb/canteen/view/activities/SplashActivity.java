@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
 import de.dotwee.rgb.canteen.model.api.data.CacheRunnable;
+import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import timber.log.Timber;
 
@@ -17,14 +18,15 @@ public class SplashActivity extends AppCompatActivity implements CacheRunnable.R
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_splash);
 
+        performCheck();
+    }
+
+    public void performCheck() {
         if (getIntent().getIntExtra(TAG, -1) == INTENT_FORCE_REFRESH) {
             new CacheRunnable(DateHelper.getCurrentWeeknumber(), getCacheDir(), this);
-        } else if (CacheHelper.exists(getCacheDir(), DateHelper.getCurrentWeeknumber())) {
-
-            // All week menus are already cached
+        } else {
             this.onFinished();
         }
     }
@@ -32,7 +34,15 @@ public class SplashActivity extends AppCompatActivity implements CacheRunnable.R
     @Override
     public void onFinished() {
         Timber.i("onFinished CacheRunnable");
-        startActivity(new Intent(this, MainActivity.class));
-        this.finish();
+
+        Location[] locations = CacheHelper.getCached(getCacheDir(), DateHelper.getCurrentWeeknumber());
+        Timber.i("LocationArrayLength=%d", locations.length);
+
+        if (locations.length != -1) {
+            startActivity(new Intent(this, MainActivity.class));
+            this.finish();
+        } else {
+            Timber.w("No data available!");
+        }
     }
 }
