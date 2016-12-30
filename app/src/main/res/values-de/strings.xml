@@ -41,4 +41,8 @@
     <string name="ingredient_pork">Schwein</string>
     <string name="no_data_available">Keine Daten verfügbar</string>
     <string name="dialog_ingredients_title">Angaben</string>
+    <string name="dialog_closed_action_exit">Verlassen</string>
+    <string name="dialog_closed_action_refresh">Neustart</string>
+    <string name="dialog_closed_title">Mensa geschlossen!</string>
+    <string name="dialog_closed_message">Es scheint als hätten alle Mensas geschlossen. Der Server hat keine Daten zurückgebenen und es gab keine Probleme bei der Verbindung.</string>
 </resources>

@@ -13,13 +13,15 @@
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
-        <item name="colorPrimary">@color/md_blue_grey_800</item>
-        <item name="colorPrimaryDark">@color/md_blue_grey_900</item>
-        <item name="colorAccent">@color/md_lime_300</item>
     </style>
 
-    <style name="AppTheme.Dialog.Ingredients" />
+    <style name="AppTheme.Dialog.Closed">
+        <item name="colorAccent">@color/md_blue_300</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Ingredients">
+        <item name="colorAccent">@color/md_lime_300</item>
+    </style>
 
     <style name="AppTheme.Dialog.Ingredients.Section">
         <item name="android:layout_width">match_parent</item>
