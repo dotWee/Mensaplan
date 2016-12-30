@@ -21,8 +21,8 @@ import static de.dotwee.rgb.canteen.model.helper.IngredientsHelper.KEYS_ALL;
  */
 public class IngredientsPresenterImpl implements IngredientsPresenter {
     private static final String TAG = IngredientsPresenterImpl.class.getSimpleName();
-    IngredientsDialog ingredientsDialog;
-    Resources resources;
+    private IngredientsDialog ingredientsDialog;
+    private Resources resources;
 
     public IngredientsPresenterImpl(@NonNull IngredientsDialog ingredientsDialog) {
         this.ingredientsDialog = ingredientsDialog;
@@ -34,10 +34,17 @@ public class IngredientsPresenterImpl implements IngredientsPresenter {
     @Override
     public void onItemChange(@Nullable Item item) {
         onLabelsChange(item == null ? Label.values() : item.getLabels());
+        boolean areLabelsVisible = (ingredientsDialog.linearLayoutLabels.getVisibility() == View.VISIBLE);
 
         String itemInfo = item == null ? KEYS_ALL : item.getInfo();
         onIngredientsChange(itemInfo);
+        boolean areIngredientsVisible = (ingredientsDialog.linearLayoutIngredients.getVisibility() == View.VISIBLE);
+
         onAllergensChange(itemInfo);
+        boolean areAllergensVisible = (ingredientsDialog.linearLayoutAllergens.getVisibility() == View.VISIBLE);
+
+        boolean isDataAvailable = areLabelsVisible && areIngredientsVisible && areAllergensVisible;
+        ingredientsDialog.linearLayoutNodata.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
     }
 
     @Override

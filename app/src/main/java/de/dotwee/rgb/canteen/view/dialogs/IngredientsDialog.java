@@ -48,6 +48,9 @@ public class IngredientsDialog extends AppCompatDialog {
     @BindView(R.id.tableLayoutLabels)
     public TableLayout tableLayoutLabels;
 
+    @BindView(R.id.linearLayoutNodata)
+    public LinearLayout linearLayoutNodata;
+
     private IngredientsPresenter ingredientsPresenter;
 
     public IngredientsDialog(@NonNull Context context) {
