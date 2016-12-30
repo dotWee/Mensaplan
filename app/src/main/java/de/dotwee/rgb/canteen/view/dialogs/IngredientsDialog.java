@@ -1,6 +1,7 @@
 package de.dotwee.rgb.canteen.view.dialogs;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -85,7 +86,11 @@ public class IngredientsDialog extends AppCompatDialog {
     public TextView getNewTextView(@StringRes int stringId) {
         TextView textView = new TextView(getContext());
         textView.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        if (Build.VERSION.SDK_INT < 23) {
+            textView.setTextAppearance(getContext(), R.style.AppTheme_Dialog_Ingredients_Section_TextView);
+        } else {
+            textView.setTextAppearance(R.style.AppTheme_Dialog_Ingredients_Section_TextView);
+        }
         textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setText(stringId);
 

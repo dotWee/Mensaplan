@@ -6,16 +6,13 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        style="@style/AppTheme.Dialog.Ingredients.Section.LinearLayout"
+        android:padding="0dp">
 
         <LinearLayout
             android:id="@+id/linearLayoutTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            style="@style/AppTheme.Dialog.Ingredients.Section.LinearLayout"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/textViewName"
@@ -23,10 +20,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="@string/app_name" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
 
         </LinearLayout>
 
@@ -37,58 +30,39 @@
 
             <LinearLayout
                 android:id="@+id/linearLayoutIngredients"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                style="@style/AppTheme.Dialog.Ingredients.Section.LinearLayout">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ingredients"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    style="@style/AppTheme.Dialog.Ingredients.Section.TextView.Title"
+                    android:text="@string/ingredients" />
 
                 <TextView
                     android:id="@+id/textViewIngredients"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp" />
+                    style="@style/AppTheme.Dialog.Ingredients.Section.TextView" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayoutAllergens"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                style="@style/AppTheme.Dialog.Ingredients.Section.LinearLayout">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/allergens"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    style="@style/AppTheme.Dialog.Ingredients.Section.TextView.Title"
+                    android:text="@string/allergens" />
 
                 <TextView
                     android:id="@+id/textViewAllergens"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp" />
+                    style="@style/AppTheme.Dialog.Ingredients.Section.TextView" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayoutLabels"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                style="@style/AppTheme.Dialog.Ingredients.Section.LinearLayout">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/labels"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    style="@style/AppTheme.Dialog.Ingredients.Section.TextView.Title"
+                    android:text="@string/labels" />
 
                 <TableLayout
                     android:id="@+id/tableLayoutLabels"
@@ -100,20 +74,19 @@
 
             <LinearLayout
                 android:id="@+id/linearLayoutNodata"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                style="@style/AppTheme.Dialog.Ingredients.Section.LinearLayout"
                 android:visibility="gone">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_data_available"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    style="@style/AppTheme.Dialog.Ingredients.Section.TextView.Title"
+                    android:text="@string/no_data_available" />
             </LinearLayout>
 
         </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
 
     </LinearLayout>
 
