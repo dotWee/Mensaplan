@@ -8,7 +8,47 @@
         <item name="colorAccent">@color/md_lime_300</item>
     </style>
 
-    <style name="AppTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="AppTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="tools:context">de.dotwee.rgb.canteen.view.activities.SplashActivity</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="AppTheme.Splash.ImageView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">212dp</item>
+        <item name="android:src">@mipmap/ic_launcher</item>
+    </style>
+
+    <style name="AppTheme.Splash.ProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">64dp</item>
+
+        <item name="android:layout_marginBottom">@dimen/grid_16</item>
+        <item name="android:layout_marginEnd">@dimen/grid_16</item>
+        <item name="android:layout_marginStart">@dimen/grid_16</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="AppTheme.Main">
+        <item name="tools:context">de.dotwee.rgb.canteen.view.activities.MainActivity</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="AppTheme.Main.Widget">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AppTheme.Main.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">?attr/colorPrimary</item>
+
+        <item name="app:popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="app:title">@string/app_name</item>
+    </style>
 
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="windowActionBar">false</item>
@@ -17,6 +57,50 @@
 
     <style name="AppTheme.Dialog.Closed">
         <item name="colorAccent">@color/md_blue_300</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Closed.Section">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Closed.Section.Header">
+        <item name="android:clickable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:paddingTop">@dimen/grid_24</item>
+        <item name="android:paddingRight">@dimen/grid_24</item>
+        <item name="android:paddingLeft">@dimen/grid_24</item>
+        <item name="android:paddingBottom">20dp</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Closed.Section.Title">
+        <item name="android:text">@string/dialog_closed_title</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Closed.Section.Content">
+        <item name="android:paddingRight">@dimen/grid_24</item>
+        <item name="android:paddingLeft">@dimen/grid_24</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Closed.Section.Footer">
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:gravity">end</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Closed.Section.Button" parent="Base.Widget.AppCompat.Button.Borderless.Colored">
+        <item name="colorAccent">@color/md_blue_300</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Closed.Section.Message">
+        <item name="android:text">@string/dialog_closed_message</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
     </style>
 
     <style name="AppTheme.Dialog.Ingredients">
@@ -29,8 +113,8 @@
     </style>
 
     <style name="AppTheme.Dialog.Ingredients.Section.LinearLayout">
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">@dimen/grid_16</item>
+        <item name="android:paddingRight">@dimen/grid_16</item>
         <item name="android:orientation">vertical</item>
 
         <item name="android:clickable">true</item>
@@ -39,13 +123,52 @@
 
     <style name="AppTheme.Dialog.Ingredients.Section.TextView">
         <item name="android:textColor">@android:color/secondary_text_light</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_16</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="AppTheme.Dialog.Ingredients.Section.TextView.Title">
         <item name="android:textColor">@android:color/primary_text_light_nodisable</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.List" />
+
+    <style name="AppTheme.List.Item" />
+
+    <style name="AppTheme.List.Item.CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:clickable">true</item>
+        <item name="android:minHeight">72dp</item>
+    </style>
+
+    <style name="AppTheme.List.Item.Info" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/grid_8</item>
+        <item name="android:layout_marginStart">@dimen/grid_16</item>
+        <item name="android:layout_marginTop">@dimen/grid_8</item>
+
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">italic</item>
+
+        <item name="tools:text">Info</item>
+    </style>
+
+    <style name="AppTheme.List.Item.Price">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">17dp</item>
+        <item name="android:layout_marginEnd">@dimen/grid_16</item>
+        <item name="android:layout_marginTop">@dimen/grid_16</item>
+        <item name="tools:text">Price</item>
+    </style>
+
+    <style name="AppTheme.List.Item.Label">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:contentDescription">@string/caption_label_1</item>
     </style>
 
 </resources>
