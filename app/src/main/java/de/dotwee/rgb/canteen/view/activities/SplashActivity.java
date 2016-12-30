@@ -19,7 +19,6 @@ public class SplashActivity extends AppCompatActivity implements CacheRunnable.R
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash);
-        Timber.i("Creating new CacheRunnable");
 
         if (getIntent().getIntExtra(TAG, -1) == INTENT_FORCE_REFRESH) {
             new CacheRunnable(DateHelper.getCurrentWeeknumber(), getCacheDir(), this);

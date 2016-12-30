@@ -54,12 +54,16 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
 
     @BindView(R.id.appBar)
     AppBarLayout appBarLayout;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
     @BindView(R.id.spinnerLocation)
     Spinner spinnerLocation;
+
     @BindView(R.id.spinnerDate)
     Spinner spinnerDate;
+
     private MainPresenter mainPresenter;
 
     @Override

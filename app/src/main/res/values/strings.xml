@@ -61,4 +61,11 @@
     <string name="preference_appearance_title">Appearance</string>
     <string name="preference_cache_clear_summary">Remove cached files from internal storage</string>
     <string name="preference_cache_clear_title">Clear cache</string>
+
+    <string name="dialog_canteenclosed_title">Mensa seems closed!</string>
+    <string name="dialog_canteenclosed_message">No problems with the connection, but the server didn\'t return any data. Seems like the canteen is closed this week.</string>
+    <string name="dialog_canteenclosed_action_refresh">Refresh</string>
+    <string name="dialog_canteenclosed_action_exit">Exit</string>
+
+    <string name="no_data_available">No data available</string>
 </resources>
