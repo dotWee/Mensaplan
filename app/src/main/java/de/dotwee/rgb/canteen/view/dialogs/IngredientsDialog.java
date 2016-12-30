@@ -30,6 +30,9 @@ import de.dotwee.rgb.canteen.presenter.IngredientsPresenterImpl;
 public class IngredientsDialog extends AppCompatDialog {
     private static final String TAG = IngredientsDialog.class.getSimpleName();
 
+    @BindView(R.id.textViewName)
+    public TextView textViewName;
+
     @BindView(R.id.linearLayoutIngredients)
     public LinearLayout linearLayoutIngredients;
 

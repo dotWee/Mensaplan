@@ -12,6 +12,8 @@ public interface IngredientsPresenter {
 
     void onItemChange(@Nullable Item item);
 
+    void onNameChange(@Nullable String name);
+
     void onLabelsChange(@Nullable Label[] labels);
 
     void onIngredientsChange(@Nullable String itemInfo);

@@ -40,4 +40,5 @@
     <string name="ingredient_lamb">Lamm</string>
     <string name="ingredient_pork">Schwein</string>
     <string name="no_data_available">Keine Daten verfügbar</string>
+    <string name="dialog_ingredients_title">Angaben</string>
 </resources>

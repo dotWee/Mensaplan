@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.api.specs.Item;
 import de.dotwee.rgb.canteen.model.constant.Label;
 import de.dotwee.rgb.canteen.model.helper.IngredientsHelper;
@@ -33,6 +34,8 @@ public class IngredientsPresenterImpl implements IngredientsPresenter {
 
     @Override
     public void onItemChange(@Nullable Item item) {
+        onNameChange(item == null ? null : item.getName());
+
         onLabelsChange(item == null ? Label.values() : item.getLabels());
         boolean areLabelsVisible = (ingredientsDialog.linearLayoutLabels.getVisibility() == View.VISIBLE);
 
@@ -43,8 +46,17 @@ public class IngredientsPresenterImpl implements IngredientsPresenter {
         onAllergensChange(itemInfo);
         boolean areAllergensVisible = (ingredientsDialog.linearLayoutAllergens.getVisibility() == View.VISIBLE);
 
-        boolean isDataAvailable = areLabelsVisible && areIngredientsVisible && areAllergensVisible;
+        boolean isDataAvailable = areLabelsVisible || areIngredientsVisible || areAllergensVisible;
         ingredientsDialog.linearLayoutNodata.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void onNameChange(@Nullable String name) {
+        if (name == null) {
+            ingredientsDialog.textViewName.setText(R.string.dialog_ingredients_title);
+        } else {
+            ingredientsDialog.textViewName.setText(name);
+        }
     }
 
     @Override
