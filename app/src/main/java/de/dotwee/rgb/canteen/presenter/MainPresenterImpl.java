@@ -9,7 +9,6 @@ import android.view.View;
 import java.net.UnknownHostException;
 
 import de.dotwee.rgb.canteen.model.adapter.DayMealAdapter;
-import de.dotwee.rgb.canteen.model.api.MealObservable;
 import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
 import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import de.dotwee.rgb.canteen.model.constant.Location;
@@ -159,7 +158,7 @@ public class MainPresenterImpl implements MainPresenter {
 
             String locationTag = location.getNameTag();
 
-            MealObservable.getObservable(locationTag, DateHelper.getCurrentWeeknumber(), mainActivity.getCacheDir())
+            MealProvider.getObservable(locationTag, DateHelper.getCurrentWeeknumber(), mainActivity.getCacheDir())
                     .subscribeOn(Schedulers.single())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(MealConsumer, ErrorConsumer);
