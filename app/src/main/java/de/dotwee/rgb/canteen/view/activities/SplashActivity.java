@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
     private final Consumer<Void> finishConsumer = new Consumer<Void>() {
         @Override
         public void accept(Void aVoid) throws Exception {
-            SplashActivity.this.onFinished();
+            SplashActivity.this.finish();
         }
     };
 
@@ -48,11 +48,12 @@ public class SplashActivity extends AppCompatActivity {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(finishConsumer, throwableConsumer);
         } else {
-            this.onFinished();
+            this.finish();
         }
     }
 
-    public void onFinished() {
+    @Override
+    public void finish() {
         Timber.i("onFinished");
 
         Location[] locations = CacheHelper.getCached(getCacheDir(), DateHelper.getCurrentWeeknumber());
@@ -61,7 +62,7 @@ public class SplashActivity extends AppCompatActivity {
         // Check if there are any cached locations for this week
         if (locations.length != -1) {
             startActivity(new Intent(this, MainActivity.class));
-            this.finish();
+            super.finish();
         } else {
             Timber.w("No data available!");
             closedDialog.show();
