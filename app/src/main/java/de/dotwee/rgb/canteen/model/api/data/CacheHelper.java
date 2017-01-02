@@ -92,6 +92,7 @@ public class CacheHelper {
         return new File(cacheDir, filename).exists();
     }
 
+    @Deprecated
     public static boolean exists(@NonNull File cacheDir, int weeknumber) {
         boolean state = true;
 
@@ -102,5 +103,4 @@ public class CacheHelper {
 
         return state;
     }
-
 }
