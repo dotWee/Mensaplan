@@ -53,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void onFinished() {
-        Timber.i("onFinished CacheRunnable");
+        Timber.i("onFinished");
 
         Location[] locations = CacheHelper.getCached(getCacheDir(), DateHelper.getCurrentWeeknumber());
         Timber.i("LocationArrayLength=%d", locations.length);
