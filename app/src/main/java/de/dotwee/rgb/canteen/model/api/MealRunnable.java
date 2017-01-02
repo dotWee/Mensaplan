@@ -11,6 +11,7 @@ import timber.log.Timber;
 /**
  * Created by lukas on 19.11.2016.
  */
+@Deprecated
 public class MealRunnable implements Runnable {
     private static final String TAG = MealRunnable.class.getSimpleName();
     private final Receiver receiver;
@@ -18,6 +19,7 @@ public class MealRunnable implements Runnable {
     private final int weekOfYear;
     private final File cacheDir;
 
+    @Deprecated
     public MealRunnable(Receiver receiver, String locationTag, int weekOfYear, File cacheDir) {
         this.receiver = receiver;
         this.locationTag = locationTag;
@@ -48,6 +50,7 @@ public class MealRunnable implements Runnable {
         Timber.i("%s execution ended | execution_time=%s milliseconds", TAG, endMillis - startMillis);
     }
 
+    @Deprecated
     public interface Receiver {
 
         void onDataLoaded(@NonNull WeekMeal weekMeal);
