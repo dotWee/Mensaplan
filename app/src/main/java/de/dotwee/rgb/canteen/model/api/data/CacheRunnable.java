@@ -14,6 +14,7 @@ import static de.dotwee.rgb.canteen.model.api.data.CacheHelper.FILENAME_FORMAT;
 /**
  * Created by lukas on 15.12.2016.
  */
+@Deprecated
 public class CacheRunnable implements Runnable {
     private static final String TAG = CacheRunnable.class.getSimpleName();
 
@@ -21,6 +22,7 @@ public class CacheRunnable implements Runnable {
     private final File cacheDir;
     private final Receiver receiver;
 
+    @Deprecated
     public CacheRunnable(int weeknumber, @NonNull File cacheDir, @NonNull Receiver receiver) {
         this.weeknumber = weeknumber;
         this.cacheDir = cacheDir;
@@ -46,6 +48,7 @@ public class CacheRunnable implements Runnable {
         receiver.onFinished();
     }
 
+    @Deprecated
     public interface Receiver {
 
         void onFinished();

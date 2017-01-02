@@ -12,6 +12,7 @@ import timber.log.Timber;
 /**
  * Created by lukas on 15.12.2016.
  */
+@Deprecated
 class InputStreamReceiver {
     private static final String TAG = InputStreamReceiver.class.getSimpleName();
     private final File cacheDir;

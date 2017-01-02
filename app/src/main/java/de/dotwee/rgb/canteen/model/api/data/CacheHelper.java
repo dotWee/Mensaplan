@@ -10,11 +10,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import de.dotwee.rgb.canteen.model.constant.Location;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import timber.log.Timber;
 
 /**
@@ -102,5 +107,38 @@ public class CacheHelper {
         }
 
         return state;
+    }
+
+    @NonNull
+    public static Observable<Void> getObservable(final int weeknumber, @NonNull final File cacheDir) {
+        return Observable.create(new ObservableOnSubscribe<Void>() {
+            @Override
+            public void subscribe(ObservableEmitter<Void> e) throws Exception {
+                for (Location location : Location.values()) {
+                    Timber.i("Executing %s for location=%s weeknumber=%d", TAG, location.getNameTag(), weeknumber);
+
+                    String filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
+                    if (!CacheHelper.exists(cacheDir, filename)) {
+                        String URL_FORMAT = "http://www.stwno.de/infomax/daten-extern/csv/%s/%s.csv";
+
+                        URL url = new URL(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), String.valueOf(weeknumber)));
+                        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                        httpURLConnection.connect();
+
+                        if (httpURLConnection.getResponseCode() == 200) {
+                            InputStream inputStream = httpURLConnection.getInputStream();
+                            CacheHelper.persist(cacheDir, inputStream, filename);
+                            e.onNext(null);
+                        } else {
+                            e.onError(new IllegalStateException("Connection code is " + httpURLConnection.getResponseCode() + "; can't save stream"));
+                        }
+
+                        httpURLConnection.disconnect();
+                    }
+
+                    e.onError(new IllegalStateException("File " + filename + " already exsits"));
+                }
+            }
+        });
     }
 }

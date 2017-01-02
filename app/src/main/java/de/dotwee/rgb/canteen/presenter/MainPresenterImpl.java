@@ -37,7 +37,7 @@ public class MainPresenterImpl implements MainPresenter {
 
     private boolean isMealRunnableRunning = false;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private final Consumer<WeekMeal> MealConsumer = new Consumer<WeekMeal>() {
+    private final Consumer<WeekMeal> weekMealConsumer = new Consumer<WeekMeal>() {
         @Override
         public void accept(WeekMeal weekMeal) throws Exception {
             Timber.i("onDataLoaded");
@@ -68,7 +68,7 @@ public class MainPresenterImpl implements MainPresenter {
             });
         }
     };
-    private final Consumer<Throwable> ErrorConsumer = new Consumer<Throwable>() {
+    private final Consumer<Throwable> throwableConsumer = new Consumer<Throwable>() {
         @Override
         public void accept(Throwable throwable) throws Exception {
             isMealRunnableRunning = false;
@@ -162,7 +162,7 @@ public class MainPresenterImpl implements MainPresenter {
             MealProvider.getObservable(locationTag, DateHelper.getCurrentWeeknumber(), mainActivity.getCacheDir())
                     .subscribeOn(Schedulers.single())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(MealConsumer, ErrorConsumer);
+                    .subscribe(weekMealConsumer, throwableConsumer);
         }
     }
 

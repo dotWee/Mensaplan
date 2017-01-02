@@ -165,7 +165,7 @@ public class MealProvider {
                 if (inputStream != null) {
                     WeekMeal weekMeal = readWeekMenu(inputStream);
                     e.onNext(weekMeal);
-                } else throw new IllegalStateException("InputStream is null");
+                } else e.onError(new IllegalStateException("InputStream is null"));
 
                 long endMillis = System.currentTimeMillis();
                 Timber.i("%s execution ended | execution_time=%s milliseconds", TAG, endMillis - startMillis);

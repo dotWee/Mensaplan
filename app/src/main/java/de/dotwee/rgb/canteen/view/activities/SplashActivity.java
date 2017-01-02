@@ -6,16 +6,31 @@ import android.support.v7.app.AppCompatActivity;
 
 import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
-import de.dotwee.rgb.canteen.model.api.data.CacheRunnable;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.view.dialogs.ClosedDialog;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class SplashActivity extends AppCompatActivity implements CacheRunnable.Receiver {
+public class SplashActivity extends AppCompatActivity {
     private static final String TAG = SplashActivity.class.getSimpleName();
     public static int INTENT_FORCE_REFRESH = 0;
+    private final Consumer<Throwable> throwableConsumer = new Consumer<Throwable>() {
+        @Override
+        public void accept(Throwable throwable) throws Exception {
+            throwable.printStackTrace();
+            Timber.e(throwable);
+        }
+    };
     private ClosedDialog closedDialog;
+    private final Consumer<Void> finishConsumer = new Consumer<Void>() {
+        @Override
+        public void accept(Void aVoid) throws Exception {
+            SplashActivity.this.onFinished();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +43,15 @@ public class SplashActivity extends AppCompatActivity implements CacheRunnable.R
 
     public void performCheck() {
         if (getIntent().getIntExtra(TAG, -1) == INTENT_FORCE_REFRESH) {
-            new CacheRunnable(DateHelper.getCurrentWeeknumber(), getCacheDir(), this);
+            CacheHelper.getObservable(DateHelper.getCurrentWeeknumber(), getCacheDir())
+                    .subscribeOn(Schedulers.single())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(finishConsumer, throwableConsumer);
         } else {
             this.onFinished();
         }
     }
 
-    @Override
     public void onFinished() {
         Timber.i("onFinished CacheRunnable");
 
@@ -47,13 +64,7 @@ public class SplashActivity extends AppCompatActivity implements CacheRunnable.R
             this.finish();
         } else {
             Timber.w("No data available!");
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    closedDialog.show();
-                }
-            });
+            closedDialog.show();
         }
     }
 }

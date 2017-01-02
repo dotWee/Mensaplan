@@ -15,6 +15,7 @@ import timber.log.Timber;
 /**
  * Created by lukas on 15.12.2016.
  */
+@Deprecated
 class InputStreamDownloader implements Runnable {
     private static final String TAG = InputStreamDownloader.class.getSimpleName();
 
