@@ -69,4 +69,12 @@
     <string name="dialog_closed_action_exit">Exit</string>
 
     <string name="no_data_available">No data available</string>
+    <string name="activity_splash_caption_connecting">Connecting to server…</string>
+    <string name="activity_splash_caption_downloading">Downloading menu for location %1$s…</string>
+    <string name="activity_splash_caption_verifying">Verifying menu for location %1$s…</string>
+    <string name="activity_splash_caption_success">Successfully cached menu for location %1$s!</string>
+    <string name="activity_splash_caption_alert_connection_title">Connection issue</string>
+    <string name="activity_splash_caption_alert_connection_message">Couldn\'t contact server. Place make sure you\'re connected to a working network</string>
+    <string name="activity_splash_caption_issue_unknown">There appeared an issue with location %1$s! Exception: %2$s</string>
+
 </resources>

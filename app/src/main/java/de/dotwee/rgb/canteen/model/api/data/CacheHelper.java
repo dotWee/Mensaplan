@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,6 +29,9 @@ import timber.log.Timber;
 public class CacheHelper {
     public static final String FILENAME_FORMAT = "%s-%d.csv";
     private static final String TAG = CacheHelper.class.getSimpleName();
+
+    private static final String URL_FORMAT = "http://www.stwno.de/infomax/daten-extern/csv/%s/%s.csv";
+
 
     public static Location[] getCached(@NonNull File cacheDir, int weeknumber) {
         List<Location> locationList = new ArrayList<>();
@@ -63,7 +67,8 @@ public class CacheHelper {
         File file = new File(cacheDir, filename);
 
         try {
-            fileOutputStream = new FileOutputStream(file);
+            // false == overwrite file
+            fileOutputStream = new FileOutputStream(file, false);
 
             int read = 0;
             byte[] bytes = new byte[1024];
@@ -110,31 +115,71 @@ public class CacheHelper {
     }
 
     @NonNull
+    public static Observable<Location> getObservable(@NonNull final Location location, final int weeknumber, @NonNull final File cacheDir) {
+        return Observable.create(new ObservableOnSubscribe<Location>() {
+            @Override
+            public void subscribe(ObservableEmitter<Location> e) throws Exception {
+                HttpURLConnection httpURLConnection;
+                String filename;
+                URL url;
+
+                Timber.i("Executing %s for location=%s weeknumber=%d", TAG, location.getNameTag(), weeknumber);
+
+                // Declarate filename and url
+                filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
+                url = new URL(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), String.valueOf(weeknumber)));
+
+                // Connect to server
+                httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.connect();
+
+                // If response code is fine > cache inputstream from connection
+                if (httpURLConnection.getResponseCode() == 200) {
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    persist(cacheDir, inputStream, filename);
+                    e.onNext(location);
+
+                } else {
+                    e.onError(new ConnectException(location.name()));
+                }
+
+                httpURLConnection.disconnect();
+                e.onComplete();
+            }
+        });
+    }
+
+    @NonNull
     public static Observable<Location> getObservable(final int weeknumber, @NonNull final File cacheDir) {
         return Observable.create(new ObservableOnSubscribe<Location>() {
             @Override
             public void subscribe(ObservableEmitter<Location> e) throws Exception {
+                HttpURLConnection httpURLConnection;
+                String filename;
+                URL url;
+
+                // For each location..
                 for (Location location : Location.values()) {
                     Timber.i("Executing %s for location=%s weeknumber=%d", TAG, location.getNameTag(), weeknumber);
 
-                    String filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
-                    if (!CacheHelper.exists(cacheDir, filename)) {
-                        String URL_FORMAT = "http://www.stwno.de/infomax/daten-extern/csv/%s/%s.csv";
+                    // Declarate filename and url
+                    filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
+                    url = new URL(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), String.valueOf(weeknumber)));
 
-                        URL url = new URL(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), String.valueOf(weeknumber)));
-                        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                        httpURLConnection.connect();
+                    // Connect to server
+                    httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.connect();
 
-                        if (httpURLConnection.getResponseCode() == 200) {
-                            InputStream inputStream = httpURLConnection.getInputStream();
-                            CacheHelper.persist(cacheDir, inputStream, filename);
-                            e.onNext(location);
-                        } else {
-                            e.onError(new IllegalStateException("Connection code is " + httpURLConnection.getResponseCode() + "; can't save stream"));
-                        }
-
-                        httpURLConnection.disconnect();
+                    // If response code is fine > cache inputstream from connection
+                    if (httpURLConnection.getResponseCode() == 200) {
+                        InputStream inputStream = httpURLConnection.getInputStream();
+                        persist(cacheDir, inputStream, filename);
+                        e.onNext(location);
+                    } else {
+                        e.onError(new ConnectException(location.name()));
                     }
+
+                    httpURLConnection.disconnect();
 
                     e.onError(new Exception("File " + filename + " already exsits"));
                 }

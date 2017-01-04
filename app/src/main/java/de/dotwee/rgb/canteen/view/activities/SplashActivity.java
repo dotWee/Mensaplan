@@ -2,13 +2,23 @@ package de.dotwee.rgb.canteen.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.view.dialogs.ClosedDialog;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -18,58 +28,103 @@ import timber.log.Timber;
 public class SplashActivity extends AppCompatActivity implements Observer<Location> {
     private static final String TAG = SplashActivity.class.getSimpleName();
     public static int INTENT_FORCE_REFRESH = 0;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.textView)
+    TextView textView;
     private ClosedDialog closedDialog;
+    private Observable<Location> locationObservable;
+    private Location currentLocation;
+    private int locationPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.tag(TAG);
+
         setContentView(R.layout.activity_splash);
 
+        ButterKnife.bind(this);
         closedDialog = new ClosedDialog(this);
-        performCheck();
+
+
+        onCacheNext();
     }
 
-    public void performCheck() {
-        if (getIntent().getIntExtra(TAG, -1) == INTENT_FORCE_REFRESH) {
-            CacheHelper.getObservable(DateHelper.getCurrentWeeknumber(), getCacheDir())
-                    .subscribeOn(Schedulers.single())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this);
-        } else {
-            this.onComplete();
+    private void onCacheNext() {
+        currentLocation = Location.values()[locationPosition];
+
+        if (locationObservable != null) {
+            locationObservable.unsubscribeOn(Schedulers.single());
         }
+
+        locationObservable = CacheHelper.getObservable(currentLocation, DateHelper.getCurrentWeeknumber(), getCacheDir());
+        locationObservable
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this);
+    }
+
+    private void setCaption(@NonNull String message) {
+        Timber.i("setCaption: %s", message);
+        textView.setText(message);
+    }
+
+    private String getCurrentLocationName() {
+        return getString(currentLocation.getName());
     }
 
     @Override
     public void onSubscribe(Disposable d) {
 
+        // Started caching for current location
+        String message = getString(R.string.activity_splash_caption_downloading, getCurrentLocationName());
+        setCaption(message);
     }
 
     @Override
     public void onNext(Location location) {
-        Timber.i("Cached meal for %s", location.toString());
+
+        // Current location successfully cached
+        String message = getString(R.string.activity_splash_caption_success, getCurrentLocationName());
+        setCaption(message);
     }
 
     @Override
     public void onError(Throwable e) {
+        // Issue with current location...
         e.printStackTrace();
         Timber.e(e);
+
+        if (e instanceof ConnectException || e instanceof UnknownHostException) {
+            // Connection issues
+            closedDialog.setTitle(R.string.activity_splash_caption_alert_connection_title);
+            closedDialog.setMessage(R.string.activity_splash_caption_alert_connection_message);
+            closedDialog.show();
+        } else if (e instanceof IOException) {
+            // Mensa seems closed
+            closedDialog.setTitle(R.string.dialog_closed_title);
+            closedDialog.setMessage(R.string.dialog_closed_message);
+            closedDialog.show();
+        } else {
+            // Unknown issue
+            String message = getString(R.string.activity_splash_caption_issue_unknown, getCurrentLocationName(), e.getClass().getSimpleName());
+            setCaption(message);
+        }
     }
 
     @Override
     public void onComplete() {
-        Timber.i("onComplete");
+        // Completed current location > continuing
+        locationPosition++;
 
-        Location[] locations = CacheHelper.getCached(getCacheDir(), DateHelper.getCurrentWeeknumber());
-        Timber.i("LocationArrayLength=%d", locations.length);
+        // Finish activity if last location has been cached
+        if (locationPosition == Location.values().length) {
 
-        // Check if there are any cached locations for this week
-        if (locations.length != -1) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        } else {
-            Timber.w("No data available!");
-            closedDialog.show();
-        }
+            if (!closedDialog.isShowing()) {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
+        } else onCacheNext();
     }
 }

@@ -1,8 +1,10 @@
 package de.dotwee.rgb.canteen.view.dialogs;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatDialog;
 import android.widget.Button;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,6 +17,12 @@ import de.dotwee.rgb.canteen.view.activities.SplashActivity;
  */
 public class ClosedDialog extends AppCompatDialog {
     private static final String TAG = ClosedDialog.class.getSimpleName();
+
+    @BindView(R.id.textViewTitle)
+    TextView textViewTitle;
+
+    @BindView(R.id.textViewMessage)
+    TextView textViewMessage;
 
     @BindView(R.id.buttonExit)
     Button buttonExit;
@@ -30,6 +38,16 @@ public class ClosedDialog extends AppCompatDialog {
 
         setContentView(R.layout.dialog_closed);
         ButterKnife.bind(this, getWindow().getDecorView());
+    }
+
+    @Override
+    public void setTitle(int titleId) {
+        super.setTitle(titleId);
+        textViewTitle.setText(titleId);
+    }
+
+    public void setMessage(@StringRes int messageId) {
+        textViewMessage.setText(messageId);
     }
 
     @OnClick(R.id.buttonRefresh)
