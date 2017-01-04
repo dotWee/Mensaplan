@@ -17,7 +17,7 @@ import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
-import de.dotwee.rgb.canteen.view.dialogs.ClosedDialog;
+import de.dotwee.rgb.canteen.view.dialogs.MessageDialog;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity implements Observer<Locati
     ProgressBar progressBar;
     @BindView(R.id.textView)
     TextView textView;
-    private ClosedDialog closedDialog;
+    private MessageDialog messageDialog;
     private Observable<Location> locationObservable;
     private Location currentLocation;
     private int locationPosition = 0;
@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity implements Observer<Locati
         setContentView(R.layout.activity_splash);
 
         ButterKnife.bind(this);
-        closedDialog = new ClosedDialog(this);
+        messageDialog = new MessageDialog(this);
 
 
         onCacheNext();
@@ -98,18 +98,12 @@ public class SplashActivity extends AppCompatActivity implements Observer<Locati
 
         if (e instanceof ConnectException || e instanceof UnknownHostException) {
             // Connection issues
-            closedDialog.setTitle(R.string.activity_splash_caption_alert_connection_title);
-            closedDialog.setMessage(R.string.activity_splash_caption_alert_connection_message);
-            closedDialog.show();
+            messageDialog.setDialog(MessageDialog.DialogMessage.ISSUE_CONNECTION);
+            messageDialog.show();
         } else if (e instanceof IOException) {
             // Mensa seems closed
-            closedDialog.setTitle(R.string.dialog_closed_title);
-            closedDialog.setMessage(R.string.dialog_closed_message);
-            closedDialog.show();
-        } else {
-            // Unknown issue
-            String message = getString(R.string.activity_splash_caption_issue_unknown, getCurrentLocationName(), e.getClass().getSimpleName());
-            setCaption(message);
+            messageDialog.setDialog(MessageDialog.DialogMessage.ISSUE_CLOSED);
+            messageDialog.show();
         }
     }
 
@@ -121,7 +115,7 @@ public class SplashActivity extends AppCompatActivity implements Observer<Locati
         // Finish activity if last location has been cached
         if (locationPosition == Location.values().length) {
 
-            if (!closedDialog.isShowing()) {
+            if (!messageDialog.isShowing()) {
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
             }

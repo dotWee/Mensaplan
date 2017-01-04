@@ -63,18 +63,20 @@
     <string name="preference_cache_clear_title">Clear cache</string>
 
     <string name="dialog_ingredients_title">Informations</string>
-    <string name="dialog_closed_title">Canteen seems closed!</string>
-    <string name="dialog_closed_message">No problems with the connection, but the server didn\'t return any data. Seems like the canteen is closed this week.</string>
-    <string name="dialog_closed_action_refresh">Refresh</string>
-    <string name="dialog_closed_action_exit">Exit</string>
+
+    <string name="dialog_issue_closed_title">Canteen seems closed</string>
+    <string name="dialog_issue_closed_message">No problems with the connection, but the server didn\'t return any data. Seems like the canteen is closed.</string>
+    <string name="dialog_issue_connection_title">Connection issue</string>
+    <string name="dialog_issue_connection_message">Couldn\'t contact server. Place make sure you\'re connected to a working network.</string>
+    <string name="dialog_issue_unkown_title">An unknown error appeared</string>
+    <string name="dialog_issue_unkown_message">Exception: %1$s</string>
+
+    <string name="dialog_action_refresh">Refresh</string>
+    <string name="dialog_action_exit">Exit</string>
 
     <string name="no_data_available">No data available</string>
     <string name="activity_splash_caption_connecting">Connecting to server…</string>
     <string name="activity_splash_caption_downloading">Downloading menu for location %1$s…</string>
     <string name="activity_splash_caption_verifying">Verifying menu for location %1$s…</string>
     <string name="activity_splash_caption_success">Successfully cached menu for location %1$s!</string>
-    <string name="activity_splash_caption_alert_connection_title">Connection issue</string>
-    <string name="activity_splash_caption_alert_connection_message">Couldn\'t contact server. Place make sure you\'re connected to a working network</string>
-    <string name="activity_splash_caption_issue_unknown">There appeared an issue with location %1$s! Exception: %2$s</string>
-
 </resources>
