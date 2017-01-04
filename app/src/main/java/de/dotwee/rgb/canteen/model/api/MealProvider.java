@@ -168,7 +168,9 @@ public class MealProvider {
                 } else e.onError(new IllegalStateException("InputStream is null"));
 
                 long endMillis = System.currentTimeMillis();
+
                 Timber.i("%s execution ended | execution_time=%s milliseconds", TAG, endMillis - startMillis);
+                e.onComplete();
             }
         });
     }

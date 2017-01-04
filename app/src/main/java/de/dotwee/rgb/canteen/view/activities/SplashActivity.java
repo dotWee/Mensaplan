@@ -9,28 +9,16 @@ import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.view.dialogs.ClosedDialog;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity implements Observer<Location> {
     private static final String TAG = SplashActivity.class.getSimpleName();
     public static int INTENT_FORCE_REFRESH = 0;
-    private final Consumer<Throwable> throwableConsumer = new Consumer<Throwable>() {
-        @Override
-        public void accept(Throwable throwable) throws Exception {
-            throwable.printStackTrace();
-            Timber.e(throwable);
-        }
-    };
     private ClosedDialog closedDialog;
-    private final Consumer<Void> finishConsumer = new Consumer<Void>() {
-        @Override
-        public void accept(Void aVoid) throws Exception {
-            SplashActivity.this.finish();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +34,31 @@ public class SplashActivity extends AppCompatActivity {
             CacheHelper.getObservable(DateHelper.getCurrentWeeknumber(), getCacheDir())
                     .subscribeOn(Schedulers.single())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(finishConsumer, throwableConsumer);
+                    .subscribe(this);
         } else {
-            this.finish();
+            this.onComplete();
         }
     }
 
     @Override
-    public void finish() {
-        Timber.i("onFinished");
+    public void onSubscribe(Disposable d) {
+
+    }
+
+    @Override
+    public void onNext(Location location) {
+        Timber.i("Cached meal for %s", location.toString());
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        e.printStackTrace();
+        Timber.e(e);
+    }
+
+    @Override
+    public void onComplete() {
+        Timber.i("onComplete");
 
         Location[] locations = CacheHelper.getCached(getCacheDir(), DateHelper.getCurrentWeeknumber());
         Timber.i("LocationArrayLength=%d", locations.length);
@@ -62,7 +66,7 @@ public class SplashActivity extends AppCompatActivity {
         // Check if there are any cached locations for this week
         if (locations.length != -1) {
             startActivity(new Intent(this, MainActivity.class));
-            super.finish();
+            finish();
         } else {
             Timber.w("No data available!");
             closedDialog.show();

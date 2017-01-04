@@ -20,15 +20,16 @@ import de.dotwee.rgb.canteen.view.activities.MainActivity;
 import de.dotwee.rgb.canteen.view.activities.SettingsActivity;
 import de.dotwee.rgb.canteen.view.activities.SplashActivity;
 import de.dotwee.rgb.canteen.view.dialogs.IngredientsDialog;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
  * Created by lukas on 13.11.2016.
  */
-public class MainPresenterImpl implements MainPresenter {
+public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
     private static final String TAG = MainPresenterImpl.class.getSimpleName();
     private final MainActivity mainActivity;
     private Location location;
@@ -37,62 +38,6 @@ public class MainPresenterImpl implements MainPresenter {
 
     private boolean isMealRunnableRunning = false;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private final Consumer<WeekMeal> weekMealConsumer = new Consumer<WeekMeal>() {
-        @Override
-        public void accept(WeekMeal weekMeal) throws Exception {
-            Timber.i("onDataLoaded");
-
-            isMealRunnableRunning = false;
-
-            if (weekday == null) {
-                Timber.e("Weekday is null! WeekMenuSize=%s", weekMeal.size());
-                return;
-            }
-
-            final DayMeal dayMeal = weekMeal.get(weekday);
-            if (dayMeal == null) {
-                Timber.e("DayMeal is null! WeekMenuSize=%s WeekDay=%s", weekMeal.size(), weekday.getDayOfWeek());
-                return;
-            }
-
-            mainActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    DayMealAdapter dayMealAdapter = (DayMealAdapter) mainActivity.recyclerView.getAdapter();
-                    dayMealAdapter.setDayMeal(dayMeal);
-                    dayMealAdapter.notifyDataSetChanged();
-
-                    mainActivity.recyclerView.invalidate();
-                    updateSwipeRefreshState();
-                }
-            });
-        }
-    };
-    private final Consumer<Throwable> throwableConsumer = new Consumer<Throwable>() {
-        @Override
-        public void accept(Throwable throwable) throws Exception {
-            isMealRunnableRunning = false;
-            Timber.e(throwable);
-            updateSwipeRefreshState();
-
-            String snackbarString;
-            if (throwable instanceof UnknownHostException) {
-                snackbarString = "Please make sure you're connected to a working network.";
-                mainActivity.showSnackbar(snackbarString, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        performDataRefresh();
-                    }
-                });
-            } else {
-
-                //snackbarString = "There appeared an unknown error while refreshing";
-                Intent intent = new Intent(mainActivity.getApplicationContext(), SplashActivity.class);
-                intent.putExtra(SplashActivity.class.getSimpleName(), SplashActivity.INTENT_FORCE_REFRESH);
-                mainActivity.startActivity(intent);
-            }
-        }
-    };
 
     public MainPresenterImpl(@NonNull final MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -162,7 +107,7 @@ public class MainPresenterImpl implements MainPresenter {
             MealProvider.getObservable(locationTag, DateHelper.getCurrentWeeknumber(), mainActivity.getCacheDir())
                     .subscribeOn(Schedulers.single())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(weekMealConsumer, throwableConsumer);
+                    .subscribe(this);
         }
     }
 
@@ -173,5 +118,61 @@ public class MainPresenterImpl implements MainPresenter {
                 swipeRefreshLayout.setRefreshing(isMealRunnableRunning);
             }
         });
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+
+    }
+
+    @Override
+    public void onNext(WeekMeal weekMeal) {
+        Timber.i("onDataLoaded");
+
+        if (weekday == null) {
+            Timber.e("Weekday is null! WeekMenuSize=%s", weekMeal.size());
+            return;
+        }
+
+        final DayMeal dayMeal = weekMeal.get(weekday);
+        if (dayMeal == null) {
+            Timber.e("DayMeal is null! WeekMenuSize=%s WeekDay=%s", weekMeal.size(), weekday.getDayOfWeek());
+            return;
+        }
+
+        DayMealAdapter dayMealAdapter = (DayMealAdapter) mainActivity.recyclerView.getAdapter();
+        dayMealAdapter.setDayMeal(dayMeal);
+        dayMealAdapter.notifyDataSetChanged();
+
+        mainActivity.recyclerView.invalidate();
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        Timber.e(e);
+
+        String snackbarString;
+        if (e instanceof UnknownHostException) {
+            snackbarString = "Please make sure you're connected to a working network.";
+            mainActivity.showSnackbar(snackbarString, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    performDataRefresh();
+                }
+            });
+        } else {
+
+            //snackbarString = "There appeared an unknown error while refreshing";
+            Intent intent = new Intent(mainActivity.getApplicationContext(), SplashActivity.class);
+            intent.putExtra(SplashActivity.class.getSimpleName(), SplashActivity.INTENT_FORCE_REFRESH);
+            mainActivity.startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onComplete() {
+        isMealRunnableRunning = false;
+        updateSwipeRefreshState();
+
     }
 }

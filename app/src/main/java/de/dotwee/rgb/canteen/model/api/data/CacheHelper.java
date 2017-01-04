@@ -110,10 +110,10 @@ public class CacheHelper {
     }
 
     @NonNull
-    public static Observable<Void> getObservable(final int weeknumber, @NonNull final File cacheDir) {
-        return Observable.create(new ObservableOnSubscribe<Void>() {
+    public static Observable<Location> getObservable(final int weeknumber, @NonNull final File cacheDir) {
+        return Observable.create(new ObservableOnSubscribe<Location>() {
             @Override
-            public void subscribe(ObservableEmitter<Void> e) throws Exception {
+            public void subscribe(ObservableEmitter<Location> e) throws Exception {
                 for (Location location : Location.values()) {
                     Timber.i("Executing %s for location=%s weeknumber=%d", TAG, location.getNameTag(), weeknumber);
 
@@ -128,7 +128,7 @@ public class CacheHelper {
                         if (httpURLConnection.getResponseCode() == 200) {
                             InputStream inputStream = httpURLConnection.getInputStream();
                             CacheHelper.persist(cacheDir, inputStream, filename);
-                            e.onNext(null);
+                            e.onNext(location);
                         } else {
                             e.onError(new IllegalStateException("Connection code is " + httpURLConnection.getResponseCode() + "; can't save stream"));
                         }
@@ -136,8 +136,10 @@ public class CacheHelper {
                         httpURLConnection.disconnect();
                     }
 
-                    e.onError(new IllegalStateException("File " + filename + " already exsits"));
+                    e.onError(new Exception("File " + filename + " already exsits"));
                 }
+
+                e.onComplete();
             }
         });
     }
