@@ -43,6 +43,7 @@ public class MessageDialog extends AppCompatDialog {
 
         setContentView(R.layout.dialog_closed);
         ButterKnife.bind(this, getWindow().getDecorView());
+        setDialog(dialogMessage);
     }
 
     public void setDialog(@NonNull DialogMessage dialogMessage) {
