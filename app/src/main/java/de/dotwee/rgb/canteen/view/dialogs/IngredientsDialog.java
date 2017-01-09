@@ -2,7 +2,6 @@ package de.dotwee.rgb.canteen.view.dialogs;
 
 import android.content.Context;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -67,11 +66,6 @@ public class IngredientsDialog extends AppCompatDialog {
 
     public void setItem(@Nullable Item item) {
         ingredientsPresenter.onItemChange(item);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @NonNull
