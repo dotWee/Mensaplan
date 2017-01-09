@@ -9,6 +9,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatDialog;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -58,8 +59,12 @@ public class IngredientsDialog extends AppCompatDialog {
 
     public IngredientsDialog(@NonNull Context context) {
         super(context, R.style.AppTheme_Dialog);
-
         setContentView(R.layout.dialog_ingredients);
+        View rootView = getWindow().getDecorView();
+        if (rootView == null) {
+            throw new IllegalStateException("Root view is null!");
+        }
+
         ButterKnife.bind(this, getWindow().getDecorView());
         ingredientsPresenter = new IngredientsPresenterImpl(this);
     }
