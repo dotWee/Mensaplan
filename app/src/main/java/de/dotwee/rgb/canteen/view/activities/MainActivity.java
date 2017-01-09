@@ -171,10 +171,7 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
 
     public void showSnackbar(@NonNull String snackbarString, @NonNull View.OnClickListener actionListener) {
         Snackbar snackbar = Snackbar.make(coordinatorLayout, snackbarString, Snackbar.LENGTH_SHORT);
-        if (actionListener != null) {
-            snackbar.setAction("Retry", actionListener);
-        }
-
+        snackbar.setAction("Retry", actionListener);
         snackbar.show();
     }
 
