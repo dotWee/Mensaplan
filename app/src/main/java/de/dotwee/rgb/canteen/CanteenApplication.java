@@ -1,8 +1,8 @@
 package de.dotwee.rgb.canteen;
 
-import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -12,7 +12,7 @@ import timber.log.Timber;
 /**
  * Created by lukas on 10.11.2016.
  */
-public class CanteenApplication extends Application {
+public class CanteenApplication extends MultiDexApplication {
     private static final String TAG = CanteenApplication.class.getSimpleName();
     private static SharedPreferences sharedPreferences;
 

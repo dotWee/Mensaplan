@@ -1,29 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/AppTheme.Dialog.Closed.Section"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout style="@style/AppTheme.Dialog.Closed.Section.Header">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:paddingBottom="20dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="24dp">
 
         <TextView
             android:id="@+id/textViewTitle"
-            style="@style/AppTheme.Dialog.Closed.Section.Title" />
-
-    </LinearLayout>
-
-    <LinearLayout style="@style/AppTheme.Dialog.Closed.Section.Content">
-
-        <TextView style="@style/AppTheme.Dialog.Closed.Section.Message" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_closed_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayoutFooter"
-        style="@style/AppTheme.Dialog.Closed.Section.Footer">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <TextView
+            android:id="@+id/textViewMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_closed_message"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_gravity="end"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <Button
             android:id="@+id/buttonExit"
-            style="@style/AppTheme.Dialog.Closed.Section.Button"
+            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/dialog_closed_action_exit" />
 
         <Space
@@ -32,7 +59,9 @@
 
         <Button
             android:id="@+id/buttonRefresh"
-            style="@style/AppTheme.Dialog.Closed.Section.Button"
+            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/dialog_closed_action_refresh" />
 
     </LinearLayout>
