@@ -87,21 +87,17 @@ public class CacheHelper {
         return Observable.create(new ObservableOnSubscribe<Location>() {
             @Override
             public void subscribe(ObservableEmitter<Location> e) throws Exception {
-                HttpURLConnection httpURLConnection;
-                String filename;
-                URL url;
-
                 Timber.i("Executing %s for location=%s weeknumber=%d", TAG, location.getNameTag(), weeknumber);
 
                 // Declarate filename and url
-                filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
-                url = new URL(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), String.valueOf(weeknumber)));
+                String filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
+                URL url = new URL(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), String.valueOf(weeknumber)));
 
                 // Connect to server
-                httpURLConnection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.connect();
 
-                // If response code is fine > cache inputstream from connection
+                // If response code is fine, cache inputstream from connection
                 if (httpURLConnection.getResponseCode() == 200) {
                     InputStream inputStream = httpURLConnection.getInputStream();
                     persist(cacheDir, inputStream, filename);
