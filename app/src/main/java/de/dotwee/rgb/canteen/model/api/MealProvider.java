@@ -21,12 +21,15 @@ import de.dotwee.rgb.canteen.model.constant.Label;
 import de.dotwee.rgb.canteen.model.constant.Type;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import timber.log.Timber;
 
 /**
  * Created by lukas on 10.11.2016.
  */
-class MealProvider {
+public class MealProvider {
     private static final String TAG = MealProvider.class.getSimpleName();
 
     private static final String INDICATOR_DESSERT = "N";
@@ -148,5 +151,27 @@ class MealProvider {
             }
         }
         return types;
+    }
+
+    @NonNull
+    public static Observable<WeekMeal> getObservable(@NonNull final String locationTag, final int weekOfYear, @NonNull final File cacheDir) {
+        return Observable.create(new ObservableOnSubscribe<WeekMeal>() {
+            @Override
+            public void subscribe(ObservableEmitter<WeekMeal> e) throws Exception {
+                long startMillis = System.currentTimeMillis();
+                Timber.i("%s execution started", TAG);
+
+                InputStream inputStream = getInputStream(cacheDir, locationTag, weekOfYear);
+                if (inputStream != null) {
+                    WeekMeal weekMeal = readWeekMenu(inputStream);
+                    e.onNext(weekMeal);
+                } else e.onError(new IllegalStateException("InputStream is null"));
+
+                long endMillis = System.currentTimeMillis();
+
+                Timber.i("%s execution ended | execution_time=%s milliseconds", TAG, endMillis - startMillis);
+                e.onComplete();
+            }
+        });
     }
 }
