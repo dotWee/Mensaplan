@@ -102,18 +102,6 @@ public class CacheHelper {
         return new File(cacheDir, filename).exists();
     }
 
-    @Deprecated
-    public static boolean exists(@NonNull File cacheDir, int weeknumber) {
-        boolean state = true;
-
-        for (Location location : Location.values()) {
-            File file = new File(String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber));
-            state = state == file.exists();
-        }
-
-        return state;
-    }
-
     @NonNull
     public static Observable<Location> getObservable(@NonNull final Location location, final int weeknumber, @NonNull final File cacheDir) {
         return Observable.create(new ObservableOnSubscribe<Location>() {
