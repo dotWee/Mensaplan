@@ -24,6 +24,7 @@ import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.api.specs.Item;
 import de.dotwee.rgb.canteen.presenter.IngredientsPresenter;
 import de.dotwee.rgb.canteen.presenter.IngredientsPresenterImpl;
+import timber.log.Timber;
 
 /**
  * Created by lukas on 06.12.2016.
@@ -70,6 +71,7 @@ public class IngredientsDialog extends AppCompatDialog {
     }
 
     public void setItem(@Nullable Item item) {
+        Timber.i("Changing ingredients dialog item to %s", item.getName());
         ingredientsPresenter.onItemChange(item);
     }
 
