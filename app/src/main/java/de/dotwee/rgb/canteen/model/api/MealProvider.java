@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class MealProvider {
     private static final String INDICATOR_SOUP = "Suppe";
 
     @Nullable
-    public static InputStream getInputStream(File cacheDir, String locationTag, int weeknumber) throws Exception {
+    public static InputStream getInputStream(File cacheDir, String locationTag, int weeknumber) {
         String filename = String.format(Locale.getDefault(), CacheHelper.FILENAME_FORMAT, locationTag, weeknumber);
         InputStream inputStream = null;
 
@@ -102,7 +101,7 @@ public class MealProvider {
     }
 
     @NonNull
-    private static Item readItem(@NonNull String line) throws ParseException, UnsupportedEncodingException {
+    private static Item readItem(@NonNull String line) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
         String[] lineSplit = line.split(";");
         Item item = new Item(lineSplit[3]);
