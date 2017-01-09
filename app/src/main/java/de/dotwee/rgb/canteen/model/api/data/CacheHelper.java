@@ -13,8 +13,6 @@ import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import de.dotwee.rgb.canteen.model.constant.Location;
@@ -31,24 +29,6 @@ public class CacheHelper {
     private static final String TAG = CacheHelper.class.getSimpleName();
 
     private static final String URL_FORMAT = "http://www.stwno.de/infomax/daten-extern/csv/%s/%s.csv";
-
-
-    public static Location[] getCached(@NonNull File cacheDir, int weeknumber) {
-        List<Location> locationList = new ArrayList<>();
-
-        for (File file : cacheDir.listFiles()) {
-            for (Location location : Location.values()) {
-                String filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
-                if (file.getName().equalsIgnoreCase(filename)) {
-                    locationList.add(location);
-                }
-            }
-        }
-
-        Location[] locations = new Location[locationList.size()];
-        locations = locationList.toArray(locations);
-        return locations;
-    }
 
     public static void clear(@NonNull File cacheDir) {
         for (File file : cacheDir.listFiles()) {
@@ -107,21 +87,17 @@ public class CacheHelper {
         return Observable.create(new ObservableOnSubscribe<Location>() {
             @Override
             public void subscribe(ObservableEmitter<Location> e) throws Exception {
-                HttpURLConnection httpURLConnection;
-                String filename;
-                URL url;
-
                 Timber.i("Executing %s for location=%s weeknumber=%d", TAG, location.getNameTag(), weeknumber);
 
                 // Declarate filename and url
-                filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
-                url = new URL(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), String.valueOf(weeknumber)));
+                String filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
+                URL url = new URL(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), String.valueOf(weeknumber)));
 
                 // Connect to server
-                httpURLConnection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.connect();
 
-                // If response code is fine > cache inputstream from connection
+                // If response code is fine, cache inputstream from connection
                 if (httpURLConnection.getResponseCode() == 200) {
                     InputStream inputStream = httpURLConnection.getInputStream();
                     persist(cacheDir, inputStream, filename);
