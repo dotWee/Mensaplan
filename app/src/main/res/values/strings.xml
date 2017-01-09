@@ -79,4 +79,5 @@
     <string name="activity_splash_caption_downloading">Downloading menu for location %1$s…</string>
     <string name="activity_splash_caption_verifying">Verifying menu for location %1$s…</string>
     <string name="activity_splash_caption_success">Successfully cached menu for location %1$s!</string>
+    <string name="launcher_icon_desc">Launcher Icon</string>
 </resources>
