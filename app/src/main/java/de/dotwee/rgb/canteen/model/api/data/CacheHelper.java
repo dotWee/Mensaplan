@@ -136,44 +136,4 @@ public class CacheHelper {
             }
         });
     }
-
-    @NonNull
-    public static Observable<Location> getObservable(final int weeknumber, @NonNull final File cacheDir) {
-        return Observable.create(new ObservableOnSubscribe<Location>() {
-            @Override
-            public void subscribe(ObservableEmitter<Location> e) throws Exception {
-                HttpURLConnection httpURLConnection;
-                String filename;
-                URL url;
-
-                // For each location..
-                for (Location location : Location.values()) {
-                    Timber.i("Executing %s for location=%s weeknumber=%d", TAG, location.getNameTag(), weeknumber);
-
-                    // Declarate filename and url
-                    filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
-                    url = new URL(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), String.valueOf(weeknumber)));
-
-                    // Connect to server
-                    httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.connect();
-
-                    // If response code is fine > cache inputstream from connection
-                    if (httpURLConnection.getResponseCode() == 200) {
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        persist(cacheDir, inputStream, filename);
-                        e.onNext(location);
-                    } else {
-                        e.onError(new ConnectException(location.name()));
-                    }
-
-                    httpURLConnection.disconnect();
-
-                    e.onError(new Exception("File " + filename + " already exsits"));
-                }
-
-                e.onComplete();
-            }
-        });
-    }
 }
