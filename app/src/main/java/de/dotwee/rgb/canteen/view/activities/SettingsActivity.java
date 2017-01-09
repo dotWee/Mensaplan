@@ -79,11 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
             this.settingsPresenter = (SettingsPresenter) args.get(SettingsPresenter.class.getName());
         }
 
-        @Override
-        public Preference findPreference(CharSequence key) {
-            return super.findPreference(key);
-        }
-
         @Nullable
         public Preference findPreference(@StringRes int keyId) {
             String key = getString(keyId);

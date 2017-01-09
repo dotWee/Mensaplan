@@ -70,7 +70,7 @@ public class CacheHelper {
             // false == overwrite file
             fileOutputStream = new FileOutputStream(file, false);
 
-            int read = 0;
+            int read;
             byte[] bytes = new byte[1024];
 
             while ((read = inputStream.read(bytes)) != -1) {
@@ -100,18 +100,6 @@ public class CacheHelper {
 
     public static boolean exists(@NonNull File cacheDir, @NonNull String filename) {
         return new File(cacheDir, filename).exists();
-    }
-
-    @Deprecated
-    public static boolean exists(@NonNull File cacheDir, int weeknumber) {
-        boolean state = true;
-
-        for (Location location : Location.values()) {
-            File file = new File(String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber));
-            state = state == file.exists();
-        }
-
-        return state;
     }
 
     @NonNull
@@ -144,46 +132,6 @@ public class CacheHelper {
                 }
 
                 httpURLConnection.disconnect();
-                e.onComplete();
-            }
-        });
-    }
-
-    @NonNull
-    public static Observable<Location> getObservable(final int weeknumber, @NonNull final File cacheDir) {
-        return Observable.create(new ObservableOnSubscribe<Location>() {
-            @Override
-            public void subscribe(ObservableEmitter<Location> e) throws Exception {
-                HttpURLConnection httpURLConnection;
-                String filename;
-                URL url;
-
-                // For each location..
-                for (Location location : Location.values()) {
-                    Timber.i("Executing %s for location=%s weeknumber=%d", TAG, location.getNameTag(), weeknumber);
-
-                    // Declarate filename and url
-                    filename = String.format(Locale.getDefault(), FILENAME_FORMAT, location.getNameTag(), weeknumber);
-                    url = new URL(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), String.valueOf(weeknumber)));
-
-                    // Connect to server
-                    httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.connect();
-
-                    // If response code is fine > cache inputstream from connection
-                    if (httpURLConnection.getResponseCode() == 200) {
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        persist(cacheDir, inputStream, filename);
-                        e.onNext(location);
-                    } else {
-                        e.onError(new ConnectException(location.name()));
-                    }
-
-                    httpURLConnection.disconnect();
-
-                    e.onError(new Exception("File " + filename + " already exsits"));
-                }
-
                 e.onComplete();
             }
         });

@@ -3,6 +3,7 @@ package de.dotwee.rgb.canteen.view.activities;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -111,7 +112,10 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@Nullable MenuItem item) {
+        if (item == null) {
+            return false;
+        }
 
         switch (item.getItemId()) {
 
@@ -167,10 +171,7 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
 
     public void showSnackbar(@NonNull String snackbarString, @NonNull View.OnClickListener actionListener) {
         Snackbar snackbar = Snackbar.make(coordinatorLayout, snackbarString, Snackbar.LENGTH_SHORT);
-        if (actionListener != null) {
-            snackbar.setAction("Retry", actionListener);
-        }
-
+        snackbar.setAction("Retry", actionListener);
         snackbar.show();
     }
 
