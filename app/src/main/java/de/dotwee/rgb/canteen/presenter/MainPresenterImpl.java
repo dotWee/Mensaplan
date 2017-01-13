@@ -9,7 +9,7 @@ import android.view.View;
 import java.net.UnknownHostException;
 
 import de.dotwee.rgb.canteen.model.adapter.DayMealAdapter;
-import de.dotwee.rgb.canteen.model.api.MealProvider;
+import de.dotwee.rgb.canteen.model.api.provider.MealProvider;
 import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
 import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import de.dotwee.rgb.canteen.model.constant.Location;
