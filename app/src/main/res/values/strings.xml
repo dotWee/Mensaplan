@@ -65,9 +65,9 @@
     <string name="dialog_ingredients_title">Informations</string>
 
     <string name="dialog_issue_closed_title">Canteen seems closed</string>
-    <string name="dialog_issue_closed_message">No problems with the connection, but the server didn\'t return any data. Seems like the canteen is closed.</string>
+    <string name="dialog_issue_closed_message">Server didn\'t return any data. Seems like the canteen is closed.</string>
     <string name="dialog_issue_connection_title">Connection issue</string>
-    <string name="dialog_issue_connection_message">Couldn\'t contact server. Place make sure you\'re connected to a working network.</string>
+    <string name="dialog_issue_connection_message">Couldn\'t contact server. Pleace make sure you\'re connected to a working network.</string>
     <string name="dialog_issue_unkown_title">An unknown error appeared</string>
     <string name="dialog_issue_unkown_message">Exception: %1$s</string>
 
@@ -79,5 +79,5 @@
     <string name="activity_splash_caption_downloading">Downloading menu for location %1$s…</string>
     <string name="activity_splash_caption_verifying">Verifying menu for location %1$s…</string>
     <string name="activity_splash_caption_success">Successfully cached menu for location %1$s!</string>
-    <string name="launcher_icon_desc">Launcher Icon</string>
+    <string name="launcher_icon_desc" translatable="false">Launcher Icon</string>
 </resources>
