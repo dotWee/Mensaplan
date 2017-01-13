@@ -71,7 +71,7 @@ public class IngredientsDialog extends AppCompatDialog {
     }
 
     public void setItem(@Nullable Item item) {
-        Timber.i("Changing ingredients dialog item to %s", item.getName());
+        Timber.i("Changing ingredients dialog item to %s", item == null ? null : item.getName());
         ingredientsPresenter.onItemChange(item);
     }
 
