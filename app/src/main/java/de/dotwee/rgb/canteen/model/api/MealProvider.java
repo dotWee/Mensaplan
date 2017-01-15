@@ -70,7 +70,7 @@ public class MealProvider {
     }
 
     @NonNull
-    static WeekMeal readWeekMenu(@NonNull InputStream inputStream) throws ParseException, IOException {
+    static WeekMeal readWeekMenu(@NonNull InputStream inputStream, @NonNull Location location) throws ParseException, IOException {
         ArrayList<Item> items = new ArrayList<>();
         Scanner scanner = new Scanner(inputStream, "windows-1252");
 
@@ -98,7 +98,7 @@ public class MealProvider {
         }
         inputStream.close();
 
-        return new WeekMeal(items);
+        return new WeekMeal(items, location);
     }
 
     @NonNull
@@ -165,7 +165,7 @@ public class MealProvider {
                 for (Location location : Location.values()) {
                     inputStream = getInputStream(cacheDir, location.getNameTag(), weekOfYear);
                     if (inputStream != null) {
-                        WeekMeal weekMeal = readWeekMenu(inputStream);
+                        WeekMeal weekMeal = readWeekMenu(inputStream, location);
                         e.onNext(weekMeal);
                     } else e.onError(new IllegalStateException("InputStream is null"));
                 }
@@ -187,7 +187,7 @@ public class MealProvider {
 
                 InputStream inputStream = getInputStream(cacheDir, location.getNameTag(), weekOfYear);
                 if (inputStream != null) {
-                    WeekMeal weekMeal = readWeekMenu(inputStream);
+                    WeekMeal weekMeal = readWeekMenu(inputStream, location);
                     e.onNext(weekMeal);
                 } else e.onError(new IllegalStateException("InputStream is null"));
 

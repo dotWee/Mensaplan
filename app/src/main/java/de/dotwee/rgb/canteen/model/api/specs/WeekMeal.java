@@ -6,6 +6,7 @@ import android.support.v4.util.ArrayMap;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
 
 /**
@@ -13,8 +14,10 @@ import de.dotwee.rgb.canteen.model.constant.Weekday;
  */
 public class WeekMeal extends ArrayMap<Weekday, DayMeal> {
     private static final String TAG = WeekMeal.class.getSimpleName();
+    private final Location location;
 
-    public WeekMeal(@NonNull List<Item> items) {
+    public WeekMeal(@NonNull List<Item> items, @NonNull Location location) {
+        this.location = location;
 
         // Init map
         for (Weekday weekday : Weekday.values()) {
@@ -33,5 +36,10 @@ public class WeekMeal extends ArrayMap<Weekday, DayMeal> {
         }
 
         return temp;
+    }
+
+    @NonNull
+    public Location getLocation() {
+        return location;
     }
 }
