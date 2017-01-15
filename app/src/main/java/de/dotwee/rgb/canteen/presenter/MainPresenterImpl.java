@@ -102,9 +102,7 @@ public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
             isMealRunnableRunning = true;
             swipeRefreshLayout.setRefreshing(true);
 
-            String locationTag = location.getNameTag();
-
-            MealProvider.getObservable(locationTag, DateHelper.getCurrentWeeknumber(), mainActivity.getCacheDir())
+            MealProvider.getObservableForLocation(location, DateHelper.getCurrentWeeknumber(), mainActivity.getCacheDir())
                     .subscribeOn(Schedulers.single())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this);
