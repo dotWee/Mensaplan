@@ -14,8 +14,11 @@ import de.dotwee.rgb.canteen.model.constant.Weekday;
  */
 public class DayMeal extends ArrayMap<Type, ArrayList<Item>> {
     private static final String TAG = DayMeal.class.getSimpleName();
+    private final Weekday weekday;
 
     public DayMeal(@NonNull Weekday weekday, @NonNull List<Item> itemsPerDay) {
+        this.weekday = weekday;
+
         for (Item item : itemsPerDay) {
             Type type = item.getType();
 
@@ -41,6 +44,11 @@ public class DayMeal extends ArrayMap<Type, ArrayList<Item>> {
         }
 
         return types;
+    }
+
+    @NonNull
+    public Weekday getWeekday() {
+        return weekday;
     }
 
     public int getItemsCount() {
