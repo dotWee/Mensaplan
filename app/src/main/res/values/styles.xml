@@ -34,7 +34,6 @@
     </style>
 
     <style name="AppTheme.Dialog.Closed.Section.Title">
-        <item name="android:text">@string/dialog_closed_title</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
     </style>
 
@@ -59,7 +58,6 @@
     </style>
 
     <style name="AppTheme.Dialog.Closed.Section.Message">
-        <item name="android:text">@string/dialog_closed_message</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
     </style>
 
