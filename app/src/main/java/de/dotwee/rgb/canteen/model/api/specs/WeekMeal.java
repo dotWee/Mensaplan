@@ -38,6 +38,17 @@ public class WeekMeal extends ArrayMap<Weekday, DayMeal> {
         return temp;
     }
 
+    public int fullSize() {
+        int items = 0;
+
+        for (Weekday weekday : keySet()) {
+            DayMeal dayMeal = get(weekday);
+            items += dayMeal.getItemsCount();
+        }
+
+        return items;
+    }
+
     @NonNull
     public Location getLocation() {
         return location;

@@ -15,15 +15,18 @@ import java.util.Scanner;
 
 import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
 import de.dotwee.rgb.canteen.model.api.specs.Item;
+import de.dotwee.rgb.canteen.model.api.specs.Meal;
 import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import de.dotwee.rgb.canteen.model.constant.Label;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Type;
-import de.dotwee.rgb.canteen.model.constant.Weekday;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 import timber.log.Timber;
 
 /**
@@ -39,6 +42,7 @@ public class MealProvider {
 
     @Nullable
     public static InputStream getInputStream(File cacheDir, String locationTag, int weeknumber) {
+        Timber.i("getInputStream: cacheDir=%s, locationTag=%s, weeknumber=%d", cacheDir.getAbsolutePath(), locationTag, weeknumber);
         String filename = String.format(Locale.getDefault(), CacheHelper.FILENAME_FORMAT, locationTag, weeknumber);
         InputStream inputStream = null;
 
@@ -90,12 +94,6 @@ public class MealProvider {
             }
         }
 
-        int i = 0;
-        for (Item item : items) {
-            if (item.getWeekday() == Weekday.FRIDAY) {
-                i++;
-            }
-        }
         inputStream.close();
 
         return new WeekMeal(items, location);
@@ -154,25 +152,27 @@ public class MealProvider {
     }
 
     @NonNull
-    public static Observable<WeekMeal> getObservable(final int weekOfYear, @NonNull final File cacheDir) {
-        return Observable.create(new ObservableOnSubscribe<WeekMeal>() {
+    public static Single<Meal> getObservable(final int weekOfYear, @NonNull final File cacheDir) {
+        return Single.create(new SingleOnSubscribe<Meal>() {
             @Override
-            public void subscribe(ObservableEmitter<WeekMeal> e) throws Exception {
+            public void subscribe(SingleEmitter<Meal> e) throws Exception {
                 long startMillis = System.currentTimeMillis();
                 Timber.i("%s execution started", TAG);
 
                 InputStream inputStream;
+                Meal meal = new Meal(weekOfYear);
+
                 for (Location location : Location.values()) {
                     inputStream = getInputStream(cacheDir, location.getNameTag(), weekOfYear);
                     if (inputStream != null) {
                         WeekMeal weekMeal = readWeekMenu(inputStream, location);
-                        e.onNext(weekMeal);
-                    } else e.onError(new IllegalStateException("InputStream is null"));
+                        meal.put(location, weekMeal);
+                    } else
+                        e.onError(new Exception("InputStream for location=" + location.getNameTag() + " is null"));
                 }
-
                 long endMillis = System.currentTimeMillis();
                 Timber.i("%s execution ended | execution_time=%s milliseconds", TAG, endMillis - startMillis);
-                e.onComplete();
+                e.onSuccess(meal);
             }
         });
     }
