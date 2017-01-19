@@ -1,6 +1,7 @@
 package de.dotwee.rgb.canteen.model.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,11 +42,8 @@ public class WeekMealAdapter extends RecyclerView.Adapter<WeekMealAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         DayMeal dayMeal = weekMeal.get(Weekday.values()[position]);
 
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK, dayMeal.getWeekday().getDayOfWeek());
-        String weekdayValue = new SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.getTime());
-        holder.textViewWeekday.setText(weekdayValue);
+        // set header values
+        setHeader(holder, dayMeal);
     }
 
     @Override
@@ -53,14 +51,40 @@ public class WeekMealAdapter extends RecyclerView.Adapter<WeekMealAdapter.ViewHo
         return weekMeal == null ? 0 : weekMeal.size();
     }
 
+    private void setHeader(@NonNull ViewHolder holder, @NonNull DayMeal dayMeal) {
+        int indicatorColor = holder.viewIndicator.getResources().getColor(dayMeal.getWeekday().getColorId());
+        holder.viewIndicator.setBackgroundColor(indicatorColor);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, dayMeal.getWeekday().getDayOfWeek());
+
+        String weekdayValue = new SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.getTime());
+        holder.textViewWeekday.setText(weekdayValue);
+
+        String dateValue = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(calendar.getTime());
+        holder.textViewDate.setText(dateValue);
+    }
+
     static final class ViewHolder extends RecyclerView.ViewHolder {
+
+        View itemView;
+
+        @BindView(R.id.cardView)
+        CardView cardView;
+
+        @BindView(R.id.indicator)
+        View viewIndicator;
 
         @BindView(R.id.textViewWeekday)
         TextView textViewWeekday;
 
+        @BindView(R.id.textViewDate)
+        TextView textViewDate;
+
         public ViewHolder(View itemView) {
             super(itemView);
 
+            this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
     }
