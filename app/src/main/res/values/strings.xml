@@ -39,6 +39,9 @@
     <string name="location_pruefening" translatable="false">OTH Prüfening</string>
     <string name="location_university" translatable="false">Universität</string>
 
+    <string name="openingtime_lectures_during">During lecture period</string>
+    <string name="openingtime_lectures_outside">Outside lecture period</string>
+
     <string name="caption_label_1" translatable="false">Label 1</string>
     <string name="caption_label_2" translatable="false">Label 2</string>
     <string name="caption_label_3" translatable="false">Label 3</string>
