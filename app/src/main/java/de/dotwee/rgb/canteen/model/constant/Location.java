@@ -28,7 +28,7 @@ public enum Location {
                     return null;
 
                 default:
-                    return "11:00 – 14:15";
+                    return "11:00 - 14:15";
             }
         }
 

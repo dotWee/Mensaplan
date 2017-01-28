@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/AppTheme.View.Openinghours.Section"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/AppTheme.View.Openinghours.Section.Wrapper"
+        android:layout_margin="16dp">
+
+        <TextView
+            style="@style/AppTheme.View.Openinghours.Section.Headline"
+            android:text="@string/openingperiod_lectures_during" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewDuring"
+        style="@style/AppTheme.View.Openinghours.Section.Card"
+        app:cardBackgroundColor="@color/cardview_light_background">
+
+        <TableLayout
+            android:id="@+id/tableLayoutDuring"
+            style="@style/AppTheme.View.Openinghours.Section.Table" />
+
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout style="@style/AppTheme.View.Openinghours.Section.Wrapper">
+
+        <TextView
+            style="@style/AppTheme.View.Openinghours.Section.Headline"
+            android:text="@string/openingperiod_lectures_outside" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewOutside"
+        style="@style/AppTheme.View.Openinghours.Section.Card"
+        app:cardBackgroundColor="@color/cardview_light_background">
+
+        <TableLayout
+            android:id="@+id/tableLayoutOutside"
+            style="@style/AppTheme.View.Openinghours.Section.Table" />
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

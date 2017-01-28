@@ -40,6 +40,10 @@
             android:launchMode="singleTop"
             android:parentActivityName=".view.activities.MainActivity" />
 
+        <activity
+            android:name=".view.activities.DebugActivity"
+            android:exported="true" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="eca0aa86e6fcb5241c3b810e61a9de95c24cd2d1" />
