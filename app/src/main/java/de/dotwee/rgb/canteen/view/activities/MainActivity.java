@@ -46,19 +46,26 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity implements Spinner.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static MainPresenter mainPresenter;
+
     @BindView(R.id.recyclerView)
     public RecyclerView recyclerView;
+
     @BindView(R.id.swipeRefreshLayout)
     public SwipeRefreshLayout swipeRefreshLayout;
+
     @BindView(R.id.activity_main)
     CoordinatorLayout coordinatorLayout;
+
     DayMealAdapter dayMealAdapter;
     @BindView(R.id.appBar)
+
     AppBarLayout appBarLayout;
     @BindView(R.id.toolbar)
+
     Toolbar toolbar;
     @BindView(R.id.spinnerLocation)
     Spinner spinnerLocation;
+
     @BindView(R.id.spinnerDate)
     Spinner spinnerDate;
 
@@ -78,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        if (mainPresenter != null) {
+        if (mainPresenter == null) {
             mainPresenter = new MainPresenterImpl(this);
         }
 
