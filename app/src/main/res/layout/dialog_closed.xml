@@ -18,7 +18,7 @@
             android:id="@+id/textViewTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_closed_title"
+            android:text="@string/dialog_issue_closed_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     </LinearLayout>
@@ -33,7 +33,7 @@
             android:id="@+id/textViewMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_closed_message"
+            android:text="@string/dialog_issue_closed_message"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     </LinearLayout>
@@ -51,7 +51,7 @@
             style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/dialog_closed_action_exit" />
+            android:text="@string/dialog_action_exit" />
 
         <Space
             android:layout_width="8dp"
@@ -62,7 +62,7 @@
             style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/dialog_closed_action_refresh" />
+            android:text="@string/dialog_action_refresh" />
 
     </LinearLayout>
 
