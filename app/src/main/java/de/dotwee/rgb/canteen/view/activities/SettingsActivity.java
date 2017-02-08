@@ -23,14 +23,11 @@ import timber.log.Timber;
  */
 public class SettingsActivity extends AppCompatActivity {
     private static final String TAG = SettingsActivity.class.getSimpleName();
-
+    private static SettingsPresenter settingsPresenter;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.frameLayout)
     FrameLayout frameLayout;
-
-    SettingsPresenter settingsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +37,15 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
 
+        if (settingsPresenter != null) {
+            settingsPresenter = new SettingsPresenterImpl(this);
+        }
+
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        settingsPresenter = new SettingsPresenterImpl(this);
         setSettingsFragment(settingsPresenter);
     }
 

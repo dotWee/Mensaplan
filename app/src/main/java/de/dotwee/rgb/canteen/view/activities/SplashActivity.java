@@ -28,10 +28,13 @@ import timber.log.Timber;
 public class SplashActivity extends AppCompatActivity implements Observer<Location> {
     private static final String TAG = SplashActivity.class.getSimpleName();
     public static int INTENT_FORCE_REFRESH = 0;
+
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+
     @BindView(R.id.textView)
     TextView textView;
+
     private MessageDialog messageDialog;
     private Observable<Location> locationObservable;
     private Location currentLocation;
