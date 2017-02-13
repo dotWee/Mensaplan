@@ -17,20 +17,15 @@ import timber.log.Timber;
  */
 public class MessageDialog extends AppCompatDialog implements MessageView {
     private static final String TAG = MessageDialog.class.getSimpleName();
-
+    private final AppCompatActivity appCompatActivity;
     @BindView(R.id.textViewTitle)
     TextView textViewTitle;
-
     @BindView(R.id.textViewMessage)
     TextView textViewMessage;
-
     @BindView(R.id.buttonExit)
     Button buttonExit;
-
     @BindView(R.id.buttonRefresh)
     Button buttonRefresh;
-
-    private AppCompatActivity appCompatActivity;
 
     public MessageDialog(@NonNull AppCompatActivity appCompatActivity) {
         this(appCompatActivity, DialogMessage.ISSUE_UNKNOWN);

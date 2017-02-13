@@ -13,8 +13,8 @@ import de.dotwee.rgb.canteen.view.activities.SettingsView;
  */
 public class SettingsPresenterImpl implements SettingsPresenter {
     private static final String TAG = SettingsPresenterImpl.class.getSimpleName();
-    private SettingsView settingsView;
-    private File cacheDir;
+    private final SettingsView settingsView;
+    private final File cacheDir;
 
     public SettingsPresenterImpl(@NonNull SettingsView settingsView, @NonNull File cacheDir) {
         this.settingsView = settingsView;
@@ -22,13 +22,12 @@ public class SettingsPresenterImpl implements SettingsPresenter {
     }
 
     @Override
-    public boolean onClickPreferenceCacheClear() {
+    public void onClickPreferenceCacheClear() {
         CacheHelper.clear(cacheDir);
-        return true;
     }
 
     @Override
-    public boolean onClickPreferenceCacheResetSettings() {
+    public void onClickPreferenceCacheResetSettings() {
 
         // Delete all preferences
         CanteenApplication.getStaticPreferences()
@@ -37,8 +36,6 @@ public class SettingsPresenterImpl implements SettingsPresenter {
                 .apply();
 
         settingsView.finishView();
-
-        return true;
     }
 
 }

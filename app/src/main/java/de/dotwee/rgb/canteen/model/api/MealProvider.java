@@ -37,7 +37,7 @@ public class MealProvider {
     private static final String INDICATOR_SOUP = "Suppe";
 
     @Nullable
-    public static InputStream getInputStream(File cacheDir, String locationTag, int weeknumber) {
+    private static InputStream getInputStream(File cacheDir, String locationTag, int weeknumber) {
         String filename = String.format(Locale.getDefault(), CacheHelper.FILENAME_FORMAT, locationTag, weeknumber);
         InputStream inputStream = null;
 
@@ -69,7 +69,7 @@ public class MealProvider {
     }
 
     @NonNull
-    static WeekMeal readWeekMenu(@NonNull InputStream inputStream) throws ParseException, IOException {
+    private static WeekMeal readWeekMenu(@NonNull InputStream inputStream) throws ParseException, IOException {
         ArrayList<Item> items = new ArrayList<>();
         Scanner scanner = new Scanner(inputStream, "windows-1252");
 
