@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import de.dotwee.rgb.canteen.CanteenApplication;
 import de.dotwee.rgb.canteen.R;
+import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Price;
 
 /**
@@ -14,6 +15,8 @@ import de.dotwee.rgb.canteen.model.constant.Price;
  */
 public class PreferencesHelper {
     private static final String TAG = PreferencesHelper.class.getSimpleName();
+
+    private static final String KEY_LAST_LOCATION = "last_location";
 
     private PreferencesHelper() {
     }
@@ -223,5 +226,14 @@ public class PreferencesHelper {
         } else if (def.equalsIgnoreCase(Price.GUEST.toString())) {
             return Price.GUEST;
         } else return Price.STUDENT;
+    }
+
+    @NonNull
+    public static Location getLastLocation() {
+        return getEnumValue(Location.class, KEY_LAST_LOCATION, Location.OTH);
+    }
+
+    public static void setLastLocation(@NonNull Location lastLocation) {
+        saveEnumValue(KEY_LAST_LOCATION, lastLocation);
     }
 }

@@ -1,7 +1,9 @@
 package de.dotwee.rgb.canteen.model.helper;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import java.util.List;
 
@@ -21,5 +23,18 @@ public class SpinnerHelper {
         );
 
         return stringArrayAdapter;
+    }
+
+    public static int getIndex(@NonNull Spinner spinner, @NonNull String itemValue) {
+        int index = 0;
+
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(itemValue)) {
+                index = i;
+                break;
+            }
+        }
+
+        return index;
     }
 }

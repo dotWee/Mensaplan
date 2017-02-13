@@ -25,7 +25,7 @@ Eine kleine native Android Applikation, welche den wöchentlichen Speiseplan von
 ## Todo
 + Wecken, wenn ein bestimmtes Gericht auf dem Speiseplan steht
 + Speiseplan von letzter Woche aus dem Cache löschen
-+ Letzten Standort als Standard festlegen
++ ~~Letzten Standort als Standard festlegen~~
 + Backport zu Android 4.1 Jelly Bean (sdk16)
 + Implementierung von Instumental-Tests
 + Veröffentlichung im Google Play Store
