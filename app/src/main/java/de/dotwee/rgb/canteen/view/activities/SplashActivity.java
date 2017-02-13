@@ -28,14 +28,19 @@ import timber.log.Timber;
 public class SplashActivity extends AppCompatActivity implements Observer<Location> {
     private static final String TAG = SplashActivity.class.getSimpleName();
     public static int INTENT_FORCE_REFRESH = 0;
+
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+
     @BindView(R.id.textView)
     TextView textView;
+
     private MessageDialog messageDialog;
     private Observable<Location> locationObservable;
     private Location currentLocation;
     private int locationPosition = 0;
+
+    private int exceptionAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +82,9 @@ public class SplashActivity extends AppCompatActivity implements Observer<Locati
     @Override
     public void onSubscribe(Disposable d) {
 
+        // Reset exception amount
+        exceptionAmount = 0;
+
         // Started caching for current location
         String message = getString(R.string.activity_splash_caption_downloading, getCurrentLocationName());
         setCaption(message);
@@ -84,6 +92,9 @@ public class SplashActivity extends AppCompatActivity implements Observer<Locati
 
     @Override
     public void onNext(Location location) {
+
+        // Increment location position
+        locationPosition++;
 
         // Current location successfully cached
         String message = getString(R.string.activity_splash_caption_success, getCurrentLocationName());
@@ -96,19 +107,32 @@ public class SplashActivity extends AppCompatActivity implements Observer<Locati
         e.printStackTrace();
         Timber.e(e);
 
-        if (e instanceof ConnectException || e instanceof UnknownHostException) {
-            // Connection issues
-            messageDialog.setDialog(MessageDialog.DialogMessage.ISSUE_CONNECTION);
-            messageDialog.show();
-        } else if (e instanceof IOException) {
-            // Mensa seems closed
-            messageDialog.setDialog(MessageDialog.DialogMessage.ISSUE_CLOSED);
-            messageDialog.show();
+        // Increment location position
+        locationPosition++;
+
+        // Increment exception amount
+        exceptionAmount++;
+
+        // If amount of exceptions equal location length...
+        if (exceptionAmount == Location.values().length) {
+            if (e instanceof ConnectException || e instanceof UnknownHostException) {
+                // Connection issues
+                messageDialog.setDialog(MessageDialog.DialogMessage.ISSUE_CONNECTION);
+                messageDialog.show();
+            } else if (e instanceof IOException) {
+                // Mensa seems closed
+                messageDialog.setDialog(MessageDialog.DialogMessage.ISSUE_CLOSED);
+                messageDialog.show();
+            }
         }
     }
 
     @Override
     public void onComplete() {
+
+        // Log amount state
+        Timber.i("locationPosition=%d exceptionAmount=%d", locationPosition, exceptionAmount);
+
         // Completed current location > continuing
         locationPosition++;
 

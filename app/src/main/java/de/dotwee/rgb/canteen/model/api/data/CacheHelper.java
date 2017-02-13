@@ -29,6 +29,7 @@ public class CacheHelper {
     private static final String TAG = CacheHelper.class.getSimpleName();
 
     private static final String URL_FORMAT = "http://www.stwno.de/infomax/daten-extern/csv/%s/%s.csv";
+    private static final String EXCEPTION_FORMAT = "url=%s | responsecode=%d";
 
     public static void clear(@NonNull File cacheDir) {
         for (File file : cacheDir.listFiles()) {
@@ -97,14 +98,16 @@ public class CacheHelper {
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.connect();
 
+                int responseCode = httpURLConnection.getResponseCode();
+
                 // If response code is fine, cache inputstream from connection
-                if (httpURLConnection.getResponseCode() == 200) {
+                if (responseCode == 200) {
                     InputStream inputStream = httpURLConnection.getInputStream();
                     persist(cacheDir, inputStream, filename);
                     e.onNext(location);
 
                 } else {
-                    e.onError(new ConnectException(location.name()));
+                    e.onError(new ConnectException(String.format(Locale.getDefault(), EXCEPTION_FORMAT, url.toString(), responseCode)));
                 }
 
                 httpURLConnection.disconnect();
