@@ -228,6 +228,11 @@ public class PreferencesHelper {
         } else return Price.STUDENT;
     }
 
+    @NonNull
+    public static Location getLastLocation() {
+        return getEnumValue(Location.class, KEY_LAST_LOCATION, Location.OTH);
+    }
+
     public static void setLastLocation(@NonNull Location lastLocation) {
         saveEnumValue(KEY_LAST_LOCATION, lastLocation);
     }

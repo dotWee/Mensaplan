@@ -42,6 +42,7 @@ import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
 import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
+import de.dotwee.rgb.canteen.model.helper.PreferencesHelper;
 import de.dotwee.rgb.canteen.model.helper.SpinnerHelper;
 import de.dotwee.rgb.canteen.presenter.MainPresenter;
 import de.dotwee.rgb.canteen.presenter.MainPresenterImpl;
@@ -108,6 +109,11 @@ public class MainActivity extends AppCompatActivity implements MainView, MainVie
         }
 
         setSupportActionBar(toolbar);
+
+        // Set location to last selection
+        Location lastLocation = PreferencesHelper.getLastLocation();
+        String lastLocationValue = getString(lastLocation.getName());
+        spinnerLocation.setSelection(SpinnerHelper.getIndex(spinnerLocation, lastLocationValue));
     }
 
     @Override
