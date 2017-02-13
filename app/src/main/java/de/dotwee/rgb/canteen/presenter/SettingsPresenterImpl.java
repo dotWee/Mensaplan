@@ -22,13 +22,12 @@ public class SettingsPresenterImpl implements SettingsPresenter {
     }
 
     @Override
-    public boolean onClickPreferenceCacheClear() {
+    public void onClickPreferenceCacheClear() {
         CacheHelper.clear(cacheDir);
-        return true;
     }
 
     @Override
-    public boolean onClickPreferenceCacheResetSettings() {
+    public void onClickPreferenceCacheResetSettings() {
 
         // Delete all preferences
         CanteenApplication.getStaticPreferences()
@@ -37,8 +36,6 @@ public class SettingsPresenterImpl implements SettingsPresenter {
                 .apply();
 
         settingsView.finishView();
-
-        return true;
     }
 
 }

@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public interface SettingsPresenter extends Serializable {
 
-    boolean onClickPreferenceCacheClear();
+    void onClickPreferenceCacheClear();
 
-    boolean onClickPreferenceCacheResetSettings();
+    void onClickPreferenceCacheResetSettings();
 
 }

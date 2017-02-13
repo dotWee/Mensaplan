@@ -171,10 +171,12 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
 
             switch (keyId) {
                 case R.string.preference_cache_clear:
-                    return settingsPresenter.onClickPreferenceCacheClear();
+                    settingsPresenter.onClickPreferenceCacheClear();
+                    return true;
 
                 case R.string.preference_cache_reset_settings:
-                    return settingsPresenter.onClickPreferenceCacheResetSettings();
+                    settingsPresenter.onClickPreferenceCacheResetSettings();
+                    return true;
 
                 default:
                     return false;
