@@ -22,6 +22,7 @@ public interface MainView {
 
     void showIngredientsDialog(@Nullable Item item);
 
+    void showNoDataView(boolean isDataAvailable);
 
     interface SettingView {
 

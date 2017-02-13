@@ -23,6 +23,7 @@ public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
     private final MainView mainView;
     private final MainView.SettingView settingView;
     private final File cacheDir;
+    private DayMeal dayMeal = null;
     private boolean dataRefreshing = false;
 
     public MainPresenterImpl(@NonNull MainView mainView, @NonNull MainView.SettingView settingView, @NonNull File cacheDir) {
@@ -72,12 +73,8 @@ public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
         Timber.i("onNext WeekMeal");
 
         this.dataRefreshing = false;
-        final DayMeal dayMeal = weekMeal.get(settingView.getSelectedWeekday());
-        if (dayMeal == null) {
-            Timber.e("DayMeal is null! Location=%s WeekMenuSize=%s WeekDay=%s Data=%s", settingView.getSelectedLocation().name(), weekMeal.size(), settingView.getSelectedWeekday().name(), weekMeal.toString());
-            return;
-        }
 
+        dayMeal = weekMeal.get(settingView.getSelectedWeekday());
         mainView.setDataset(dayMeal);
     }
 
@@ -90,7 +87,12 @@ public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
 
     @Override
     public void onComplete() {
+        Timber.i("onComplete");
+
         this.dataRefreshing = false;
         mainView.setRefreshing(false);
+
+        boolean isDataAvailable = dayMeal != null && !dayMeal.isEmpty();
+        mainView.showNoDataView(isDataAvailable);
     }
 }

@@ -164,7 +164,7 @@ public class MealProvider {
                 if (inputStream != null) {
                     WeekMeal weekMeal = readWeekMenu(inputStream);
                     e.onNext(weekMeal);
-                } else e.onError(new IllegalStateException("InputStream is null"));
+                } else e.onError(new Throwable("InputStream is null"));
 
                 long endMillis = System.currentTimeMillis();
 

@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,20 +50,31 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements MainView, MainView.MenuView, MainView.SettingView, Spinner.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = MainActivity.class.getSimpleName();
+
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+
     @BindView(R.id.activity_main)
     CoordinatorLayout coordinatorLayout;
+
     @BindView(R.id.appBar)
     AppBarLayout appBarLayout;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
     @BindView(R.id.spinnerLocation)
     Spinner spinnerLocation;
+
     @BindView(R.id.spinnerDate)
     Spinner spinnerDate;
+
+    @BindView(R.id.textViewEmpty)
+    TextView textViewEmpty;
+
     private IngredientsDialog ingredientsDialog;
     private MainPresenter mainPresenter;
     private DayMealAdapter dayMealAdapter;
@@ -213,6 +225,12 @@ public class MainActivity extends AppCompatActivity implements MainView, MainVie
         if (!ingredientsDialog.isShowing()) {
             ingredientsDialog.show();
         }
+    }
+
+    @Override
+    public void showNoDataView(boolean isDataAvailable) {
+        recyclerView.setVisibility(isDataAvailable ? View.VISIBLE : View.GONE);
+        textViewEmpty.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
     }
 
     @Override
