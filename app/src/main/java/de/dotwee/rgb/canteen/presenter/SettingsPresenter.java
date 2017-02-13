@@ -1,8 +1,5 @@
 package de.dotwee.rgb.canteen.presenter;
 
-import android.preference.PreferenceCategory;
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 
 /**
@@ -10,9 +7,8 @@ import java.io.Serializable;
  */
 public interface SettingsPresenter extends Serializable {
 
-    void onSetCopyrightCategory(@NonNull PreferenceCategory preferenceCategory);
-
     boolean onClickPreferenceCacheClear();
 
     boolean onClickPreferenceCacheResetSettings();
+
 }
