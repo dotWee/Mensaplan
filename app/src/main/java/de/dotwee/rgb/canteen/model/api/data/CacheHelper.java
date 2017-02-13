@@ -41,7 +41,7 @@ public class CacheHelper {
         }
     }
 
-    static void persist(@NonNull File cacheDir, @NonNull InputStream inputStream, @NonNull String filename) {
+    private static void persist(@NonNull File cacheDir, @NonNull InputStream inputStream, @NonNull String filename) {
         Timber.i("persisting file=%s", filename);
 
         OutputStream fileOutputStream = null;
