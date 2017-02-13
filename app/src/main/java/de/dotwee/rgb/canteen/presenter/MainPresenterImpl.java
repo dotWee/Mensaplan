@@ -1,25 +1,16 @@
 package de.dotwee.rgb.canteen.presenter;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.MenuItem;
-import android.view.View;
 
-import java.net.UnknownHostException;
+import java.io.File;
 
-import de.dotwee.rgb.canteen.model.adapter.DayMealAdapter;
 import de.dotwee.rgb.canteen.model.api.MealProvider;
 import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
 import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
-import de.dotwee.rgb.canteen.model.constant.Location;
-import de.dotwee.rgb.canteen.model.constant.Weekday;
-import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
-import de.dotwee.rgb.canteen.view.activities.MainActivity;
-import de.dotwee.rgb.canteen.view.activities.SettingsActivity;
-import de.dotwee.rgb.canteen.view.activities.SplashActivity;
-import de.dotwee.rgb.canteen.view.dialogs.IngredientsDialog;
+import de.dotwee.rgb.canteen.model.helper.PreferencesHelper;
+import de.dotwee.rgb.canteen.view.activities.MainView;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -27,97 +18,50 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
- * Created by lukas on 13.11.2016.
+ * Created by lukas on 09.02.17.
  */
 public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
     private static final String TAG = MainPresenterImpl.class.getSimpleName();
-    private final MainActivity mainActivity;
-    private Location location;
-    private Weekday weekday = Weekday.MONDAY;
-    private IngredientsDialog ingredientsDialog = null;
+    private final MainView mainView;
+    private final MainView.SettingView settingView;
+    private final Observable<WeekMeal> weekMealObservable;
+    private boolean dataRefreshing = false;
+    private DayMeal dayMeal = null;
+    private WeekMeal weekMeal = null;
 
-    private boolean isMealRunnableRunning = false;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    public MainPresenterImpl(@NonNull MainView mainView, @NonNull MainView.SettingView settingView, @NonNull File cacheDir) {
+        this.mainView = mainView;
+        this.settingView = settingView;
 
-    public MainPresenterImpl(@NonNull final MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-        this.swipeRefreshLayout = mainActivity.swipeRefreshLayout;
+        this.weekMealObservable = MealProvider.getObservable(settingView.getSelectedLocation().getNameTag(), DateHelper.getCurrentWeeknumber(), cacheDir)
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread());
 
-        ingredientsDialog = new IngredientsDialog(mainActivity);
+        onLocationChange();
     }
 
     @Override
-    public void onSettingsOptionClick(@NonNull MenuItem menuItem) {
-        Intent intent = new Intent(mainActivity, SettingsActivity.class);
-        mainActivity.startActivity(intent);
-    }
+    public void onLocationChange() {
 
-    @Override
-    public void onIngredientsOptionClick(@NonNull MenuItem menuItem) {
+        // Save last location to preferences
+        PreferencesHelper.setLastLocation(settingView.getSelectedLocation());
 
-        // Reset ingredients dialog to show all details
-        ingredientsDialog.setItem(null);
-
-        if (!ingredientsDialog.isShowing()) {
-            ingredientsDialog.show();
-        }
-    }
-
-    @Override
-    public void onItemClickEvent(@NonNull OnItemClickEvent onItemClickEvent) {
-        ingredientsDialog.setItem(onItemClickEvent.getItem());
-
-        if (!ingredientsDialog.isShowing()) {
-            ingredientsDialog.show();
-        }
-    }
-
-    @Override
-    public void onLocationSelected(@NonNull Location location) {
-        Timber.i("Changed visible location to %s", location.getName());
-        this.location = location;
-        performDataRefresh();
-    }
-
-    @Override
-    public void onDateSelected(@NonNull Weekday weekday) {
-        Timber.i("Changed visible date to %s", weekday.name());
-        this.weekday = weekday;
-        performDataRefresh();
-    }
-
-    @Override
-    public void onSwipeRefresh(@NonNull SwipeRefreshLayout swipeRefreshLayout) {
-        this.swipeRefreshLayout = swipeRefreshLayout;
-        performDataRefresh();
-    }
-
-    /**
-     * TODO: Allow custom weeknumber
-     */
-    private void performDataRefresh() {
-        if (!isMealRunnableRunning) {
+        if (!dataRefreshing) {
             Timber.i("Perform data refresh");
+            dataRefreshing = true;
 
-            isMealRunnableRunning = true;
-            swipeRefreshLayout.setRefreshing(true);
-
-            String locationTag = location.getNameTag();
-
-            MealProvider.getObservable(locationTag, DateHelper.getCurrentWeeknumber(), mainActivity.getCacheDir())
-                    .subscribeOn(Schedulers.single())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this);
+            weekMealObservable.subscribe(this);
+        } else {
+            Timber.i("Not performing refresh. View says refresh is already running!");
         }
     }
 
-    private void updateSwipeRefreshState() {
-        mainActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(isMealRunnableRunning);
-            }
-        });
+    @Override
+    public void onWeekdayChange() {
+        if (weekMeal != null) {
+            onNext(weekMeal);
+
+        } else onLocationChange();
     }
 
     @Override
@@ -127,52 +71,35 @@ public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
 
     @Override
     public void onNext(WeekMeal weekMeal) {
-        Timber.i("onDataLoaded");
+        Timber.i("onNext");
 
-        if (weekday == null) {
-            Timber.e("Weekday is null! WeekMenuSize=%s", weekMeal.size());
-            return;
+        this.dataRefreshing = false;
+        this.weekMeal = weekMeal;
+
+        mainView.setRefreshing(false);
+
+        boolean isDataAvailable = false;
+        if (weekMeal != null) {
+            dayMeal = weekMeal.get(settingView.getSelectedWeekday());
+
+            if (dayMeal != null && !dayMeal.isEmpty()) {
+                isDataAvailable = true;
+            }
         }
 
-        final DayMeal dayMeal = weekMeal.get(weekday);
-        if (dayMeal == null) {
-            Timber.e("DayMeal is null! WeekMenuSize=%s WeekDay=%s", weekMeal.size(), weekday.getDayOfWeek());
-            return;
-        }
-
-        DayMealAdapter dayMealAdapter = (DayMealAdapter) mainActivity.recyclerView.getAdapter();
-        dayMealAdapter.setDayMeal(dayMeal);
-        dayMealAdapter.notifyDataSetChanged();
-
-        mainActivity.recyclerView.invalidate();
+        mainView.showNoDataView(isDataAvailable);
+        mainView.setDataset(dayMeal);
     }
 
     @Override
     public void onError(Throwable e) {
         Timber.e(e);
 
-        String snackbarString;
-        if (e instanceof UnknownHostException) {
-            snackbarString = "Please make sure you're connected to a working network.";
-            mainActivity.showSnackbar(snackbarString, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    performDataRefresh();
-                }
-            });
-        } else {
-
-            //snackbarString = "There appeared an unknown error while refreshing";
-            Intent intent = new Intent(mainActivity.getApplicationContext(), SplashActivity.class);
-            intent.putExtra(SplashActivity.class.getSimpleName(), SplashActivity.INTENT_FORCE_REFRESH);
-            mainActivity.startActivity(intent);
-        }
+        mainView.showSnackbar();
     }
 
     @Override
     public void onComplete() {
-        isMealRunnableRunning = false;
-        updateSwipeRefreshState();
-
+        Timber.i("onComplete");
     }
 }

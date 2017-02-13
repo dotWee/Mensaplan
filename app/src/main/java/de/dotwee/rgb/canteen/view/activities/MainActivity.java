@@ -1,5 +1,6 @@
 package de.dotwee.rgb.canteen.view.activities;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,24 +36,30 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.adapter.DayMealAdapter;
+import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
+import de.dotwee.rgb.canteen.model.api.specs.Item;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
 import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
+import de.dotwee.rgb.canteen.model.helper.PreferencesHelper;
 import de.dotwee.rgb.canteen.model.helper.SpinnerHelper;
 import de.dotwee.rgb.canteen.presenter.MainPresenter;
 import de.dotwee.rgb.canteen.presenter.MainPresenterImpl;
+import de.dotwee.rgb.canteen.view.dialogs.IngredientsDialog;
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity implements Spinner.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements MainView, MainView.MenuView, MainView.SettingView, Spinner.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = MainActivity.class.getSimpleName();
+
     @BindView(R.id.recyclerView)
-    public RecyclerView recyclerView;
+    RecyclerView recyclerView;
+
     @BindView(R.id.swipeRefreshLayout)
-    public SwipeRefreshLayout swipeRefreshLayout;
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @BindView(R.id.activity_main)
     CoordinatorLayout coordinatorLayout;
-    DayMealAdapter dayMealAdapter;
 
     @BindView(R.id.appBar)
     AppBarLayout appBarLayout;
@@ -65,7 +73,12 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
     @BindView(R.id.spinnerDate)
     Spinner spinnerDate;
 
+    @BindView(R.id.textViewEmpty)
+    TextView textViewEmpty;
+
+    private IngredientsDialog ingredientsDialog;
     private MainPresenter mainPresenter;
+    private DayMealAdapter dayMealAdapter;
 
     @Override
     protected void onStart() {
@@ -83,14 +96,24 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mainPresenter = new MainPresenterImpl(this);
+        ingredientsDialog = new IngredientsDialog(this);
+
         setupRecyclerView();
 
         swipeRefreshLayout.setOnRefreshListener(this);
         setupLocationSpinner();
         setupDateSpinner();
 
+        if (mainPresenter == null) {
+            mainPresenter = new MainPresenterImpl(this, this, getCacheDir());
+        }
+
         setSupportActionBar(toolbar);
+
+        // Set location to last selection
+        Location lastLocation = PreferencesHelper.getLastLocation();
+        String lastLocationValue = getString(lastLocation.getName());
+        spinnerLocation.setSelection(SpinnerHelper.getIndex(spinnerLocation, lastLocationValue));
     }
 
     @Override
@@ -120,11 +143,11 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
         switch (item.getItemId()) {
 
             case R.id.actionIngredients:
-                mainPresenter.onIngredientsOptionClick(item);
+                onIngredientsOptionClick();
                 return true;
 
             case R.id.actionSettings:
-                mainPresenter.onSettingsOptionClick(item);
+                onSettingsOptionClick();
                 return true;
 
             default:
@@ -169,40 +192,71 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
 
     }
 
-    public void showSnackbar(@NonNull String snackbarString, @NonNull View.OnClickListener actionListener) {
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, snackbarString, Snackbar.LENGTH_SHORT);
-        snackbar.setAction("Retry", actionListener);
-        snackbar.show();
+    @Override
+    public void setRefreshing(boolean refreshing) {
+        swipeRefreshLayout.setRefreshing(refreshing);
+    }
+
+    @Override
+    public void setDataset(@Nullable DayMeal daymeal) {
+        if (daymeal != null) {
+            dayMealAdapter.setDayMeal(daymeal);
+            dayMealAdapter.notifyDataSetChanged();
+        }
+
+        recyclerView.invalidate();
+        setRefreshing(false);
+    }
+
+    @Override
+    public void showSnackbar() {
+        String snackbarString = "There appeared an unknown error while refreshing.";
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, snackbarString, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.dialog_action_refresh, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                intent.putExtra(SplashActivity.class.getSimpleName(), SplashActivity.INTENT_FORCE_REFRESH);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void showIngredientsDialog(@Nullable Item item) {
+
+        // If null: Reset ingredients dialog to show all details
+        ingredientsDialog.setItem(item);
+
+        if (!ingredientsDialog.isShowing()) {
+            ingredientsDialog.show();
+        }
+    }
+
+    @Override
+    public void showNoDataView(boolean isDataAvailable) {
+        Timber.i("showNoDataView=%b", isDataAvailable);
+
+        recyclerView.setVisibility(isDataAvailable ? View.VISIBLE : View.GONE);
+        textViewEmpty.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView == spinnerLocation) {
-            String value = spinnerLocation.getSelectedItem().toString();
-            for (Location location : Location.values()) {
-                if (getString(location.getName()).equalsIgnoreCase(value)) {
+            mainPresenter.onLocationChange();
 
-                    mainPresenter.onLocationSelected(location);
-                }
-            }
         } else if (adapterView == spinnerDate) {
-            String value = spinnerDate.getSelectedItem().toString();
-            try {
-                Date date = DateHelper.DATE_FORMAT.parse(value);
-                Weekday weekday = DateHelper.getWeekday(date);
-                mainPresenter.onDateSelected(weekday);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                Timber.e(e);
-            }
+            mainPresenter.onWeekdayChange();
+
         }
     }
 
+    @SuppressWarnings("unused") // EventBus method don't get detected by lint
     @Subscribe
     public void onItemClickEvent(@NonNull OnItemClickEvent onItemClickEvent) {
-        if (mainPresenter != null) {
-            mainPresenter.onItemClickEvent(onItemClickEvent);
-        }
+        Item item = onItemClickEvent.getItem();
+        showIngredientsDialog(item);
     }
 
     @Override
@@ -212,12 +266,57 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
 
     @Override
     public void onRefresh() {
-        mainPresenter.onSwipeRefresh(swipeRefreshLayout);
+        // Force a refresh by acting like the user changed the location
+        mainPresenter.onLocationChange();
     }
 
     @Override
     protected void onStop() {
         EventBus.getDefault().unregister(this);
         super.onStop();
+    }
+
+    @Override
+    public void onSettingsOptionClick() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onIngredientsOptionClick() {
+        showIngredientsDialog(null);
+    }
+
+    @NonNull
+    @Override
+    public Location getSelectedLocation() {
+
+        String value = spinnerLocation.getSelectedItem().toString();
+        for (Location location : Location.values()) {
+            if (getString(location.getName()).equalsIgnoreCase(value)) {
+
+                return location;
+            }
+        }
+
+        Timber.e("Couldn't detect location from spinner. Value from adapter=%s", value);
+        return Location.OTH;
+    }
+
+    @NonNull
+    @Override
+    public Weekday getSelectedWeekday() {
+
+        String value = spinnerDate.getSelectedItem().toString();
+        try {
+            Date date = DateHelper.DATE_FORMAT.parse(value);
+            return DateHelper.getWeekday(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Timber.e(e);
+        }
+
+        Timber.e("Couldn't detect weekday from spinner. Value from adapter=%s", value);
+        return Weekday.MONDAY;
     }
 }

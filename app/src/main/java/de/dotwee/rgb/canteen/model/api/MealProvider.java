@@ -37,7 +37,7 @@ public class MealProvider {
     private static final String INDICATOR_SOUP = "Suppe";
 
     @Nullable
-    public static InputStream getInputStream(File cacheDir, String locationTag, int weeknumber) {
+    private static InputStream getInputStream(File cacheDir, String locationTag, int weeknumber) {
         String filename = String.format(Locale.getDefault(), CacheHelper.FILENAME_FORMAT, locationTag, weeknumber);
         InputStream inputStream = null;
 
@@ -69,7 +69,7 @@ public class MealProvider {
     }
 
     @NonNull
-    static WeekMeal readWeekMenu(@NonNull InputStream inputStream) throws ParseException, IOException {
+    private static WeekMeal readWeekMenu(@NonNull InputStream inputStream) throws ParseException, IOException {
         ArrayList<Item> items = new ArrayList<>();
         Scanner scanner = new Scanner(inputStream, "windows-1252");
 
@@ -155,6 +155,7 @@ public class MealProvider {
     @NonNull
     public static Observable<WeekMeal> getObservable(@NonNull final String locationTag, final int weekOfYear, @NonNull final File cacheDir) {
         return Observable.create(new ObservableOnSubscribe<WeekMeal>() {
+
             @Override
             public void subscribe(ObservableEmitter<WeekMeal> e) throws Exception {
                 long startMillis = System.currentTimeMillis();
@@ -164,11 +165,9 @@ public class MealProvider {
                 if (inputStream != null) {
                     WeekMeal weekMeal = readWeekMenu(inputStream);
                     e.onNext(weekMeal);
-                } else e.onError(new IllegalStateException("InputStream is null"));
+                } else e.onError(new Throwable("InputStream is null"));
 
-                long endMillis = System.currentTimeMillis();
-
-                Timber.i("%s execution ended | execution_time=%s milliseconds", TAG, endMillis - startMillis);
+                Timber.i("%s execution ended | execution_time=%s milliseconds | Calling onComplete", TAG, System.currentTimeMillis() - startMillis);
                 e.onComplete();
             }
         });

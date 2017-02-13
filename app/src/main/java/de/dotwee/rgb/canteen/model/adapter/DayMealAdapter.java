@@ -193,10 +193,9 @@ public class DayMealAdapter extends SectionedRecyclerViewAdapter {
 
     static class TypeViewHolder extends RecyclerView.ViewHolder {
 
+        final View itemView;
         @BindView(R.id.textViewName)
         TextView textViewName;
-
-        View itemView;
 
         TypeViewHolder(View itemView) {
             super(itemView);
@@ -208,32 +207,24 @@ public class DayMealAdapter extends SectionedRecyclerViewAdapter {
 
     static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        final List<ImageView> imageViews;
+        final CardView cardView;
         @BindView(R.id.constraintLayoutWrapper)
         ConstraintLayout constraintLayoutWrapper;
-
         @BindView(R.id.textViewName)
         TextView textViewName;
-
         @BindView(R.id.textViewInfo)
         TextView textViewInfo;
-
         @BindView(R.id.textViewPrice)
         TextView textViewPrice;
-
         @BindView(R.id.imageViewLabel)
         ImageView imageViewLabel;
-
         @BindView(R.id.imageViewLabel2)
         ImageView imageViewLabel2;
-
         @BindView(R.id.imageViewLabel3)
         ImageView imageViewLabel3;
-
         @BindView(R.id.viewDivider)
         View viewDivider;
-
-        List<ImageView> imageViews;
-        CardView cardView;
 
         ItemViewHolder(final View itemView) {
             super(itemView);

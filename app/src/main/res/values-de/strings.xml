@@ -41,8 +41,16 @@
     <string name="ingredient_pork">Schwein</string>
     <string name="no_data_available">Keine Daten verfügbar</string>
     <string name="dialog_ingredients_title">Angaben</string>
-    <string name="dialog_closed_action_exit">Verlassen</string>
-    <string name="dialog_closed_action_refresh">Neustart</string>
-    <string name="dialog_closed_title">Mensa geschlossen!</string>
-    <string name="dialog_closed_message">Es scheint als hätten alle Mensas geschlossen. Der Server hat keine Daten zurückgebenen und es gab keine Probleme bei der Verbindung.</string>
+    <string name="activity_splash_caption_connecting">Verbinde mit dem Server..</string>
+    <string name="activity_splash_caption_downloading">Lade Menu für Standort %1$s herunter…</string>
+    <string name="activity_splash_caption_success">Menu für Standort %1$s erfolgreich heruntergeladen!</string>
+    <string name="dialog_action_exit">Verlassen</string>
+    <string name="dialog_action_refresh">Neustart</string>
+    <string name="dialog_issue_unkown_title">Ein unbekannter Fehler ist aufgereten</string>
+    <string name="dialog_issue_unkown_message">Fehler: %1$s</string>
+    <string name="dialog_issue_connection_title">Verbindungsfehler</string>
+    <string name="dialog_issue_connection_message">Konnte keine Verbindung mit dem Server herstellen! Bitte stelle sicher das du mit einem funktionierenden Netzwerk verbunden bist.</string>
+    <string name="dialog_issue_closed_title">Mensa geschlossen!</string>
+    <string name="dialog_issue_closed_message">Server hat keine Daten zurückgegeben. Sieht aus, als wäre die Mensa geschlossen.</string>
+    <string name="activity_splash_caption_verifying">Überprüfe Menu für Standort %1$s…</string>
 </resources>

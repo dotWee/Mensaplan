@@ -1,28 +1,12 @@
 package de.dotwee.rgb.canteen.presenter;
 
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.MenuItem;
-
-import de.dotwee.rgb.canteen.model.constant.Location;
-import de.dotwee.rgb.canteen.model.constant.Weekday;
-import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
-
 /**
- * Created by lukas on 12.11.2016.
+ * Created by lukas on 09.02.17.
  */
-
 public interface MainPresenter {
+    String TAG = MainPresenter.class.getSimpleName();
 
-    void onSettingsOptionClick(@NonNull MenuItem menuItem);
+    void onLocationChange();
 
-    void onIngredientsOptionClick(@NonNull MenuItem menuItem);
-
-    void onItemClickEvent(@NonNull OnItemClickEvent onItemClickEvent);
-
-    void onLocationSelected(@NonNull Location location);
-
-    void onDateSelected(@NonNull Weekday weekday);
-
-    void onSwipeRefresh(@NonNull SwipeRefreshLayout swipeRefreshLayout);
+    void onWeekdayChange();
 }
