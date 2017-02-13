@@ -8,6 +8,7 @@ import de.dotwee.rgb.canteen.model.api.MealProvider;
 import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
 import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
+import de.dotwee.rgb.canteen.model.helper.PreferencesHelper;
 import de.dotwee.rgb.canteen.view.activities.MainView;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -41,6 +42,10 @@ public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
 
     @Override
     public void onLocationChange() {
+
+        // Save last location to preferences
+        PreferencesHelper.setLastLocation(settingView.getSelectedLocation());
+
         if (!dataRefreshing) {
             Timber.i("Perform data refresh");
             dataRefreshing = true;
