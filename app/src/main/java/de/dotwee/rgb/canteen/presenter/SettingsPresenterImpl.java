@@ -13,8 +13,8 @@ import de.dotwee.rgb.canteen.view.activities.SettingsView;
  */
 public class SettingsPresenterImpl implements SettingsPresenter {
     private static final String TAG = SettingsPresenterImpl.class.getSimpleName();
-    private SettingsView settingsView;
-    private File cacheDir;
+    private final SettingsView settingsView;
+    private final File cacheDir;
 
     public SettingsPresenterImpl(@NonNull SettingsView settingsView, @NonNull File cacheDir) {
         this.settingsView = settingsView;

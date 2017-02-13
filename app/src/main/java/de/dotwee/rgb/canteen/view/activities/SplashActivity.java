@@ -26,9 +26,8 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class SplashActivity extends AppCompatActivity implements Observer<Location> {
+    public static final int INTENT_FORCE_REFRESH = 0;
     private static final String TAG = SplashActivity.class.getSimpleName();
-    public static int INTENT_FORCE_REFRESH = 0;
-
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
@@ -117,11 +116,11 @@ public class SplashActivity extends AppCompatActivity implements Observer<Locati
         if (exceptionAmount == Location.values().length) {
             if (e instanceof ConnectException || e instanceof UnknownHostException) {
                 // Connection issues
-                messageDialog.setDialog(MessageDialog.DialogMessage.ISSUE_CONNECTION);
+                messageDialog.setDialogMessage(MessageDialog.DialogMessage.ISSUE_CONNECTION);
                 messageDialog.show();
             } else if (e instanceof IOException) {
                 // Mensa seems closed
-                messageDialog.setDialog(MessageDialog.DialogMessage.ISSUE_CLOSED);
+                messageDialog.setDialogMessage(MessageDialog.DialogMessage.ISSUE_CLOSED);
                 messageDialog.show();
             }
         }
