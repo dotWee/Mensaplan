@@ -6,8 +6,6 @@ package de.dotwee.rgb.canteen.presenter;
 public interface MainPresenter {
     String TAG = MainPresenter.class.getSimpleName();
 
-    void onRefresh();
-
     void onLocationChange();
 
     void onWeekdayChange();

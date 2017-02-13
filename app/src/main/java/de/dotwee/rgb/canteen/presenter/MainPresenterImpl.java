@@ -9,6 +9,7 @@ import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
 import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.view.activities.MainView;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -22,45 +23,40 @@ public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
     private static final String TAG = MainPresenterImpl.class.getSimpleName();
     private final MainView mainView;
     private final MainView.SettingView settingView;
-    private final File cacheDir;
-    private DayMeal dayMeal = null;
+    private final Observable<WeekMeal> weekMealObservable;
     private boolean dataRefreshing = false;
+    private DayMeal dayMeal = null;
+    private WeekMeal weekMeal = null;
 
     public MainPresenterImpl(@NonNull MainView mainView, @NonNull MainView.SettingView settingView, @NonNull File cacheDir) {
         this.mainView = mainView;
         this.settingView = settingView;
-        this.cacheDir = cacheDir;
-    }
 
-    private void refreshVisibleMeal() {
-        if (!dataRefreshing) {
-            Timber.i("Perform data refresh");
-            dataRefreshing = true;
-            String locationTag = settingView.getSelectedLocation().getNameTag();
+        this.weekMealObservable = MealProvider.getObservable(settingView.getSelectedLocation().getNameTag(), DateHelper.getCurrentWeeknumber(), cacheDir)
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread());
 
-            MealProvider.getObservable(locationTag, DateHelper.getCurrentWeeknumber(), cacheDir)
-                    .subscribeOn(Schedulers.single())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this);
-        } else {
-            Timber.i("Not performing refresh. View says refresh is already running!");
-            onComplete();
-        }
-    }
-
-    @Override
-    public void onRefresh() {
-        refreshVisibleMeal();
+        onLocationChange();
     }
 
     @Override
     public void onLocationChange() {
-        refreshVisibleMeal();
+        if (!dataRefreshing) {
+            Timber.i("Perform data refresh");
+            dataRefreshing = true;
+
+            weekMealObservable.subscribe(this);
+        } else {
+            Timber.i("Not performing refresh. View says refresh is already running!");
+        }
     }
 
     @Override
     public void onWeekdayChange() {
-        refreshVisibleMeal();
+        if (weekMeal != null) {
+            onNext(weekMeal);
+
+        } else onLocationChange();
     }
 
     @Override
@@ -70,11 +66,23 @@ public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
 
     @Override
     public void onNext(WeekMeal weekMeal) {
-        Timber.i("onNext WeekMeal");
+        Timber.i("onNext");
 
         this.dataRefreshing = false;
+        this.weekMeal = weekMeal;
 
-        dayMeal = weekMeal.get(settingView.getSelectedWeekday());
+        mainView.setRefreshing(false);
+
+        boolean isDataAvailable = false;
+        if (weekMeal != null) {
+            dayMeal = weekMeal.get(settingView.getSelectedWeekday());
+
+            if (dayMeal != null && !dayMeal.isEmpty()) {
+                isDataAvailable = true;
+            }
+        }
+
+        mainView.showNoDataView(isDataAvailable);
         mainView.setDataset(dayMeal);
     }
 
@@ -88,11 +96,5 @@ public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
     @Override
     public void onComplete() {
         Timber.i("onComplete");
-
-        this.dataRefreshing = false;
-        mainView.setRefreshing(false);
-
-        boolean isDataAvailable = dayMeal != null && !dayMeal.isEmpty();
-        mainView.showNoDataView(isDataAvailable);
     }
 }

@@ -155,6 +155,7 @@ public class MealProvider {
     @NonNull
     public static Observable<WeekMeal> getObservable(@NonNull final String locationTag, final int weekOfYear, @NonNull final File cacheDir) {
         return Observable.create(new ObservableOnSubscribe<WeekMeal>() {
+
             @Override
             public void subscribe(ObservableEmitter<WeekMeal> e) throws Exception {
                 long startMillis = System.currentTimeMillis();
@@ -166,9 +167,7 @@ public class MealProvider {
                     e.onNext(weekMeal);
                 } else e.onError(new Throwable("InputStream is null"));
 
-                long endMillis = System.currentTimeMillis();
-
-                Timber.i("%s execution ended | execution_time=%s milliseconds", TAG, endMillis - startMillis);
+                Timber.i("%s execution ended | execution_time=%s milliseconds | Calling onComplete", TAG, System.currentTimeMillis() - startMillis);
                 e.onComplete();
             }
         });
