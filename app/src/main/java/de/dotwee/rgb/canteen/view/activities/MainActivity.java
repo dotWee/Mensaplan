@@ -95,10 +95,6 @@ public class MainActivity extends AppCompatActivity implements MainView, MainVie
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        if (mainPresenter == null) {
-            mainPresenter = new MainPresenterImpl(this, this, getCacheDir());
-        }
-
         ingredientsDialog = new IngredientsDialog(this);
 
         setupRecyclerView();
@@ -106,6 +102,10 @@ public class MainActivity extends AppCompatActivity implements MainView, MainVie
         swipeRefreshLayout.setOnRefreshListener(this);
         setupLocationSpinner();
         setupDateSpinner();
+
+        if (mainPresenter == null) {
+            mainPresenter = new MainPresenterImpl(this, this, getCacheDir());
+        }
 
         setSupportActionBar(toolbar);
     }
@@ -258,7 +258,8 @@ public class MainActivity extends AppCompatActivity implements MainView, MainVie
 
     @Override
     public void onRefresh() {
-        mainPresenter.onRefresh();
+        // Force a refresh by acting like the user changed the location
+        mainPresenter.onLocationChange();
     }
 
     @Override
