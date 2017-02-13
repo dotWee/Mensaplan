@@ -9,7 +9,7 @@ import de.dotwee.rgb.canteen.R;
  * Created by lukas on 13.02.17.
  */
 public interface MessageView {
-    static final String TAG = MessageView.class.getSimpleName();
+    String TAG = MessageView.class.getSimpleName();
 
     void setDialogMessage(@NonNull MessageDialog.DialogMessage dialogMessage);
 
