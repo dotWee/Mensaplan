@@ -9,9 +9,9 @@ Eine kleine native Android Applikation, welche den wöchentlichen Speiseplan von
 ## Features
 + Dynamisch änderbarer Standort und Wochentag
 + Speicherung des Speiseplans beim ersten Aufruf im internen Cache
-+ Buntes Farbschema für den Speiseplan (siehe letzten Screenshots)
++ Buntes Farbschema für den Speiseplan (siehe Screenshots)
 + Wählbare Preisanzeige zwischen Student, Mitarbeiter, Gast und Generell
-+ Beführung von Gerichten zeigt enthaltene (Allergene-) Inhaltsstoffe
++ Beschreibung von Gerichten zeigt enthaltene (Allergene-) Inhaltsstoffe
 
 ## Screenshots
 <img src="art/default.png" height="400px"/>
