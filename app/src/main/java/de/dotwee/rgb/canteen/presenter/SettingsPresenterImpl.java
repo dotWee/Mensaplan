@@ -6,7 +6,7 @@ import java.io.File;
 
 import de.dotwee.rgb.canteen.CanteenApplication;
 import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
-import de.dotwee.rgb.canteen.view.interfaces.SettingsView;
+import de.dotwee.rgb.canteen.view.activities.SettingsView;
 
 /**
  * Created by lukas on 19.12.2016.

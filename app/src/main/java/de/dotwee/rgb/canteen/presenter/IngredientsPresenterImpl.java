@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import de.dotwee.rgb.canteen.model.api.specs.Item;
 import de.dotwee.rgb.canteen.model.constant.Label;
-import de.dotwee.rgb.canteen.view.interfaces.IngredientsView;
+import de.dotwee.rgb.canteen.view.dialogs.IngredientsView;
 
 import static de.dotwee.rgb.canteen.model.helper.IngredientsHelper.KEYS_ALL;
 

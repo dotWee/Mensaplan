@@ -1,4 +1,4 @@
-package de.dotwee.rgb.canteen.view.interfaces;
+package de.dotwee.rgb.canteen.view.activities;
 
 import android.preference.PreferenceCategory;
 import android.support.annotation.NonNull;

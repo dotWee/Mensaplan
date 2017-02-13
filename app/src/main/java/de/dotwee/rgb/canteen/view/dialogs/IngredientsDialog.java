@@ -29,7 +29,6 @@ import de.dotwee.rgb.canteen.model.constant.Label;
 import de.dotwee.rgb.canteen.model.helper.IngredientsHelper;
 import de.dotwee.rgb.canteen.presenter.IngredientsPresenter;
 import de.dotwee.rgb.canteen.presenter.IngredientsPresenterImpl;
-import de.dotwee.rgb.canteen.view.interfaces.IngredientsView;
 import timber.log.Timber;
 
 /**

@@ -8,7 +8,7 @@ import de.dotwee.rgb.canteen.model.api.MealProvider;
 import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
 import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
-import de.dotwee.rgb.canteen.view.interfaces.MainView;
+import de.dotwee.rgb.canteen.view.activities.MainView;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

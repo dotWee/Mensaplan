@@ -22,7 +22,6 @@ import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.helper.LicensesHelper;
 import de.dotwee.rgb.canteen.presenter.SettingsPresenter;
 import de.dotwee.rgb.canteen.presenter.SettingsPresenterImpl;
-import de.dotwee.rgb.canteen.view.interfaces.SettingsView;
 import timber.log.Timber;
 
 /**

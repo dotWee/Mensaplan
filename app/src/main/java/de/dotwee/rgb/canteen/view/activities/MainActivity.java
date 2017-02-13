@@ -45,7 +45,6 @@ import de.dotwee.rgb.canteen.model.helper.SpinnerHelper;
 import de.dotwee.rgb.canteen.presenter.MainPresenter;
 import de.dotwee.rgb.canteen.presenter.MainPresenterImpl;
 import de.dotwee.rgb.canteen.view.dialogs.IngredientsDialog;
-import de.dotwee.rgb.canteen.view.interfaces.MainView;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements MainView, MainView.MenuView, MainView.SettingView, Spinner.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {

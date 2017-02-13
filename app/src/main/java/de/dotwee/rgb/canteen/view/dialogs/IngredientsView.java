@@ -1,4 +1,4 @@
-package de.dotwee.rgb.canteen.view.interfaces;
+package de.dotwee.rgb.canteen.view.dialogs;
 
 import android.support.annotation.Nullable;
 
