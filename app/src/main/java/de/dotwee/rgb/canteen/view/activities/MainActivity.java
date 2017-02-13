@@ -229,6 +229,8 @@ public class MainActivity extends AppCompatActivity implements MainView, MainVie
 
     @Override
     public void showNoDataView(boolean isDataAvailable) {
+        Timber.i("showNoDataView=%b", isDataAvailable);
+
         recyclerView.setVisibility(isDataAvailable ? View.VISIBLE : View.GONE);
         textViewEmpty.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
     }
