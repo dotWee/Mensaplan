@@ -128,14 +128,12 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
         };
 
         SettingsPresenter settingsPresenter;
-        SettingsView settingsView;
 
         @Override
         public void setArguments(Bundle args) {
             super.setArguments(args);
 
             this.settingsPresenter = (SettingsPresenter) args.get(SettingsActivity.TAG);
-            this.settingsView = (SettingsView) getActivity();
         }
 
         @Nullable
@@ -153,7 +151,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
 
             PreferenceCategory preferenceCategoryCopyright = (PreferenceCategory)
                     getPreferenceScreen().findPreference("preference_copyright");
-            settingsView.onSetCopyrightCategory(preferenceCategoryCopyright);
+            ((SettingsView) getActivity()).onSetCopyrightCategory(preferenceCategoryCopyright);
         }
 
         void setPreferenceClickListener() {
