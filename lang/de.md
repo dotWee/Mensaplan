@@ -27,7 +27,3 @@ https://github.com/dotWee/Mensaplan
 
 
 (Um diese App nutzen zu dürfen, musst du den Cafetenschein besitzen! /s)
-
-### Changelog
-
-Erster öffentlicher Release
