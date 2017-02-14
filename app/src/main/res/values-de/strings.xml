@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Mensaplan Uni/Oth</string>
+    <string name="app_name">Mensaplan</string>
     <string name="caption_date">Datum:</string>
     <string name="caption_location">Standort:</string>
     <string name="price_all">Alle</string>
