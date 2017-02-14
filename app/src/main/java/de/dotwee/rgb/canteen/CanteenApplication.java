@@ -5,9 +5,9 @@ import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 
 import io.fabric.sdk.android.Fabric;
-import timber.log.Timber;
 
 /**
  * Created by lukas on 10.11.2016.
@@ -23,12 +23,21 @@ public class CanteenApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
 
-        // Init timber
-        Timber.plant(new Timber.DebugTree());
+        initFabric();
 
         // Init static preferences
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
+
+    private void initFabric() {
+
+        // Enable Fabric only in production builds
+        CrashlyticsCore core = new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG)
+                .build();
+
+        Fabric.with(this, new Crashlytics.Builder().core(core).build());
+    }
+
 }
