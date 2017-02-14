@@ -56,7 +56,7 @@ public class CanteenApplication extends MultiDexApplication {
         }
     }
 
-    public static class CrashlyticsTree extends Timber.Tree {
+    public static class CrashlyticsTree extends Timber.DebugTree {
         private static final String TAG = CrashlyticsTree.class.getSimpleName();
 
         private static final String CRASHLYTICS_KEY_PRIORITY = "priority";
