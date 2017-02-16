@@ -117,25 +117,7 @@ public class DayMealAdapter extends SectionedRecyclerViewAdapter {
 
         private void setItemPrice(@NonNull ItemViewHolder itemViewHolder, @NonNull Item item) {
             Price price = PreferencesHelper.getPriceAppearance(itemViewHolder.cardView.getContext());
-            String itemPrice;
-            switch (price) {
-
-                case STUDENT:
-                    itemPrice = item.getPriceStudent();
-                    break;
-
-                case EMPLOYEE:
-                    itemPrice = item.getPriceEmployee();
-                    break;
-
-                case GUEST:
-                    itemPrice = item.getPriceGuest();
-                    break;
-
-                default:
-                    itemPrice = item.getPriceAll();
-                    break;
-            }
+            String itemPrice = item.getPrice(price);
 
             String formatted = itemViewHolder.textViewPrice.getResources().getString(R.string.price_format, itemPrice);
             itemViewHolder.textViewPrice.setText(formatted);
