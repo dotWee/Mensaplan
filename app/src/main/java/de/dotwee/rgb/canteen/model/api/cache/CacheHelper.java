@@ -1,4 +1,4 @@
-package de.dotwee.rgb.canteen.model.api.data;
+package de.dotwee.rgb.canteen.model.api.cache;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

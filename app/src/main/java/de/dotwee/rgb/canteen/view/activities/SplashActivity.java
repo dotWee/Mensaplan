@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.dotwee.rgb.canteen.R;
-import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
+import de.dotwee.rgb.canteen.model.api.cache.CacheHelper;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.view.dialogs.MessageDialog;

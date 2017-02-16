@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import java.io.File;
 
 import de.dotwee.rgb.canteen.CanteenApplication;
-import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
+import de.dotwee.rgb.canteen.model.api.cache.CacheHelper;
 import de.dotwee.rgb.canteen.view.activities.SettingsView;
 
 /**

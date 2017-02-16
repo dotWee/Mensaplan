@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
-import de.dotwee.rgb.canteen.model.api.data.CacheHelper;
+import de.dotwee.rgb.canteen.model.api.cache.CacheHelper;
 import de.dotwee.rgb.canteen.model.api.specs.Item;
 import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import de.dotwee.rgb.canteen.model.constant.Label;
