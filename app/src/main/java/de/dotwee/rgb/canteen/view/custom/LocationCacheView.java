@@ -35,11 +35,11 @@ import timber.log.Timber;
 public class LocationCacheView extends FrameLayout {
     private static final String TAG = LocationCacheView.class.getSimpleName();
     private static final int WEEKNUMBER_OFFSET = 5;
-    private final Location location;
     @BindView(R.id.textView)
     TextView textView;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    private Location location;
     private Observable<LinkedHashMap<Integer, File>> observable;
     private ChildAdapter childAdapter;
 
@@ -69,6 +69,13 @@ public class LocationCacheView extends FrameLayout {
 
         // Bind view fields
         ButterKnife.bind(this, view);
+
+        // Set location
+        setLocation(location);
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
 
         // Set TextView
         setTextView();
