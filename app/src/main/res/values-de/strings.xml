@@ -53,5 +53,6 @@
     <string name="dialog_issue_closed_title">Mensa geschlossen!</string>
     <string name="dialog_issue_closed_message">Server hat keine Daten zurückgegeben. Sieht aus, als wäre die Mensa geschlossen.</string>
     <string name="activity_splash_caption_verifying">Überprüfe Menu für Standort %1$s…</string>
+    <string name="caption_weeknumber">Kalenderwoche</string>
     <string name="preference_copyright_title">Lizenzen</string>
 </resources>

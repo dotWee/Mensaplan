@@ -15,6 +15,7 @@ import de.dotwee.rgb.canteen.model.constant.Weekday;
  */
 public class DateHelper {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEEE, dd.MM.yyyy", Locale.getDefault());
+    public static final DateFormat DATE_FORMAT_SHORT = new SimpleDateFormat("dd.MM.", Locale.getDefault());
     private static final String TAG = DateHelper.class.getSimpleName();
 
     public static int getCurrentWeeknumber() {
@@ -25,6 +26,19 @@ public class DateHelper {
     @NonNull
     public static String format(@NonNull Date date) {
         return DATE_FORMAT.format(date);
+    }
+
+    public static String getWeekRange(int weeknumber) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.WEEK_OF_YEAR, weeknumber);
+
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        String dateStart = DATE_FORMAT_SHORT.format(calendar.getTime());
+
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        String dateEnd = DATE_FORMAT_SHORT.format(calendar.getTime());
+
+        return String.format(Locale.getDefault(), "%s - %s", dateStart, dateEnd);
     }
 
     @NonNull
