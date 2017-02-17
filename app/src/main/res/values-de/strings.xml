@@ -18,7 +18,7 @@
     <string name="ingredients">Inhaltsstoffe</string>
     <string name="preference_appearance_list_price_title">Preis Anzeige</string>
     <string name="preference_appearance_list_price_summary">Wähle aus, welcher Preistyp angezeigt werden soll</string>
-    <string name="preference_appearance_switch_colorseparation_title">Farbliche Trettung</string>
+    <string name="preference_appearance_switch_colorseparation_title">Farbliche Trennung</string>
     <string name="preference_appearance_switch_colorseparation_summary">Unterteile das Menu mit unterschiedlichen Farben</string>
     <string name="preference_cache_title">Zwischenspeicher</string>
     <string name="preference_cache_reset_settings_title">Einstellungen zurücksetzen</string>
@@ -53,4 +53,5 @@
     <string name="dialog_issue_closed_title">Mensa geschlossen!</string>
     <string name="dialog_issue_closed_message">Server hat keine Daten zurückgegeben. Sieht aus, als wäre die Mensa geschlossen.</string>
     <string name="activity_splash_caption_verifying">Überprüfe Menu für Standort %1$s…</string>
+    <string name="preference_copyright_title">Lizenzen</string>
 </resources>

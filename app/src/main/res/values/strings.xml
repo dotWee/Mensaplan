@@ -80,4 +80,5 @@
     <string name="activity_splash_caption_verifying">Verifying menu for location %1$s…</string>
     <string name="activity_splash_caption_success">Successfully cached menu for location %1$s!</string>
     <string name="launcher_icon_desc" translatable="false">Launcher Icon</string>
+    <string name="preference_copyright_title">Licenses</string>
 </resources>
