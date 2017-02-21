@@ -12,7 +12,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import de.dotwee.rgb.canteen.model.constant.Location;
-import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -44,18 +43,29 @@ public class CacheWrapper {
         return Integer.valueOf(filename.split("-")[1].split(".")[0]);
     }
 
-    public static Observable<LinkedHashMap<Integer, File>> getObservable(@NonNull final File cacheDir, @NonNull final Location location, final int weeknumberOffset) {
+    public static Observable<LinkedHashMap<Integer, File>> getObservable(@NonNull final File cacheDir, @NonNull final Location location /*, final int weeknumberOffset*/) {
         return Observable.create(new ObservableOnSubscribe<LinkedHashMap<Integer, File>>() {
             @Override
             public void subscribe(ObservableEmitter<LinkedHashMap<Integer, File>> e) throws Exception {
                 Map<Integer, File> fileMap = new ArrayMap<>();
 
+                for (File file : cacheDir.listFiles()) {
+                    String filename = file.getName();
+                    if (filename.contains(location.getNameTag())) {
+                        int weeknumber = getWeeknumberFromFilename(filename);
+                        fileMap.put(weeknumber, file);
+                    }
+
+                }
+
+                /*
                 int currentWeeknumber = DateHelper.getCurrentWeeknumber();
                 for (int weeknumber = currentWeeknumber; weeknumber < currentWeeknumber + weeknumberOffset; weeknumber++) {
                     String filename = getFilename(location, weeknumber);
                     File file = new File(cacheDir, filename);
                     fileMap.put(weeknumber, file);
                 }
+                */
 
                 e.onNext(new LinkedHashMap<Integer, File>(fileMap));
                 e.onComplete();
