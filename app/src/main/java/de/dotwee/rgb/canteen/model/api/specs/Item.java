@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import de.dotwee.rgb.canteen.model.constant.Label;
+import de.dotwee.rgb.canteen.model.constant.Price;
 import de.dotwee.rgb.canteen.model.constant.Type;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
 
@@ -78,35 +79,33 @@ public class Item {
     }
 
     @NonNull
-    public String getPriceEmployee() {
-        return priceEmployee;
+    public String getPrice(@NonNull Price price) {
+        switch (price) {
+
+            case STUDENT:
+                return priceStudent;
+
+            case GUEST:
+                return priceGuest;
+
+            case EMPLOYEE:
+                return priceEmployee;
+
+            default:
+                return priceAll;
+        }
     }
 
     public void setPriceEmployee(@NonNull String priceEmployee) {
         this.priceEmployee = priceEmployee;
     }
 
-    @NonNull
-    public String getPriceGuest() {
-        return priceGuest;
-    }
-
     public void setPriceGuest(@NonNull String priceGuest) {
         this.priceGuest = priceGuest;
     }
 
-    @NonNull
-    public String getPriceStudent() {
-        return priceStudent;
-    }
-
     public void setPriceStudent(@NonNull String priceStudent) {
         this.priceStudent = priceStudent;
-    }
-
-    @NonNull
-    public String getPriceAll() {
-        return priceAll;
     }
 
     public void setPriceAll(@NonNull String priceAll) {

@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Meal Plan Uni/Oth</string>
-    <string name="main_name">Meal Plan</string>
+    <string name="app_name">Mealplean</string>
+    <string name="main_name">@string/app_name</string>
     <string name="settings_name">Settings</string>
 
     <string name="type_main_dish">Main dish</string>
@@ -80,4 +80,5 @@
     <string name="activity_splash_caption_verifying">Verifying menu for location %1$s…</string>
     <string name="activity_splash_caption_success">Successfully cached menu for location %1$s!</string>
     <string name="launcher_icon_desc" translatable="false">Launcher Icon</string>
+    <string name="preference_copyright_title">Licenses</string>
 </resources>

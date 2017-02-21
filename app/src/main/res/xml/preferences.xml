@@ -38,6 +38,6 @@
 
     <PreferenceCategory
         android:key="preference_copyright"
-        android:title="Licenses" />
+        android:title="@string/preference_copyright_title" />
 
 </PreferenceScreen>

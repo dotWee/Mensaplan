@@ -1,6 +1,11 @@
 # <img src="app\src\main\res\mipmap-xxxhdpi\ic_launcher.png" width="50px" height="50pc" /> Mensaplan
 Eine kleine native Android Applikation, welche den wöchentlichen Speiseplan von verschiedenen Mensas in Regensburg anzeigt.
 
+<a href="https://play.google.com/store/apps/details?id=de.dotwee.rgb.canteen">
+  <img alt="Get it on Google Play"
+       src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" />
+</a>
+
 ## Unterstütze Standorte
 + OTH Seybothstraße (auch Abends)
 + OTH Prüfening
@@ -28,7 +33,7 @@ Eine kleine native Android Applikation, welche den wöchentlichen Speiseplan von
 + ~~Letzten Standort als Standard festlegen~~
 + Backport zu Android 4.1 Jelly Bean (sdk16)
 + Implementierung von Instumental-Tests
-+ Veröffentlichung im Google Play Store
++ ~~Veröffentlichung im Google Play Store~~
 + Veröffentlichung im F-Droid Market
 + Vollständige Orientierung an Google's Material Design
 + Card-Design für den wöchentlichen Speiseplan

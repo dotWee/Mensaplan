@@ -3,76 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/AppTheme.Main.Coordinator"
     tools:context="de.dotwee.rgb.canteen.view.activities.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        style="@style/AppTheme.Main.AppBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            style="@style/AppTheme.Main.Toolbar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/main_name" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+        <LinearLayout style="@style/AppTheme.Main.Wrapper">
 
             <TextView
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/AppTheme.Main.Control.Text"
                 android:text="@string/caption_location" />
 
-            <Space
-                android:layout_width="16dp"
-                android:layout_height="match_parent" />
+            <Space style="@style/AppTheme.Main.Control.Space" />
 
             <TextView
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/AppTheme.Main.Control.Text"
                 android:text="@string/caption_date" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+        <LinearLayout style="@style/AppTheme.Main.Wrapper.Bottom">
 
             <Spinner
                 android:id="@+id/spinnerLocation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_weight="1" />
+                style="@style/AppTheme.Main.Control.Spinner" />
 
-            <Space
-                android:layout_width="16dp"
-                android:layout_height="match_parent" />
+            <Space style="@style/AppTheme.Main.Control.Space" />
 
             <Spinner
                 android:id="@+id/spinnerDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_weight="1" />
+                style="@style/AppTheme.Main.Control.Spinner" />
 
         </LinearLayout>
 
@@ -80,32 +48,24 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/AppTheme.Main.Content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            style="@style/AppTheme.Main.Content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                style="@style/AppTheme.Main.Content"
                 android:scrollbars="vertical" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <TextView
             android:id="@+id/textViewEmpty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/no_data_available"
-            android:visibility="gone" />
+            style="@style/AppTheme.Main.Content.Empty" />
 
     </FrameLayout>
 
