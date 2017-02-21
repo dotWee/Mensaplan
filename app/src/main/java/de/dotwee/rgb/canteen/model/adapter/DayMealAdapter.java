@@ -173,7 +173,7 @@ public class DayMealAdapter extends SectionedRecyclerViewAdapter {
         }
     }
 
-    private static class TypeViewHolder extends RecyclerView.ViewHolder {
+    static class TypeViewHolder extends RecyclerView.ViewHolder {
 
         final View itemView;
         @BindView(R.id.textViewName)
@@ -187,7 +187,7 @@ public class DayMealAdapter extends SectionedRecyclerViewAdapter {
         }
     }
 
-    private static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         final List<ImageView> imageViews;
         final CardView cardView;
