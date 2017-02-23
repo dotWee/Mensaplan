@@ -24,6 +24,11 @@ public class DateHelper {
 
     @NonNull
     public static String format(@NonNull Date date) {
+        return format(date, Locale.getDefault());
+    }
+
+    @NonNull
+    public static String format(@NonNull Date date, @NonNull Locale locale) {
         return DATE_FORMAT.format(date);
     }
 
