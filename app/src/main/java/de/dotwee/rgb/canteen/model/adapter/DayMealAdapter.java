@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +25,7 @@ import de.dotwee.rgb.canteen.model.api.specs.Item;
 import de.dotwee.rgb.canteen.model.constant.Label;
 import de.dotwee.rgb.canteen.model.constant.Price;
 import de.dotwee.rgb.canteen.model.constant.Type;
-import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
+import de.dotwee.rgb.canteen.model.events.RxOnItemBus;
 import de.dotwee.rgb.canteen.model.helper.PreferencesHelper;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
@@ -40,10 +38,6 @@ import static de.dotwee.rgb.canteen.model.helper.PreferencesHelper.isColorSepara
 public class DayMealAdapter extends SectionedRecyclerViewAdapter {
     private static final String TAG = DayMealAdapter.class.getSimpleName();
     private DayMeal dayMeal;
-
-    public DayMealAdapter() {
-
-    }
 
     public void setDayMeal(@NonNull DayMeal dayMeal) {
         this.dayMeal = dayMeal;
@@ -225,8 +219,10 @@ public class DayMealAdapter extends SectionedRecyclerViewAdapter {
         public void onClick(View v) {
             Item item = (Item) cardView.getTag();
 
-            OnItemClickEvent onItemClickEvent = new OnItemClickEvent(item);
-            EventBus.getDefault().post(onItemClickEvent);
+            // Replaced with RxBus
+            //OnItemClickEvent onItemClickEvent = new OnItemClickEvent(item);
+            //EventBus.getDefault().post(onItemClickEvent);
+            RxOnItemBus.getInstance().send(item);
         }
     }
 }

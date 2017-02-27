@@ -23,9 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,16 +37,18 @@ import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
 import de.dotwee.rgb.canteen.model.api.specs.Item;
 import de.dotwee.rgb.canteen.model.constant.Location;
 import de.dotwee.rgb.canteen.model.constant.Weekday;
-import de.dotwee.rgb.canteen.model.events.OnItemClickEvent;
+import de.dotwee.rgb.canteen.model.events.RxOnItemBus;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
 import de.dotwee.rgb.canteen.model.helper.PreferencesHelper;
 import de.dotwee.rgb.canteen.model.helper.SpinnerHelper;
 import de.dotwee.rgb.canteen.presenter.MainPresenter;
 import de.dotwee.rgb.canteen.presenter.MainPresenterImpl;
 import de.dotwee.rgb.canteen.view.dialogs.IngredientsDialog;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity implements MainView, MainView.MenuView, MainView.SettingView, Spinner.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements MainView, MainView.MenuView, MainView.SettingView, Spinner.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener, Observer<Item> {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.recyclerView)
@@ -83,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements MainView, MainVie
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+
+        RxOnItemBus.subscribeTo(this);
     }
 
     @Override
@@ -252,12 +252,15 @@ public class MainActivity extends AppCompatActivity implements MainView, MainVie
         }
     }
 
+    /*
     @SuppressWarnings("unused") // EventBus method don't get detected by lint
     @Subscribe
     public void onItemClickEvent(@NonNull OnItemClickEvent onItemClickEvent) {
         Item item = onItemClickEvent.getItem();
         showIngredientsDialog(item);
     }
+    */
+
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
@@ -270,11 +273,6 @@ public class MainActivity extends AppCompatActivity implements MainView, MainVie
         mainPresenter.onLocationChange();
     }
 
-    @Override
-    protected void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
 
     @Override
     public void onSettingsOptionClick() {
@@ -318,5 +316,25 @@ public class MainActivity extends AppCompatActivity implements MainView, MainVie
 
         Timber.e("Couldn't detect weekday from spinner. Value from adapter=%s", value);
         return Weekday.MONDAY;
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+
+    }
+
+    @Override
+    public void onNext(Item item) {
+        showIngredientsDialog(item);
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        Timber.e(e);
+    }
+
+    @Override
+    public void onComplete() {
+
     }
 }
