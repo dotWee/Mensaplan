@@ -1,72 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
-    style="@style/AppTheme.Main.Coordinator"
-    tools:context="de.dotwee.rgb.canteen.view.activities.MainActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.dotwee.rgb.canteen.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar"
-        style="@style/AppTheme.Main.AppBar">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/AppTheme.Main.Toolbar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/main_name" />
-
-        <LinearLayout style="@style/AppTheme.Main.Wrapper">
-
-            <TextView
-                style="@style/AppTheme.Main.Control.Text"
-                android:text="@string/caption_location" />
-
-            <Space style="@style/AppTheme.Main.Control.Space" />
-
-            <TextView
-                style="@style/AppTheme.Main.Control.Text"
-                android:text="@string/caption_date" />
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/AppTheme.Main.Wrapper.Bottom">
-
-            <Spinner
-                android:id="@+id/spinnerLocation"
-                style="@style/AppTheme.Main.Control.Spinner" />
-
-            <Space style="@style/AppTheme.Main.Control.Space" />
-
-            <Spinner
-                android:id="@+id/spinnerDate"
-                style="@style/AppTheme.Main.Control.Spinner" />
-
-        </LinearLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        style="@style/AppTheme.Main.Content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
-            style="@style/AppTheme.Main.Content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                style="@style/AppTheme.Main.Content"
-                android:scrollbars="vertical" />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
-
-        <TextView
-            android:id="@+id/textViewEmpty"
-            style="@style/AppTheme.Main.Content.Empty" />
-
-    </FrameLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

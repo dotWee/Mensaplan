@@ -1,3 +1,8 @@
+#### [Version v2.0.0 / December 22, 2017]
+- sha1 checksum: **
+- changes:
+    - Complete code revert
+
 #### [Version v1.0.2 / February 21, 2017]
 - sha1 checksum: *b0707caafe4f654365921b3ff6fda104857e65d1*
 - changes:
