@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+
         maven { url 'https://oss.jfrog.org/libs-snapshot' }
 
         maven { url 'https://maven.fabric.io/public' }
@@ -19,12 +20,12 @@ repositories {
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId "de.dotwee.rgb.canteen"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 3
         versionName "v1.0.2"
         multiDexEnabled true
