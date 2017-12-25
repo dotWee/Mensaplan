@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Mensaplan</string>
+
+    <string name="type_main_dish">Main dish</string>
+    <string name="type_side_dish">Side dish</string>
+    <string name="type_dessert">Dessert</string>
+    <string name="type_soup">Soup</string>
+    <string name="type_none">None</string>
+
+    <string name="price_student">Student</string>
+    <string name="price_employee">Employee</string>
+    <string name="price_guest">Guest</string>
+    <string name="price_all">All</string>
+
+    <string name="location_oth" translatable="false">OTH Seybothstraße</string>
+    <string name="location_oth_evening" translatable="false">OTH Seybothstraße (Abends)</string>
+    <string name="location_pruefening" translatable="false">OTH Prüfening</string>
+    <string name="location_university" translatable="false">Universität</string>
+
 </resources>
