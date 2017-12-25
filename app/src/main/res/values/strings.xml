@@ -7,6 +7,12 @@
     <string name="type_soup">Soup</string>
     <string name="type_none">None</string>
 
+    <string name="type_indicator_dessert">N</string>
+    <string name="type_indicator_main">HG</string>
+    <string name="type_indicator_side_dish">B</string>
+    <string name="type_indicator_soup">Suppe</string>
+    <string name="type_indicator_none"></string>
+
     <string name="price_student">Student</string>
     <string name="price_employee">Employee</string>
     <string name="price_guest">Guest</string>
