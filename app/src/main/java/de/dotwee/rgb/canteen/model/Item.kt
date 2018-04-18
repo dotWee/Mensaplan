@@ -8,21 +8,20 @@ import java.util.*
 class Item(name: String) {
 
     private var name: String = ""
-    private val date: Date? = null
-    private val weekday: String? = null
+    private var date: Date? = null
 
     var info: String? = null
         private set
 
-    private val labels: Array<Label>? = null
+    private var label: Array<Label>? = null
 
-    private val priceEmployee: String = ""
-    private val priceGuest: String = ""
-    private val priceStudent: String = ""
-    private val priceAll: String = ""
+    private var priceEmployee: String = ""
+    private var priceGuest: String = ""
+    private var priceStudent: String = ""
+    private var priceAll: String = ""
 
-    private val tag: String? = null
-    private val type: Type? = null
+    private var tag: String? = null
+    private var type: Type? = null
 
     init {
         setName(getName(name))
@@ -31,6 +30,31 @@ class Item(name: String) {
 
     private fun setName(name: String) {
         this.name = name
+    }
+
+    fun setDate(date: Date) {
+        this.date = date;
+    }
+
+    fun setTag(tag: String) {
+        this.tag = tag;
+    }
+
+    fun setType(type: Type) {
+        this.type = type;
+    }
+
+    fun setLabel(label: Array<Label>) {
+        this.label = label;
+    }
+
+    fun setPrice(price: Price, priceVal: String) {
+        when (price) {
+            Price.STUDENT -> priceStudent = priceVal;
+            Price.GUEST -> priceGuest = priceVal;
+            Price.EMPLOYEE -> priceEmployee = priceVal;
+            else -> priceAll = priceVal;
+        }
     }
 
     fun getPrice(price: Price): String {
