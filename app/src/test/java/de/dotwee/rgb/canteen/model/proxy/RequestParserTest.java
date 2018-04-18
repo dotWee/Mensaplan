@@ -42,7 +42,7 @@ public class RequestParserTest {
     }
 
     @Test
-    public void testExtractLineValues() throws Exception {
+    public void testGetLineValues() throws Exception {
         String[] values = requestParser.getLineValues(line);
         Assert.assertEquals(9, values.length);
     }
