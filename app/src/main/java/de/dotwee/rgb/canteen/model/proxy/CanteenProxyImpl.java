@@ -4,10 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.io.File;
-import java.util.Locale;
 
 import de.dotwee.rgb.canteen.model.Location;
 import okhttp3.Cache;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -25,7 +25,6 @@ public class CanteenProxyImpl implements CanteenProxy {
     public CanteenProxyImpl(@Nullable File cacheDirectory) {
         this.cacheDirectory = cacheDirectory;
     }
-
 
     @NonNull
     @Override
@@ -47,10 +46,16 @@ public class CanteenProxyImpl implements CanteenProxy {
         return okHttpClient;
     }
 
+    @NonNull
     @Override
-    public void newCall(@NonNull RequestParser requestParser, @NonNull Location location, int weeknumber) {
+    public HttpUrl getHttpUrl(@NonNull Location location, int weeknumber) {
+        return HttpUrl.parse(String.format(URL_FORMAT, Location.UNIVERSITY, weeknumber));
+    }
+
+    @Override
+    public void newCall(@NonNull RequestParser requestParser, @NonNull HttpUrl httpUrl) {
         Request request = new Request.Builder()
-                .url(String.format(Locale.getDefault(), URL_FORMAT, location.getNameTag(), weeknumber))
+                .url(httpUrl)
                 .build();
 
         getHttpClient()

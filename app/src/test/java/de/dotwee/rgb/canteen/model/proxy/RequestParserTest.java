@@ -1,17 +1,23 @@
 package de.dotwee.rgb.canteen.model.proxy;
 
+import android.support.annotation.NonNull;
+
 import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.dotwee.rgb.canteen.model.Item;
 import de.dotwee.rgb.canteen.model.Label;
 import de.dotwee.rgb.canteen.model.Price;
 import de.dotwee.rgb.canteen.model.Type;
+import okhttp3.Call;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,11 +26,23 @@ import static org.junit.Assert.assertEquals;
  */
 public class RequestParserTest {
     private static String line = "16.04.2018;Mo;Suppe;Feine Kräutersuppe (3,A,G,I,AA);V;0,70 / 0,90 / 1,40;0,70;0,90;1,40";
+    private CanteenCallback canteenCallback;
     private RequestParser requestParser;
 
     @Before
     public void setUp() throws Exception {
-        requestParser = new RequestParser();
+        canteenCallback = new CanteenCallback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull ArrayList<Item> items) throws IOException {
+
+            }
+        };
+        requestParser = new RequestParser(canteenCallback);
     }
 
     @After

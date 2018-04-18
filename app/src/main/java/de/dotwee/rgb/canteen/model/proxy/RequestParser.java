@@ -24,14 +24,17 @@ import okhttp3.ResponseBody;
  */
 
 public class RequestParser implements Callback {
+
     //private static final String INDICATOR_MAIN = "HG";
     private static final String INDICATOR_DESSERT = "N";
     private static final String INDICATOR_SIDE_DISH = "B";
     private static final String INDICATOR_SOUP = "Suppe";
 
     private ArrayList<Item> items;
+    private CanteenCallback canteenCallback;
 
-    public RequestParser() {
+    public RequestParser(CanteenCallback canteenCallback) {
+        this.canteenCallback = canteenCallback;
         items = new ArrayList<>();
     }
 
@@ -46,7 +49,6 @@ public class RequestParser implements Callback {
 
         Item item = new Item(getName(lineValues));
         item.setDate(getDate(lineValues));
-
         item.setTag(getTag(lineValues));
 
         item.setType(getType(lineValues));
@@ -131,7 +133,7 @@ public class RequestParser implements Callback {
 
     @Override
     public void onFailure(@NonNull Call call, @NonNull IOException e) {
-        e.printStackTrace();
+        canteenCallback.onFailure(call, e);
     }
 
     @Override
@@ -150,6 +152,7 @@ public class RequestParser implements Callback {
                 }
             }
             scanner.close();
+            canteenCallback.onResponse(call, items);
         }
     }
 }
