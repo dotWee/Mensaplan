@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import de.dotwee.rgb.canteen.model.Label;
@@ -85,6 +86,15 @@ public class RequestParserTest {
         String[] values = requestParser.getLineValues(line);
         Date actual = requestParser.getDate(values);
         Assert.assertEquals(expected, actual);
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(actual);
+
+        int weekdayExpected = Calendar.MONDAY;
+        int weekdayActual = calendar.get(Calendar.DAY_OF_WEEK);
+
+        Assert.assertEquals(weekdayExpected, weekdayActual);
     }
 
     @Test
