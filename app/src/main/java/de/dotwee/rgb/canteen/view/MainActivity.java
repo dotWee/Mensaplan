@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
     @BindView(R.id.spinnerLocation)
     Spinner spinnerLocation;
     LocationAdapter adapterLocation;
+
     // TODO enable setting own default location
     Location locationSelected = Location.OTH;
 
