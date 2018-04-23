@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by lukas on 18.04.18.
  */
-public class CanteenProxyImplTest {
+public class MensaProxyImplTest {
     @Before
     public void setUp() throws Exception {
     }
@@ -44,9 +44,9 @@ public class CanteenProxyImplTest {
                 "16.04.2018;Mo;B3;Bio-Basmatireis;B,VG;0,80 / 1,00 / 1,50;0,80;1,00;1,50"));
         server.start();
 
-        String urlPath = String.format(CanteenProxy.URL_PATH, Location.UNIVERSITY, 16);
+        String urlPath = String.format(CanteenProxy.Companion.getURL_PATH(), Location.UNIVERSITY, 16);
         HttpUrl httpUrl = server.url(urlPath);
-        CanteenProxyImpl canteenProxy = new CanteenProxyImpl(null);
+        MensaProxyImpl canteenProxy = new MensaProxyImpl(null);
 
         CanteenCallback canteenCallback = new CanteenCallback() {
             @Override
