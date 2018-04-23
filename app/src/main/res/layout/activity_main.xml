@@ -38,13 +38,14 @@
                 style="@style/AppTheme.MainActivity.Table.Row.Bottom">
                 <Spinner
                     android:id="@+id/spinnerLocation"
-                    style="@style/AppTheme.MainActivity.Control.Spinner" />
+                    style="@style/AppTheme.MainActivity.Control.Action" />
 
                 <Space style="@style/AppTheme.MainActivity.Control.Space" />
 
-                <Spinner
-                    android:id="@+id/spinnerDate"
-                    style="@style/AppTheme.MainActivity.Control.Spinner" />
+                <Button
+                    android:id="@+id/buttonDate"
+                    style="@style/AppTheme.MainActivity.Control.Action"
+                    android:text="Select date" />
             </TableRow>
         </TableLayout>
 
