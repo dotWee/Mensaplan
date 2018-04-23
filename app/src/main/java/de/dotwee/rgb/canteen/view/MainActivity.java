@@ -57,12 +57,11 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent == spinnerLocation) {
-            String locationName = spinnerLocation.getSelectedItem().toString();
 
             // TODO update view with location
-            locationSelected = adapterLocation.getLocationByName(locationName);
+            locationSelected = adapterLocation.getItem(position);
 
-            Toast.makeText(this, "Locaion " + locationSelected.getNameTag() + " has been selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Location " + locationSelected.getNameTag() + " has been selected", Toast.LENGTH_SHORT).show();
         }
     }
 
