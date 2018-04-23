@@ -23,4 +23,7 @@
     <string name="location_pruefening" translatable="false">OTH Prüfening</string>
     <string name="location_university" translatable="false">Universität</string>
 
+    <string name="caption_location">Location:</string>
+    <string name="caption_date">Date:</string>
+
 </resources>
