@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient
  * Created by lukas on 18.04.18.
  */
 
-interface CanteenProxy {
+interface MensaProxy {
 
     val httpClient: OkHttpClient
 

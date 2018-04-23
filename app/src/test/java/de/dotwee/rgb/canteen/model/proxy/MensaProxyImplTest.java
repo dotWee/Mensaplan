@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
  * Created by lukas on 18.04.18.
  */
 public class MensaProxyImplTest {
-    private final String responsePath = String.format(CanteenProxy.Companion.getURL_PATH(), Location.UNIVERSITY, 16);
+    private final String responsePath = String.format(MensaProxy.Companion.getURL_PATH(), Location.UNIVERSITY, 16);
     private final String responseBody = "datum;tag;warengruppe;name;kennz;preis;stud;bed;gast\n" +
             "16.04.2018;Mo;Suppe;Feine Kräutersuppe (3,A,G,I,AA);V;0,70 / 0,90 / 1,40;0,70;0,90;1,40\n" +
             "16.04.2018;Mo;HG1;Fusilli mit Zucchini (3,A,C,G,I,AA);V;2,00 / 2,80 / 3,60;2,00;2,80;3,60\n" +
@@ -46,7 +46,7 @@ public class MensaProxyImplTest {
         HttpUrl httpUrl = server.url(responsePath);
         MensaProxyImpl canteenProxy = new MensaProxyImpl(null);
 
-        CanteenCallback canteenCallback = new CanteenCallback() {
+        MensaCallback mensaCallback = new MensaCallback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
@@ -59,7 +59,7 @@ public class MensaProxyImplTest {
             }
         };
 
-        RequestParser requestParser = new RequestParser(canteenCallback);
+        RequestParser requestParser = new RequestParser(mensaCallback);
         canteenProxy.newCall(requestParser, httpUrl);
 
         RecordedRequest request = server.takeRequest();

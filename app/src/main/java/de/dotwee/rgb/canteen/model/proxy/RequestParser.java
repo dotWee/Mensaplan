@@ -31,10 +31,10 @@ public class RequestParser implements Callback {
     private static final String INDICATOR_SOUP = "Suppe";
 
     private ArrayList<Item> items;
-    private CanteenCallback canteenCallback;
+    private MensaCallback mensaCallback;
 
-    public RequestParser(CanteenCallback canteenCallback) {
-        this.canteenCallback = canteenCallback;
+    public RequestParser(MensaCallback mensaCallback) {
+        this.mensaCallback = mensaCallback;
         items = new ArrayList<>();
     }
 
@@ -133,7 +133,7 @@ public class RequestParser implements Callback {
 
     @Override
     public void onFailure(@NonNull Call call, @NonNull IOException e) {
-        canteenCallback.onFailure(call, e);
+        mensaCallback.onFailure(call, e);
     }
 
     @Override
@@ -152,7 +152,7 @@ public class RequestParser implements Callback {
                 }
             }
             scanner.close();
-            canteenCallback.onResponse(call, items);
+            mensaCallback.onResponse(call, items);
         }
     }
 }

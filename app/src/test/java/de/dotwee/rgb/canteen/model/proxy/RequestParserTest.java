@@ -26,12 +26,12 @@ import static org.junit.Assert.assertEquals;
  */
 public class RequestParserTest {
     private static String line = "16.04.2018;Mo;Suppe;Feine Kräutersuppe (3,A,G,I,AA);V;0,70 / 0,90 / 1,40;0,70;0,90;1,40";
-    private CanteenCallback canteenCallback;
+    private MensaCallback mensaCallback;
     private RequestParser requestParser;
 
     @Before
     public void setUp() throws Exception {
-        canteenCallback = new CanteenCallback() {
+        mensaCallback = new MensaCallback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
@@ -42,7 +42,7 @@ public class RequestParserTest {
 
             }
         };
-        requestParser = new RequestParser(canteenCallback);
+        requestParser = new RequestParser(mensaCallback);
     }
 
     @After

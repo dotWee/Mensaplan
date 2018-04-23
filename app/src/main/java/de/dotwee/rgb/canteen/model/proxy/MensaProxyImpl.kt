@@ -11,7 +11,7 @@ import java.io.File
  * Created by lukas on 18.04.18.
  */
 
-class MensaProxyImpl(private val cacheDirectory: File?) : CanteenProxy {
+class MensaProxyImpl(private val cacheDirectory: File?) : MensaProxy {
 
     private var okHttpClient: OkHttpClient? = null
     private var cache: Cache? = null
@@ -36,7 +36,7 @@ class MensaProxyImpl(private val cacheDirectory: File?) : CanteenProxy {
         }
 
     override fun getHttpUrl(location: Location, weeknumber: Int): HttpUrl {
-        return HttpUrl.parse(String.format(CanteenProxy.Companion.URL_FORMAT, location.nameTag, weeknumber))!!
+        return HttpUrl.parse(String.format(MensaProxy.Companion.URL_FORMAT, location.nameTag, weeknumber))!!
     }
 
     override fun newCall(requestParser: RequestParser, httpUrl: HttpUrl) {

@@ -12,7 +12,7 @@ import okhttp3.Call;
  * Created by lukas on 18.04.18.
  */
 
-public interface CanteenCallback {
+public interface MensaCallback {
 
     void onFailure(@NonNull Call call, @NonNull IOException e);
 
