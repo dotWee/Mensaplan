@@ -3,8 +3,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
 
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/md_blue_grey_800</item>
-        <item name="colorPrimaryDark">@color/md_blue_grey_900</item>
+        <item name="colorPrimary">@color/md_teal_800</item>
+        <item name="colorPrimaryDark">@color/md_teal_900</item>
         <item name="colorAccent">@color/md_lime_300</item>
     </style>
 
