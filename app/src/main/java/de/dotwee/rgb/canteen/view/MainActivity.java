@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements Spinner.OnItemSel
                     now.get(Calendar.MONTH),
                     now.get(Calendar.DAY_OF_MONTH)
             );
+            dpd.setThemeDark(true);
             dpd.show(getFragmentManager(), "Datepickerdialog");
         });
     }
