@@ -33,27 +33,27 @@ class Item(name: String) {
     }
 
     fun setDate(date: Date) {
-        this.date = date;
+        this.date = date
     }
 
     fun setTag(tag: String) {
-        this.tag = tag;
+        this.tag = tag
     }
 
     fun setType(type: Type) {
-        this.type = type;
+        this.type = type
     }
 
     fun setLabel(label: Array<Label>) {
-        this.label = label;
+        this.label = label
     }
 
     fun setPrice(price: Price, priceVal: String) {
         when (price) {
-            Price.STUDENT -> priceStudent = priceVal;
-            Price.GUEST -> priceGuest = priceVal;
-            Price.EMPLOYEE -> priceEmployee = priceVal;
-            else -> priceAll = priceVal;
+            Price.STUDENT -> priceStudent = priceVal
+            Price.GUEST -> priceGuest = priceVal
+            Price.EMPLOYEE -> priceEmployee = priceVal
+            else -> priceAll = priceVal
         }
     }
 
@@ -81,5 +81,13 @@ class Item(name: String) {
     private fun getIndexOfStartBracket(text: String): Int {
         val index = text.indexOf("(")
         return if (index != -1) index else text.length
+    }
+
+    fun getDate(): Date {
+        return date!!;
+    }
+
+    fun getType(): Type {
+        return type!!
     }
 }
