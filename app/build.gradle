@@ -42,6 +42,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2-beta1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
+    implementation 'com.wdullaer:materialdatetimepicker:3.5.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.2.0'
 
