@@ -1,54 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout"
     style="@style/AppTheme.MainActivity.Coordinator"
+    android:layout_width="match_parent"
     tools:context="de.dotwee.rgb.canteen.view.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
-        style="@style/AppTheme.MainActivity.AppBar">
+        style="@style/AppTheme.MainActivity.AppBar"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/AppTheme.MainActivity.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/app_name" />
 
-        <TableLayout
-            android:id="@+id/tableLayout"
-            style="@style/AppTheme.MainActivity.Table">
-
-            <TableRow
-                style="@style/AppTheme.MainActivity.Table.Row">
-                <TextView
-                    style="@style/AppTheme.MainActivity.Control.Caption"
-                    android:text="@string/caption_location" />
-
-                <Space style="@style/AppTheme.MainActivity.Control.Space" />
-
-                <TextView
-                    style="@style/AppTheme.MainActivity.Control.Caption"
-                    android:text="@string/caption_date" />
-            </TableRow>
-
-            <TableRow
-                style="@style/AppTheme.MainActivity.Table.Row.Bottom">
-                <Spinner
-                    android:id="@+id/spinnerLocation"
-                    style="@style/AppTheme.MainActivity.Control.Action" />
-
-                <Space style="@style/AppTheme.MainActivity.Control.Space" />
-
-                <Button
-                    android:id="@+id/buttonDate"
-                    style="@style/AppTheme.MainActivity.Control.Action"
-                    android:text="Select date" />
-            </TableRow>
-        </TableLayout>
+        <de.dotwee.rgb.canteen.view.custom.LocationTabLayout
+            android:id="@+id/tabLayoutLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="center"
+            app:tabMode="scrollable" />
 
     </android.support.design.widget.AppBarLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>
