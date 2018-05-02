@@ -41,6 +41,7 @@ public class DayTabLayout extends FrameLayout implements Button.OnClickListener 
 
             calendar.set(Calendar.DAY_OF_WEEK, weekday);
             String dayVal = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault());
+            button.setOnClickListener(this);
             button.setText(dayVal);
         }
     }
