@@ -7,13 +7,13 @@ import java.util.*
  */
 class Item(name: String) {
 
-    private var name: String = ""
+    var name: String = ""
     private var date: Date? = null
 
     var info: String? = null
         private set
 
-    private var label: Array<Label>? = null
+    var label: Array<Label>? = null
 
     private var priceEmployee: String = ""
     private var priceGuest: String = ""
@@ -24,12 +24,8 @@ class Item(name: String) {
     private var type: Type? = null
 
     init {
-        setName(getName(name))
-        info = getInfo(name)
-    }
-
-    private fun setName(name: String) {
-        this.name = name
+        this.name = extractName(name)
+        info = extractInfo(name)
     }
 
     fun setDate(date: Date) {
@@ -42,10 +38,6 @@ class Item(name: String) {
 
     fun setType(type: Type) {
         this.type = type
-    }
-
-    fun setLabel(label: Array<Label>) {
-        this.label = label
     }
 
     fun setPrice(price: Price, priceVal: String) {
@@ -70,11 +62,11 @@ class Item(name: String) {
         }
     }
 
-    private fun getName(text: String): String {
+    private fun extractName(text: String): String {
         return text.substring(0, getIndexOfStartBracket(text))
     }
 
-    private fun getInfo(text: String): String {
+    private fun extractInfo(text: String): String {
         return text.substring(getIndexOfStartBracket(text))
     }
 
