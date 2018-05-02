@@ -3,14 +3,14 @@ package de.dotwee.rgb.canteen.view.custom;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-
+import android.util.AttributeSet;
 import de.dotwee.rgb.canteen.model.Location;
 
 public class LocationTabLayout extends TabLayout implements TabLayout.OnTabSelectedListener {
     Callback callback;
 
-    public LocationTabLayout(Context context) {
-        super(context);
+    public LocationTabLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
 
         for (Location location : Location.values()) {
             Tab tab = newTab();
@@ -21,6 +21,10 @@ public class LocationTabLayout extends TabLayout implements TabLayout.OnTabSelec
         }
 
         addOnTabSelectedListener(this);
+    }
+
+    public LocationTabLayout(Context context) {
+        this(context, null);
     }
 
     public void setCallback(Callback callback) {
