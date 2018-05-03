@@ -28,7 +28,7 @@ public class ItemRecyclerViewAdapter extends SectionedRecyclerViewAdapter {
         setItems(itemList);
     }
 
-    void setItems(List<Item> itemList) {
+    public void setItems(List<Item> itemList) {
         typeListMap = new ArrayMap<>();
 
         for (Item item : itemList) {
@@ -46,8 +46,6 @@ public class ItemRecyclerViewAdapter extends SectionedRecyclerViewAdapter {
             TypeSection typeSection = new TypeSection(entry);
             addSection(typeSection);
         }
-
-        notifyDataSetChanged();
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {

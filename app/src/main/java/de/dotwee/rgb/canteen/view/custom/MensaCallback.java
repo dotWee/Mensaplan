@@ -10,4 +10,6 @@ public interface MensaCallback {
     void onLocationSelected(@NonNull Location location);
 
     void onDateSelected(@NonNull Calendar calendar);
+
+    void onDataChanged(@NonNull Location location, @NonNull Calendar calendar);
 }

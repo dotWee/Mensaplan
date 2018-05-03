@@ -14,12 +14,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import de.dotwee.rgb.canteen.R;
+import de.dotwee.rgb.canteen.model.Item;
 import de.dotwee.rgb.canteen.model.Location;
 import de.dotwee.rgb.canteen.model.adapter.ItemRecyclerViewAdapter;
+import de.dotwee.rgb.canteen.model.proxy.MensaProxy;
+import de.dotwee.rgb.canteen.model.proxy.MensaProxyImpl;
+import de.dotwee.rgb.canteen.model.proxy.RequestParser;
 import de.dotwee.rgb.canteen.view.custom.LocationTabLayout;
 import de.dotwee.rgb.canteen.view.custom.MensaCallback;
+import okhttp3.Call;
+import okhttp3.HttpUrl;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -43,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     // TODO enable setting own defaults
     Calendar calendar = Calendar.getInstance();
     Location locationSelected = Location.OTH;
+    MensaProxy mensaProxy = new MensaProxyImpl(null);
     int selectedWeekday = Calendar.MONDAY;
     MenuItem menuItemDate;
 
@@ -76,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         // TODO update view with location
 
         Toast.makeText(this, "Location " + locationSelected.getNameTag() + " has been selected", Toast.LENGTH_SHORT).show();
+        onDataChanged(locationSelected, calendar);
     }
 
     @Override
@@ -88,6 +99,33 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         // Apply date to menu item
         String dateValue = simpleDateFormat.format(calendar.getTime());
         menuItemDate.setTitle(dateValue);
+
+        onDataChanged(locationSelected, calendar);
+    }
+
+    @Override
+    public void onDataChanged(@NonNull Location location, @NonNull Calendar calendar) {
+
+        HttpUrl httpUrl = mensaProxy.getHttpUrl(location, calendar.get(Calendar.WEEK_OF_YEAR));
+        RequestParser requestParser = new RequestParser(new de.dotwee.rgb.canteen.model.proxy.MensaCallback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull ArrayList<Item> items) {
+                itemRecyclerViewAdapter.setItems(items);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        itemRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+
+        mensaProxy.newCall(requestParser, httpUrl);
     }
 
     @Override
