@@ -1,6 +1,7 @@
 package de.dotwee.rgb.canteen.model.proxy;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import de.dotwee.rgb.canteen.model.Item;
 import de.dotwee.rgb.canteen.model.Label;
@@ -43,7 +44,7 @@ public class RequestParser implements Callback {
         return items;
     }
 
-    @NonNull
+    @Nullable
     private Item getItem(@NonNull String line) {
         String[] lineValues = getLineValues(line);
 
@@ -62,6 +63,7 @@ public class RequestParser implements Callback {
         } catch (ParseException e) {
             Log.i(getClass().getSimpleName(), "Error with line: " + line);
             e.printStackTrace();
+            item = null;
         }
         return item;
     }
@@ -150,7 +152,9 @@ public class RequestParser implements Callback {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 Item item = getItem(line);
-                items.add(item);
+                if (item != null) {
+                    items.add(item);
+                }
             }
             scanner.close();
             mensaCallback.onResponse(call, items);
