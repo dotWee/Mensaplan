@@ -1,13 +1,12 @@
 package de.dotwee.rgb.canteen.view.custom;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.util.AttributeSet;
 import de.dotwee.rgb.canteen.model.Location;
 
 public class LocationTabLayout extends TabLayout implements TabLayout.OnTabSelectedListener {
-    Callback callback;
+    MensaCallback callback;
 
     public LocationTabLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -27,7 +26,7 @@ public class LocationTabLayout extends TabLayout implements TabLayout.OnTabSelec
         this(context, null);
     }
 
-    public void setCallback(Callback callback) {
+    public void setCallback(MensaCallback callback) {
         this.callback = callback;
     }
 
@@ -51,8 +50,4 @@ public class LocationTabLayout extends TabLayout implements TabLayout.OnTabSelec
         onTabSelected(tab);
     }
 
-    public interface Callback {
-
-        void onLocationSelected(@NonNull Location location);
-    }
 }
