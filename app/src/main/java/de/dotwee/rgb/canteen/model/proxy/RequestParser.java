@@ -1,15 +1,7 @@
 package de.dotwee.rgb.canteen.model.proxy;
 
 import android.support.annotation.NonNull;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Scanner;
-
+import android.util.Log;
 import de.dotwee.rgb.canteen.model.Item;
 import de.dotwee.rgb.canteen.model.Label;
 import de.dotwee.rgb.canteen.model.Price;
@@ -18,6 +10,14 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * Created by lukas on 18.04.18.
@@ -44,20 +44,25 @@ public class RequestParser implements Callback {
     }
 
     @NonNull
-    private Item getItem(@NonNull String line) throws ParseException {
+    private Item getItem(@NonNull String line) {
         String[] lineValues = getLineValues(line);
 
         Item item = new Item(getName(lineValues));
-        item.setDate(getDate(lineValues));
-        item.setTag(getTag(lineValues));
+        try {
+            item.setDate(getDate(lineValues));
+            item.setTag(getTag(lineValues));
 
-        item.setType(getType(lineValues));
-        item.setLabel(getLabel(lineValues));
+            item.setType(getType(lineValues));
+            item.setLabel(getLabel(lineValues));
 
-        item.setPrice(Price.ALL, getPrice(lineValues, Price.ALL));
-        item.setPrice(Price.STUDENT, getPrice(lineValues, Price.STUDENT));
-        item.setPrice(Price.EMPLOYEE, getPrice(lineValues, Price.EMPLOYEE));
-        item.setPrice(Price.GUEST, getPrice(lineValues, Price.GUEST));
+            item.setPrice(Price.ALL, getPrice(lineValues, Price.ALL));
+            item.setPrice(Price.STUDENT, getPrice(lineValues, Price.STUDENT));
+            item.setPrice(Price.EMPLOYEE, getPrice(lineValues, Price.EMPLOYEE));
+            item.setPrice(Price.GUEST, getPrice(lineValues, Price.GUEST));
+        } catch (ParseException e) {
+            Log.i(getClass().getSimpleName(), "Error with line: " + line);
+            e.printStackTrace();
+        }
         return item;
     }
 
@@ -144,12 +149,8 @@ public class RequestParser implements Callback {
             Scanner scanner = new Scanner(responseContent);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                try {
-                    Item item = getItem(line);
-                    items.add(item);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                Item item = getItem(line);
+                items.add(item);
             }
             scanner.close();
             mensaCallback.onResponse(call, items);
