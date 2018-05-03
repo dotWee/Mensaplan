@@ -18,7 +18,9 @@ import de.dotwee.rgb.canteen.model.Location;
 import de.dotwee.rgb.canteen.model.adapter.ItemRecyclerViewAdapter;
 import de.dotwee.rgb.canteen.view.custom.LocationTabLayout;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, LocationTabLayout.Callback {
 
@@ -35,10 +37,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     RecyclerView recyclerView;
 
     ItemRecyclerViewAdapter itemRecyclerViewAdapter = new ItemRecyclerViewAdapter();
+    static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, MMM d", Locale.getDefault());
 
     // TODO enable setting own defaults
     Location locationSelected = Location.OTH;
     int selectedWeekday = Calendar.MONDAY;
+    MenuItem menuItemDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         // TODO update view with changed view
         selectedWeekday = calendar.get(Calendar.WEEK_OF_YEAR);
         Toast.makeText(this, "Weeknumber " + calendar.get(Calendar.WEEK_OF_YEAR) + " has been selected", Toast.LENGTH_SHORT).show();
+
+        // Apply date to menu item
+        String dateValue = simpleDateFormat.format(calendar.getTime());
+        menuItemDate.setTitle(dateValue);
     }
 
     @Override
@@ -80,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        menuItemDate = menu.findItem(R.id.menuItemDate);
         return true;
     }
 
