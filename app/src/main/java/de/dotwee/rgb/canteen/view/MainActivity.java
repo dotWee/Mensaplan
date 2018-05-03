@@ -17,12 +17,13 @@ import de.dotwee.rgb.canteen.R;
 import de.dotwee.rgb.canteen.model.Location;
 import de.dotwee.rgb.canteen.model.adapter.ItemRecyclerViewAdapter;
 import de.dotwee.rgb.canteen.view.custom.LocationTabLayout;
+import de.dotwee.rgb.canteen.view.custom.MensaCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, LocationTabLayout.Callback {
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, MensaCallback {
 
     @BindView(R.id.appBar)
     AppBarLayout appBar;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, MMM d", Locale.getDefault());
 
     // TODO enable setting own defaults
+    Calendar calendar = Calendar.getInstance();
     Location locationSelected = Location.OTH;
     int selectedWeekday = Calendar.MONDAY;
     MenuItem menuItemDate;
@@ -61,18 +63,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, monthOfYear);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-        // TODO update view with changed view
-        selectedWeekday = calendar.get(Calendar.WEEK_OF_YEAR);
-        Toast.makeText(this, "Weeknumber " + calendar.get(Calendar.WEEK_OF_YEAR) + " has been selected", Toast.LENGTH_SHORT).show();
-
-        // Apply date to menu item
-        String dateValue = simpleDateFormat.format(calendar.getTime());
-        menuItemDate.setTitle(dateValue);
+        onDateSelected(calendar);
     }
 
     @Override
@@ -84,11 +79,27 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     @Override
+    public void onDateSelected(@NonNull Calendar calendar) {
+
+        // TODO update view with changed view
+        selectedWeekday = calendar.get(Calendar.WEEK_OF_YEAR);
+        Toast.makeText(this, "Weeknumber " + calendar.get(Calendar.WEEK_OF_YEAR) + " has been selected", Toast.LENGTH_SHORT).show();
+
+        // Apply date to menu item
+        String dateValue = simpleDateFormat.format(calendar.getTime());
+        menuItemDate.setTitle(dateValue);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         menuItemDate = menu.findItem(R.id.menuItemDate);
+
+        // Apply date on startup
+        onDateSelected(calendar);
+
         return true;
     }
 
