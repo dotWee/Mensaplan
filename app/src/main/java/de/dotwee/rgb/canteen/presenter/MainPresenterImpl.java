@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.io.File;
 
-import de.dotwee.rgb.canteen.model.api.MealProvider;
+import de.dotwee.rgb.canteen.model.api.CanteenProxy;
 import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
 import de.dotwee.rgb.canteen.model.api.specs.WeekMeal;
 import de.dotwee.rgb.canteen.model.helper.DateHelper;
@@ -33,7 +33,7 @@ public class MainPresenterImpl implements MainPresenter, Observer<WeekMeal> {
         this.mainView = mainView;
         this.settingView = settingView;
 
-        this.weekMealObservable = MealProvider.getObservable(settingView.getSelectedLocation().getNameTag(), DateHelper.getCurrentWeeknumber(), cacheDir)
+        this.weekMealObservable = CanteenProxy.getObservable(settingView.getSelectedLocation().getNameTag(), DateHelper.getCurrentWeeknumber(), cacheDir)
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread());
 

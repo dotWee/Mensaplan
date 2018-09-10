@@ -32,7 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.dotwee.rgb.canteen.R;
-import de.dotwee.rgb.canteen.model.adapter.DayMealAdapter;
+import de.dotwee.rgb.canteen.view.adapter.DayMealAdapter;
 import de.dotwee.rgb.canteen.model.api.specs.DayMeal;
 import de.dotwee.rgb.canteen.model.api.specs.Item;
 import de.dotwee.rgb.canteen.model.constant.Location;

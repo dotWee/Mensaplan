@@ -1,3 +1,10 @@
+#### [Version v2.0.0 / ]
+- sha1 checksum: **
+- changes:
+    - Target and compiled for latest Android (sdk27)
+    - Updated dependencies and support packages
+    - Cleaned resources and codebase
+
 #### [Version v1.0.2 / February 21, 2017]
 - sha1 checksum: *b0707caafe4f654365921b3ff6fda104857e65d1*
 - changes:

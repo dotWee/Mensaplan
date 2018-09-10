@@ -1,4 +1,4 @@
-package de.dotwee.rgb.canteen.model.adapter;
+package de.dotwee.rgb.canteen.view.adapter;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
