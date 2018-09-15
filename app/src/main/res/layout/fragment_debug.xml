@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.DebugFragment">
+
+    <TextView
+        android:id="@+id/textViewItemCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Item count: 0" />
+
+    <TextView
+        android:id="@+id/textViewMenuCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Menu count: 0" />
+
+    <Button
+        android:id="@+id/buttonClearAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear all" />
+
+    <Button
+        android:id="@+id/buttonClearMenus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear menus" />
+
+    <Button
+        android:id="@+id/buttonUpdateThisWeek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Perform update for this week" />
+
+</LinearLayout>

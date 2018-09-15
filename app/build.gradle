@@ -9,6 +9,13 @@ android {
         versionCode 3
         versionName "v1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -20,24 +27,15 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2-alpha1') {
-        // Necessary if your app targets Marshmallow (since Espresso
-        // hasn't moved to Marshmallow yet)
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-
-    androidTestImplementation('com.android.support.test.espresso:espresso-intents:3.0.2-alpha1') {
-        // Necessary to avoid version conflicts
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-
-    androidTestImplementation('com.android.support.test:runner:0.5') {
-        // Necessary if your app targets Marshmallow (since the test runner
-        // hasn't moved to Marshmallow yet)
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+    // Android Room packages
+    def room_version = '2.0.0-rc01'
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+    implementation "androidx.lifecycle:lifecycle-livedata:$room_version"
 
     // AndroidX support packages
     implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
@@ -45,16 +43,29 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
 
+    // AndroidX lifecycle packages
+    def version_lifecycle = "1.1.1"
+    implementation "android.arch.lifecycle:extensions:$version_lifecycle"
+    annotationProcessor "android.arch.lifecycle:compiler:$version_lifecycle"
+
+
     // AndroidX testing package
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     testImplementation 'junit:junit:4.12'
 
     // Android navigation package
-    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha05'
-    implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha05'
+    def navigation_version = "1.0.0-alpha05"
+    implementation "android.arch.navigation:navigation-fragment:$navigation_version"
+    implementation "android.arch.navigation:navigation-ui:$navigation_version"
 
     // Material design package
     implementation 'com.google.android.material:material:1.0.0-rc02'
+
+    // Reactive packages
+    def rx_java_version = "2.1.1"
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
+    def rx_android_version = "2.0.1"
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
 
 }

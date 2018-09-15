@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_today"
+            android:icon="@drawable/ic_calendar_today"
+            android:title="Today" />
+    </group>
+
+    <item android:title="Locations">
+        <menu>
+            <item
+                android:id="@+id/nav_university"
+                android:icon="@drawable/ic_letter_u"
+                android:title="@string/location_university" />
+
+            <item
+                android:id="@+id/nav_pruefening"
+                android:icon="@drawable/ic_letter_p"
+                android:title="@string/location_pruefening" />
+
+            <item
+                android:id="@+id/nav_oth"
+                android:icon="@drawable/ic_letter_o"
+                android:title="@string/location_oth" />
+            <item
+                android:id="@+id/nav_oth_evening"
+                android:icon="@drawable/ic_letter_e"
+                android:title="@string/location_oth_evening" />
+
+        </menu>
+    </item>
+
+</menu>
